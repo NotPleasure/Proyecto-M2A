@@ -7,6 +7,7 @@ import Vista.Login;
 import javax.swing.UIManager;
 import javax.swing.SwingUtilities;
 import Animations.Animator;
+import Vista.Ventana_Bienvenida;
 import javax.swing.UIDefaults;
 /**
  *
@@ -32,7 +33,7 @@ public class Prueba_Proyecto {
             e.printStackTrace();
         }
   SwingUtilities.invokeLater(() -> {
-    Login login = new Login();
+    Ventana_Bienvenida login = new Ventana_Bienvenida();
     Animations.Animator.fadeIn(login);  
 });
     }

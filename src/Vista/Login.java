@@ -102,7 +102,7 @@ public class Login extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent e) {
                 if (campo.getText().equals(textoPorDefecto)) {
                     campo.setText("");
-                    campo.setForeground(new Color(160, 160, 160));
+                    campo.setForeground(new Color(0, 0, 0,255));
                 }
             }
 

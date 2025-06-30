@@ -43,6 +43,7 @@ import raven.glasspanepopup.GlassPanePopup;
  * @author USER
  */
 public class Registro extends javax.swing.JFrame {
+
     private boolean recuperacionAbierta = false;
     private String Nombre_de_Usuario = "Nombre de usuario:";
     private String Correo_electronico = "Correo electronico:";
@@ -52,6 +53,16 @@ public class Registro extends javax.swing.JFrame {
     private String Canton = "Escriba su cantón:";
     private String Genero = "Escriba su genero:";
     private String Correo = "Escriba su correo:";
+
+    //Variables para el placeholder:
+    private String Nombre_de_Usuario1 = "Nombre de usuario:";
+    private String Correo_electronico1 = "Correo electronico:";
+    private String Contrasenia1 = "Contraseña:";
+    private String Confirmar_contrasenia1 = "Confirmar contraseña:";
+    private String Provincia1 = "Escriba su provincia:";
+    private String Canton1 = "Escriba su cantón:";
+    private String Genero1 = "Escriba su genero:";
+    private String Correo1 = "Escriba su correo:";
 
     private int x;
     private int y;
@@ -66,12 +77,14 @@ public class Registro extends javax.swing.JFrame {
         setOpacity(0f);
         initComponents();
         GlassPanePopup.install(this);
-        
+
         //Método para llamar al Hypervínculo:
-       initMoving(); 
-       IniciarSesión.setForeground(new Color(52, 152, 219));
-       Click.setForeground(new Color(52, 152, 219));
-     
+        initMoving();
+
+        //Darle fuentes al hypervínculo:
+        IniciarSesión.setForeground(new Color(52, 152, 219));
+        Click.setForeground(new Color(52, 152, 219));
+
         //Fuentes
         Huellas.setFont(new Font("Open Sans Bold", Font.PLAIN, 13));
         Cuencanas.setFont(new Font("Open Sans", Font.PLAIN, 13));
@@ -81,14 +94,11 @@ public class Registro extends javax.swing.JFrame {
         Yatienes.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         IniciarSesión.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         CerrarSesión.setFont(new Font("Caviar Dreams Bold", Font.PLAIN, 15));
-
         txtNombredeusuario2.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         txtCorreo1.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-
         jComboBox2.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         jComboBox3.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         jComboBox4.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        
         Dueño.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         Click.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
 
@@ -119,10 +129,10 @@ public class Registro extends javax.swing.JFrame {
 
         //Hacer redondo el otro ComboBox: 
         String[] Cantones = {
-           "Azuay", "Bolívar", "Cañar", "Carchi", "Chimborazo", "Cotopaxi", "El Oro",
-    "Esmeraldas", "Galápagos", "Guayas", "Imbabura", "Loja", "Los Ríos",
-    "Manabí", "Morona Santiago", "Napo", "Orellana", "Pastaza", "Pichincha",
-    "Santa Elena", "Santo Domingo de los Tsáchilas", "Sucumbíos", "Tungurahua", "Zamora Chinchipe"
+            "Azuay", "Bolívar", "Cañar", "Carchi", "Chimborazo", "Cotopaxi", "El Oro",
+            "Esmeraldas", "Galápagos", "Guayas", "Imbabura", "Loja", "Los Ríos",
+            "Manabí", "Morona Santiago", "Napo", "Orellana", "Pastaza", "Pichincha",
+            "Santa Elena", "Santo Domingo de los Tsáchilas", "Sucumbíos", "Tungurahua", "Zamora Chinchipe"
         };
 
         jComboBox4.setModel(new DefaultComboBoxModel<>(provincias));
@@ -141,7 +151,7 @@ public class Registro extends javax.swing.JFrame {
                 return this;
             }
         });
-        
+
         //Hacer redondo el otro ComboBox:
         String[] Géneros = {
             "Masculino", "Femenino", "No binario", "Prefiero no decirlo", "Otro"
@@ -163,16 +173,15 @@ public class Registro extends javax.swing.JFrame {
                 return this;
             }
         });
-        
-        
+
         //Hacer Redondeada la Ventana:
         setSize(970, 620);
         setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 60, 60));
         setLocationRelativeTo(null);
 
     }
-    //Hacer que la ventana se mueva: 
 
+    //Hacer que la ventana se mueva: 
     public void initMoving() {
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -187,10 +196,10 @@ public class Registro extends javax.swing.JFrame {
                 setLocation(me.getXOnScreen() - x, me.getYOnScreen() - y);
             }
         });
-        
-    // Hypervínculo Iniciar Sesión:
+
+        // Hypervínculo Iniciar Sesión:
         MouseAdapter ma = new MouseAdapter() {
-            
+
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (!recuperacionAbierta
@@ -222,12 +231,11 @@ public class Registro extends javax.swing.JFrame {
         };
 
         IniciarSesión.addMouseListener(ma);
-        
-       // Hypervínculo Entra Aquí:
-       
+
+        // Hypervínculo Entra Aquí:
         // Hypervínculo Iniciar Sesión:
         MouseAdapter InciarSesion = new MouseAdapter() {
-            
+
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (!recuperacionAbierta
@@ -260,7 +268,35 @@ public class Registro extends javax.swing.JFrame {
 
         Click.addMouseListener(ma);
 
-    
+        //Método Placeholder:
+        ponerPlaceholder(txtNombredeusuario2, Nombre_de_Usuario1);
+        ponerPlaceholder(txtContraseña, Contrasenia1);
+        ponerPlaceholder(txtCanton,Confirmar_contrasenia1);
+        ponerPlaceholder(txtCorreo1,Correo1);
+
+    }
+        private void ponerPlaceholder(JTextField campo, String textoPorDefecto) {
+        campo.setText(textoPorDefecto);
+        campo.setForeground(Color.GRAY);
+
+        campo.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (campo.getText().equals(textoPorDefecto)) {
+                    campo.setText("");
+                    campo.setForeground(new Color(0, 0, 0,255));
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (campo.getText().isEmpty()) {
+                    campo.setForeground(Color.GRAY);
+                    campo.setText(textoPorDefecto);
+                }
+            }
+        });
+
     }
 
     /**
