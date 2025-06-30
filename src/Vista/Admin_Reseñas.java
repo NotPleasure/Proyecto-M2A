@@ -98,7 +98,8 @@ public class Admin_Reseñas extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1090, 570));
+        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(60, 65, 65));
@@ -379,7 +380,6 @@ public class Admin_Reseñas extends javax.swing.JFrame {
         miPanelDiseñado14.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 60, 50));
 
         jTextField2.setBorder(null);
-        jTextField2.setOpaque(false);
         miPanelDiseñado14.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 16, 550, -1));
 
         jPanel3.add(miPanelDiseñado14, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 85, 740, 50));
@@ -406,6 +406,7 @@ public class Admin_Reseñas extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1090, 570));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

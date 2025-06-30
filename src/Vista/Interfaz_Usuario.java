@@ -86,6 +86,7 @@ public class Interfaz_Usuario extends javax.swing.JPanel {
         Imagen.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
         status.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         pixeles.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
+        TextArea1.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
 
         //Bordes Redondeados ComboBox:
         String[] generos = {
@@ -207,7 +208,8 @@ jComboBox2 = new Combobox<>(new String[]{
     "Santa Elena", "Santo Domingo de los Tsáchilas", "Sucumbíos", "Tungurahua", "Zamora Chinchipe"});
     SobreMi = new javax.swing.JLabel();
     Guardar = new RoundedButtonAceptar("");
-    jScrollPane1 = new javax.swing.JScrollPane();
+    jScrollPane2 = new javax.swing.JScrollPane();
+    TextArea1 = new javax.swing.JTextArea();
     jPanel3 = new RoundedPanelUser();
     roundedPanelRound2 = new Design.RoundedPanelRound();
     jLabel1 = new javax.swing.JLabel();
@@ -320,7 +322,12 @@ jComboBox2 = new Combobox<>(new String[]{
     Guardar.setText("Guardar");
     Guardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     jPanel2.add(Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 670, 140, 30));
-    jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 640, 180));
+
+    TextArea1.setColumns(20);
+    TextArea1.setRows(5);
+    jScrollPane2.setViewportView(TextArea1);
+
+    jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 640, 180));
 
     jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 700, 720));
 
@@ -482,6 +489,7 @@ jComboBox2 = new Combobox<>(new String[]{
     private javax.swing.JTextField NombreOpcional;
     private javax.swing.JLabel Provincias;
     private javax.swing.JLabel SobreMi;
+    private javax.swing.JTextArea TextArea1;
     private javax.swing.JLabel UsuarioNombre;
     private javax.swing.JLabel andres;
     private javax.swing.JButton jButton1;
@@ -495,7 +503,7 @@ jComboBox2 = new Combobox<>(new String[]{
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel pixeles;
     private Design.RoundedPanelRound roundedPanelRound1;
     private Design.RoundedPanelRound roundedPanelRound2;

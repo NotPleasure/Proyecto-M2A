@@ -390,7 +390,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         jLabel29.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel29.setText("Perfil");
+        jLabel29.setText("Favoritos");
         Menú.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 520, -1, -1));
         Menú.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 250, 60));
 
@@ -405,6 +405,13 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/salida (1).png"))); // NOI18N
         Menú.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 693, 50, 70));
+
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         Menú.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 680, 250, 100));
         Menú.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 620, 250, 60));
 
@@ -642,6 +649,11 @@ public class Ventana_Principal extends javax.swing.JFrame {
         ParquesLabel.setBounds(450, 640, 90, 16);
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
+        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel20MouseClicked(evt);
+            }
+        });
         content.add(jLabel20);
         jLabel20.setBounds(180, 630, 20, 40);
 
@@ -785,6 +797,19 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
 
      }//GEN-LAST:event_btnUsuarioActionPerformed
+
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+        System.out.println("Hola");
+    }//GEN-LAST:event_jLabel20MouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int dialog = JOptionPane.YES_NO_OPTION;
+        int result = JOptionPane.showConfirmDialog(null, "¿Desea cerrar sesión", "Exit", dialog);
+        if (result == 0) {
+            System.exit(0);
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

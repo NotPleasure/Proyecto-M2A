@@ -102,7 +102,7 @@ public class Login extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent e) {
                 if (campo.getText().equals(textoPorDefecto)) {
                     campo.setText("");
-                    campo.setForeground(new Color(0, 0, 0,255));
+                    campo.setForeground(new Color(0, 0, 0, 255));
                 }
             }
 
@@ -339,10 +339,11 @@ public class Login extends javax.swing.JFrame {
         this.setState(Login.ICONIFIED);    }//GEN-LAST:event_jLabel6MouseClicked
 
     private void Iniciar_SesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Iniciar_SesiónActionPerformed
-      Animator.fadeOut(this, () -> {
-           Ventana_Principal miR = new Ventana_Principal();
+
+        Animator.fadeOut(this, () -> {
+            Ventana_Principal miR = new Ventana_Principal();
             Animator.fadeIn(miR);
-        }); 
+        });
 
     }//GEN-LAST:event_Iniciar_SesiónActionPerformed
 
