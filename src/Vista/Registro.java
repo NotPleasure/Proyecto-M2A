@@ -170,23 +170,14 @@ public class Registro extends javax.swing.JFrame {
 
         IniciarSesión.addMouseListener(ma);
 
-        // Hypervínculo Entra Aquí:
-        // Hypervínculo Iniciar Sesión:
-        MouseAdapter InciarSesion = new MouseAdapter() {
-
+        Click.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent evt) {
-                if (!recuperacionAbierta
-                        && SwingUtilities.isLeftMouseButton(evt)
-                        && evt.getClickCount() == 1) {
-
-                    recuperacionAbierta = true;
-                    Click.removeMouseListener(this);
-
+            public void mouseClicked(MouseEvent e) {
+                if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1) {
                     Animator.fadeOut((JFrame) SwingUtilities.getWindowAncestor(Click), () -> {
                         ((JFrame) SwingUtilities.getWindowAncestor(Click)).dispose();
 
-                        RecuperarContrasenia ventana = new RecuperarContrasenia();
+                        Ventana_Registro_SuperUsuario ventana = new Ventana_Registro_SuperUsuario();
                         ventana.setLocationRelativeTo(null);
                         Animator.fadeIn(ventana);
                     });
@@ -194,17 +185,15 @@ public class Registro extends javax.swing.JFrame {
             }
 
             @Override
-            public void mouseEntered(MouseEvent evt) {
-                Click.setForeground(new java.awt.Color(41, 128, 185));
+            public void mouseEntered(MouseEvent e) {
+                Click.setForeground(new Color(41, 128, 185));
             }
 
             @Override
-            public void mouseExited(MouseEvent evt) {
-                Click.setForeground(new java.awt.Color(52, 152, 219));
+            public void mouseExited(MouseEvent e) {
+                Click.setForeground(new Color(52, 152, 219));
             }
-        };
-
-        Click.addMouseListener(ma);
+        });
 
         //Método Placeholder:
         ponerPlaceholder(txtNombredeusuario2, Nombre_de_Usuario1);
