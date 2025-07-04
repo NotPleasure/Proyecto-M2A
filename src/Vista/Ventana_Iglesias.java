@@ -21,8 +21,7 @@ import javax.swing.SwingUtilities;
  *
  * @author USER
  */
-public class Ventana_Iglesias extends javax.swing.JPanel {
-
+public class Ventana_Iglesias extends javax.swing.JFrame {
     private final String BusquedaText = "Buscar Iglesias";
 
     /**
@@ -449,6 +448,7 @@ public class Ventana_Iglesias extends javax.swing.JPanel {
         Regresar2.setText("Regresar al Menú Principal");
         content.add(Regresar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 720, -1, -1));
 
+        Regresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Regresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RegresarActionPerformed(evt);
@@ -484,7 +484,8 @@ public class Ventana_Iglesias extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
-
+   Ventana_Principal ventana = (Ventana_Principal) SwingUtilities.getWindowAncestor(this);
+    ventana.mostrarPanelInicio();
            }//GEN-LAST:event_RegresarActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed

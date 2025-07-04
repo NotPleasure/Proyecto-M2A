@@ -35,26 +35,26 @@ public class Animator {
         t.start();
     }
 
-public static void fadeIn(JFrame frame) {
-    frame.setOpacity(0f);               
-    frame.setVisible(true);
-    frame.setExtendedState(JFrame.NORMAL); 
-    frame.toFront();                   
+    public static void fadeIn(JFrame frame) {
+        frame.setOpacity(0f);
+        frame.setVisible(true);
+        frame.setExtendedState(JFrame.NORMAL);
+        frame.toFront();
 
-    Timer t = new Timer(15, null);
-    t.addActionListener(new ActionListener() {
-        float opacity = 0f;
+        Timer t = new Timer(15, null);
+        t.addActionListener(new ActionListener() {
+            float opacity = 0f;
 
-        public void actionPerformed(ActionEvent e) {
-            opacity += 0.05f;
-            if (opacity >= 1f) {
-                frame.setOpacity(1f);   
-                t.stop();
-            } else {
-                frame.setOpacity(opacity);
+            public void actionPerformed(ActionEvent e) {
+                opacity += 0.05f;
+                if (opacity >= 1f) {
+                    frame.setOpacity(1f);
+                    t.stop();
+                } else {
+                    frame.setOpacity(opacity);
+                }
             }
-        }
-    });
-    t.start();
-}
+        });
+        t.start();
+    }
 }

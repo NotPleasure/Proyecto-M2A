@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Vista;
+import Vista.Ventana_Principal;
 import AppPackage.AnimationClass;
 import Design.RoundedButtonDetalles;
 import Design.RoundedButtonIglesias;
@@ -29,27 +30,31 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
 /**
  *
  * @author USER
  */
 public class Ventana_Inicio extends javax.swing.JPanel {
-    private final String BusquedaText = "Buscar Lugares, Hoteles....";
+private Ventana_Principal principal;
+    private Ventana_Iglesias panelIglesias;
 
+    private final String BusquedaText = "Buscar Lugares, Hoteles....";
+    private String usuario;
     private int x;
     private int y;
+
     /**
      * Creates new form Ventana_Inicio
      */
-    public Ventana_Inicio() {
-              setOpaque(false);
+    public Ventana_Inicio(String usuario) {
+        setOpaque(false);
 
         initComponents();
-       
-
-     
+        NombreUsuario.setText(usuario);
+        //Dimensiones del usuario:
+        NombreUsuario.setBounds(60, 80, 240, 50);
         //Fuentes de los labels, jButtons y Jfileds:
-       
         Bienvenido.setFont(new Font("Open Sans Bold", Font.PLAIN, 39));
         NombreUsuario.setFont(new Font("Open Sans Bold", Font.PLAIN, 39));
         País.setFont(new Font("Caviar Dreams", Font.PLAIN, 20));
@@ -58,8 +63,8 @@ public class Ventana_Inicio extends javax.swing.JPanel {
         Genero.setFont(new Font("Caviar Dreams", Font.PLAIN, 20));
         VariableGenero.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
         Busqueda.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
-                HolaBandeja.setFont(new Font("Caviar Dreams Bold", Font.PLAIN, 11));
-                Categoría.setFont(new Font("CocogooseProTrial", Font.PLAIN, 25));
+        HolaBandeja.setFont(new Font("Caviar Dreams Bold", Font.PLAIN, 11));
+        Categoría.setFont(new Font("CocogooseProTrial", Font.PLAIN, 25));
         IglesiasBoton.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
         Miradores.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
         Parques.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
@@ -110,7 +115,7 @@ public class Ventana_Inicio extends javax.swing.JPanel {
                 }
             }
         });
-        
+
     }
 
     /**
@@ -213,12 +218,11 @@ public class Ventana_Inicio extends javax.swing.JPanel {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Bienvenido.setFont(new java.awt.Font("Dialog", 1, 39)); // NOI18N
-        Bienvenido.setText("¡Bienvenido!");
+        Bienvenido.setText("¡Bienvenid@!");
         jPanel1.add(Bienvenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
         NombreUsuario.setFont(new java.awt.Font("Dialog", 1, 39)); // NOI18N
-        NombreUsuario.setText("Andrés");
-        jPanel1.add(NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, -1, -1));
+        jPanel1.add(NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, 240, 50));
 
         jLabel24.setFont(new java.awt.Font("Century Gothic", 0, 16)); // NOI18N
         jLabel24.setText("¡Es un gusto tenerte de vuelta!");
@@ -490,12 +494,16 @@ public class Ventana_Inicio extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel12MouseClicked
 
     private void IglesiasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IglesiasBotonActionPerformed
-        Ventana_Iglesias MiLugar = new Ventana_Iglesias();
+          if (panelIglesias == null) {
+        panelIglesias = new Ventana_Iglesias(); 
+    }
+Ventana_Iglesias MiLugar = new Ventana_Iglesias();
         MiLugar.setSize(1140, 830);
 
         content.removeAll();
         content.add(MiLugar, java.awt.BorderLayout.CENTER);
         content.revalidate();
+        content.repaint();
     }//GEN-LAST:event_IglesiasBotonActionPerformed
 
     private void VerMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerMasActionPerformed

@@ -47,7 +47,9 @@ import Design.RoundedButtonFavoritos;
 import Design.RoundedButtonComentarios;
 import Design.RoundedPanel;
 import Design.RoundedPanelComentarios;
+import Design.RoundedTextArea;
 import Design.RoundedTextField1;
+
 /**
  *
  * @author USER
@@ -203,9 +205,10 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
         ComentarSobre = new javax.swing.JLabel();
         ComentarSob = new javax.swing.JLabel();
         ElSagrado = new javax.swing.JLabel();
-        jTextField1 = new RoundedTextField1(20);
         AceptarComentario = new RoundedButtonAceptarComentario("");
         CancelarComentario = new RoundedButtonCancelarComentario("");
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea2 = new RoundedTextArea(5, 30);
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -425,19 +428,18 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
         ElSagrado.setText("Iglesia el Sagrado");
         roundedPanelComentar1.add(ElSagrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        roundedPanelComentar1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(311, 20, 540, 130));
-
         AceptarComentario.setText("Aceptar");
         roundedPanelComentar1.add(AceptarComentario, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 50, 130, 30));
 
         CancelarComentario.setText("Cancelar");
         roundedPanelComentar1.add(CancelarComentario, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 90, 130, 30));
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jTextArea2.setBorder(null);
+        jScrollPane2.setViewportView(jTextArea2);
+
+        roundedPanelComentar1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 540, 120));
 
         content.add(roundedPanelComentar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 590, 1160, 170));
 
@@ -489,10 +491,6 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
 
     }//GEN-LAST:event_ComentariosActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AceptarComentario;
@@ -542,7 +540,8 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea2;
     private Design.RoundedPanelCarrusel roundedPanelCarrusel1;
     private Design.RoundedPanelComentar roundedPanelComentar1;
     private Design.RoundedPanelRound roundedPanelRound1;

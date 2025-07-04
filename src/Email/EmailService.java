@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Conexion;
+package Email;
 
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
@@ -17,15 +17,12 @@ import java.util.Properties;
 
 public class EmailService {
 
-    // Configura aquí tu cuenta SMTP (ejemplo con Gmail)
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
     private static final String SMTP_USER = "davidnasqui@gmail.com";
-    private static final String SMTP_PASS = "lusn qioq wjbu ejcj";  // contraseña de aplicación
+    private static final String SMTP_PASS = "lusn qioq wjbu ejcj";  
 
-    /**
-     * Manda el email de recuperación con el token adjunto en el link.
-     */
+    
  public static void sendResetEmail(String destinatario, String codigo) throws MessagingException {
     Properties props = new Properties();
     props.put("mail.smtp.auth", "true");

@@ -13,8 +13,8 @@ public class EstrellaClik extends JPanel {
     private boolean isFilled = false;
 
     public EstrellaClik() {
-        setPreferredSize(new Dimension(300, 300));
-        setBackground(Color.WHITE);
+        setPreferredSize(new Dimension(50, 50));
+        setOpaque(false);  
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -27,14 +27,13 @@ public class EstrellaClik extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                            RenderingHints.VALUE_ANTIALIAS_ON);
 
         int x = getWidth() / 2;
         int y = getHeight() / 2;
-        int radius = 80;
+        int radius = 15;
 
         Shape estrella = crearEstrella(x, y, radius, radius / 2, 5);
 
@@ -46,13 +45,16 @@ public class EstrellaClik extends JPanel {
         g2.draw(estrella);
     }
 
-    private Shape crearEstrella(int centerX, int centerY, int outerRadius, int innerRadius, int numRays) {
+    private Shape crearEstrella(int centerX, int centerY,
+                                int outerRadius, int innerRadius,
+                                int numRays) {
         Path2D path = new Path2D.Double();
+        double startAngle = -Math.PI / 2;        
         double angle = Math.PI / numRays;
 
         for (int i = 0; i < numRays * 2; i++) {
             double r = (i % 2 == 0) ? outerRadius : innerRadius;
-            double a = i * angle;
+            double a = startAngle + i * angle;    
             double sx = centerX + Math.cos(a) * r;
             double sy = centerY + Math.sin(a) * r;
             if (i == 0) {

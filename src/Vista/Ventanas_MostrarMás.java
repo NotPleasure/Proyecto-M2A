@@ -19,7 +19,7 @@ import Design.RoundedButtonRanking;
  *
  * @author USER
  */
-public class Ventanas_MostrarMás extends javax.swing.JPanel {
+public class Ventanas_MostrarMás extends javax.swing.JFrame {
 
     private final String BusquedaText = "Buscar Iglesias, Parques, Museos, Miradores";
 
@@ -105,9 +105,6 @@ public class Ventanas_MostrarMás extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         Catedral = new javax.swing.JLabel();
-
-        setPreferredSize(new java.awt.Dimension(1140, 830));
-        setRequestFocusEnabled(false);
 
         jPanel1.setBackground(new java.awt.Color(242, 242, 242));
         jPanel1.setPreferredSize(new java.awt.Dimension(1140, 830));
@@ -209,13 +206,12 @@ public class Ventanas_MostrarMás extends javax.swing.JPanel {
         Catedral.setText("Página Uno");
         jPanel1.add(Catedral, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 738, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1128, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1134, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

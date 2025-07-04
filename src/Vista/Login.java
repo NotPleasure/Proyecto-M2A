@@ -5,8 +5,10 @@
  */
 package Vista;
 
+import ConexionHuellasCuencanas.Seguridad;
 import javax.swing.border.Border;
 import Animations.Animator;
+import Controlador.ControladorRegistro;
 import Design.Message.MacOSWindowDialogFinal;
 import java.awt.Font;
 import Design.RoundedPanel;
@@ -14,10 +16,12 @@ import Design.RoundedBorder;
 import Design.RounderButton2;
 import Design.RoundedButton;
 import Design.RoundedPanel;
+import Modelo.PersonaDAO;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -27,6 +31,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -43,6 +48,7 @@ public class Login extends javax.swing.JFrame {
     private boolean recuperacionAbierta = false;
     private int x;
     private int y;
+    private boolean passwordVisible = false;
 
     /**
      * Creates new form Login
@@ -52,15 +58,14 @@ public class Login extends javax.swing.JFrame {
 
         setOpacity(0f);
         initComponents();
-
-        //Método que inicializa la animación:
+       
         Animator.fadeIn(this);
 
         //Método que permite que la ventana se mueva:
         initMoving();
 
         //Fuentes de los labels.
-        Inicio.setFont(new Font("CocogooseProTrial", Font.PLAIN, 24));
+        Inicio.setFont(new Font("Montserrat Bold", Font.PLAIN, 28));
         txtNombreUsuario.setFont(new Font("Caviar Dreams", Font.PLAIN, 14));
         txtContraseña.setFont(new Font("Caviar Dreams", Font.PLAIN, 14));
         Iniciar_Sesión.setFont(new Font("Caviar Dreams Bold", Font.PLAIN, 14));
@@ -79,16 +84,16 @@ public class Login extends javax.swing.JFrame {
 
         //Variables para el placeholder:
         ponerPlaceholder(txtNombreUsuario, Nombre_de_Usuario);
-        ponerPlaceholder(txtContraseña, Contrasenia);
+        ponerPlaceholderPassword(txtContraseña, "Contraseña");
 
         //Darle bordes redondeados a la ventana:
         setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 60, 60));
 
         //Darle borde a los textField:
-        txtNombreUsuario.setBorder(new RoundedBorder(new Color(165, 170, 163), 2, 30, 30));
+        txtNombreUsuario.setBorder(new RoundedBorder(new Color(165, 170, 163), 1, 30, 30));
         txtNombreUsuario.setOpaque(false);
 
-        txtContraseña.setBorder(new RoundedBorder(new Color(165, 170, 163), 2, 30, 30));
+        txtContraseña.setBorder(new RoundedBorder(new Color(165, 170, 163), 1, 30, 30));
         txtContraseña.setOpaque(false);
     }
     //Método del placeholder:
@@ -166,6 +171,62 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
+    //PlaceHolder para la contraseña:
+    private void ponerPlaceholderPassword(JPasswordField campo, String textoPorDefecto) {
+        campo.setEchoChar((char) 0);
+        campo.setText(textoPorDefecto);
+        campo.setForeground(Color.GRAY);
+
+        campo.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (String.valueOf(campo.getPassword()).equals(textoPorDefecto)) {
+                    campo.setText("");
+                    campo.setForeground(Color.BLACK);
+                    campo.setEchoChar('•');
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (String.valueOf(campo.getPassword()).isEmpty()) {
+                    campo.setForeground(Color.GRAY);
+                    campo.setText(textoPorDefecto);
+                    campo.setEchoChar((char) 0);
+                }
+            }
+        });
+
+    }
+
+    //Getters y setters para los TextField:
+    public JButton getIniciar_Sesión() {
+        return Iniciar_Sesión;
+    }
+
+    public void setIniciar_Sesión(JButton Iniciar_Sesión) {
+        this.Iniciar_Sesión = Iniciar_Sesión;
+    }
+
+    public JButton getRegistrarse() {
+        return Registrarse;
+    }
+
+    public void setRegistrarse(JButton Registrarse) {
+        this.Registrarse = Registrarse;
+    }
+
+    public JTextField getTxtContraseña() {
+        return txtContraseña;
+    }
+
+    public JTextField getTxtNombreUsuario() {
+        return txtNombreUsuario;
+    }
+
+    public void setTxtNombreUsuario(JTextField txtNombreUsuario) {
+        this.txtNombreUsuario = txtNombreUsuario;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -179,13 +240,14 @@ public class Login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new Design.RoundedPanel();
         jButton7 = new javax.swing.JButton();
-        txtContraseña = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         txtNombreUsuario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         Iniciar_Sesión = new RoundedButton("");
         Inicio = new javax.swing.JLabel();
         Registrarse = new RounderButton2("");
+        jButton1 = new javax.swing.JButton();
+        txtContraseña = new javax.swing.JPasswordField();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -211,18 +273,7 @@ public class Login extends javax.swing.JFrame {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 136, 30, 30));
-
-        txtContraseña.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        txtContraseña.setForeground(new java.awt.Color(217, 217, 217));
-        txtContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtContraseña.setText("Contraseña:");
-        txtContraseña.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtContraseñaActionPerformed(evt);
-            }
-        });
-        jPanel2.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 256, 44));
+        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 168, 30, 30));
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/pr user (2).png"))); // NOI18N
         jButton5.setBorderPainted(false);
@@ -233,24 +284,23 @@ public class Login extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 78, 30, 30));
+        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 96, -1, -1));
 
         txtNombreUsuario.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         txtNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
         txtNombreUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtNombreUsuario.setText("Nombre de Usuario:");
         txtNombreUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreUsuarioActionPerformed(evt);
             }
         });
-        jPanel2.add(txtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 256, 44));
+        jPanel2.add(txtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 256, 44));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 51, 255));
         jLabel4.setText("¿Has olvidado la contraseña?");
         jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 195, -1, -1));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 224, -1, -1));
 
         Iniciar_Sesión.setText("Iniciar Sesión");
         Iniciar_Sesión.setBorderPainted(false);
@@ -262,10 +312,11 @@ public class Login extends javax.swing.JFrame {
                 Iniciar_SesiónActionPerformed(evt);
             }
         });
-        jPanel2.add(Iniciar_Sesión, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 250, 40));
+        jPanel2.add(Iniciar_Sesión, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 250, 40));
 
+        Inicio.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         Inicio.setText("Iniciar Sesión");
-        jPanel2.add(Inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 26, -1, -1));
+        jPanel2.add(Inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 24, -1, -1));
 
         Registrarse.setText("Registrarse");
         Registrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -274,15 +325,30 @@ public class Login extends javax.swing.JFrame {
                 RegistrarseActionPerformed(evt);
             }
         });
-        jPanel2.add(Registrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 250, 40));
+        jPanel2.add(Registrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 250, 40));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 320, 350));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 172, 40, 20));
+
+        txtContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 256, 44));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 320, 390));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Copilot_20250610_114322 (3).png"))); // NOI18N
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
         jButton2.setFocusPainted(false);
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 360, 60, 70));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 60, 70));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/icons8_Expand_Arrow_32px.png"))); // NOI18N
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -304,48 +370,23 @@ public class Login extends javax.swing.JFrame {
 
         Huellas.setForeground(new java.awt.Color(255, 255, 255));
         Huellas.setText("Huellas ");
-        jPanel1.add(Huellas, new org.netbeans.lib.awtextra.AbsoluteConstraints(384, 396, -1, -1));
+        jPanel1.add(Huellas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, -1, -1));
 
         Cuencanas.setForeground(new java.awt.Color(255, 255, 255));
         Cuencanas.setText("Cuencanas");
-        jPanel1.add(Cuencanas, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 410, -1, -1));
+        jPanel1.add(Cuencanas, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Fondo Login.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 440));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Fondo PT.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 690));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 440));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 520));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtContraseñaActionPerformed
-
-    private void txtNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreUsuarioActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         this.setState(Login.ICONIFIED);    }//GEN-LAST:event_jLabel6MouseClicked
-
-    private void Iniciar_SesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Iniciar_SesiónActionPerformed
-
-        Animator.fadeOut(this, () -> {
-            Ventana_Principal miR = new Ventana_Principal();
-            Animator.fadeIn(miR);
-        });
-
-    }//GEN-LAST:event_Iniciar_SesiónActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         int dialog = JOptionPane.YES_NO_OPTION;
@@ -357,8 +398,64 @@ public class Login extends javax.swing.JFrame {
     private void RegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarseActionPerformed
         Animator.fadeOut(this, () -> {
             Registro miR = new Registro();
+            ControladorRegistro c = new ControladorRegistro(miR);
+            miR.setControlador(c);
             Animator.fadeIn(miR);
-        });        }//GEN-LAST:event_RegistrarseActionPerformed
+        });
+    }//GEN-LAST:event_RegistrarseActionPerformed
+
+    private void Iniciar_SesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Iniciar_SesiónActionPerformed
+
+        System.out.println("Usuario: '" + txtNombreUsuario.getText().trim() + "'");
+        System.out.println("Contraseña: '" + txtContraseña.getText().trim() + "'");
+
+        String usuario = txtNombreUsuario.getText().trim();
+        String contraseña = new String(txtContraseña.getPassword());
+
+        if (usuario.isEmpty() || usuario.equals("Nombre de usuario")
+                || contraseña.isEmpty() || contraseña.equals("Contraseña")) {
+            JOptionPane.showMessageDialog(this, "Por favor, rellena todos los campos.");
+            return;
+        }
+        PersonaDAO personaDAO = new PersonaDAO();
+
+        if (personaDAO.validarLogin(usuario, contraseña)) {
+            Animator.fadeOut(this, () -> {
+                Ventana_Principal miR = new Ventana_Principal(usuario);
+                Animator.fadeIn(miR);
+                this.dispose();
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
+        }
+
+    }//GEN-LAST:event_Iniciar_SesiónActionPerformed
+
+    private void txtNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreUsuarioActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        if (passwordVisible) {
+            txtContraseña.setEchoChar('•');
+            jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png")));
+            passwordVisible = false;
+        } else {
+            txtContraseña.setEchoChar((char) 0);
+            jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/watch (1).png")));
+            passwordVisible = true;
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -401,6 +498,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton Iniciar_Sesión;
     private javax.swing.JLabel Inicio;
     private javax.swing.JButton Registrarse;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
@@ -410,7 +508,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txtContraseña;
+    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtNombreUsuario;
     // End of variables declaration//GEN-END:variables
 }

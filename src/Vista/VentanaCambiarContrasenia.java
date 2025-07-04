@@ -4,27 +4,24 @@
  */
 package Vista;
 
-import Conexion.UserDAO;
+import Animations.Animator;
+import Controlador.ControladorLogin;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import Conexion.ConexionPostgres;
-import Conexion.UserDAO;
-import Conexion.CodigoDAO;
-import Conexion.ConexionPostgres;
 import Design.RoundedBorder;
 import Design.RoundedButton;
+import Design.RoundedPanelContrasenia;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JOptionPane;
-import Conexion.UserDAO;
-import Conexion.TokenDAO;
-import Conexion.EmailService;
-import Conexion.UserDAO;
+import Email.EmailService;
+import Modelo.CodigoDAO;
+import Modelo.PersonaDAO;
 import java.sql.SQLException;
 import jakarta.mail.MessagingException;
-import javax.swing.*;        // si usas JOptionPane, JButton, etc.
+import javax.swing.*;        
 import java.awt.event.*;
 
 /**
@@ -36,6 +33,8 @@ public class VentanaCambiarContrasenia extends javax.swing.JFrame {
     private String email;
     private String NuevaContrasenia1 = "Nueva Contraseña";
     private String ConfirmarContrasenia1 = "Confirmar Contraseña";
+    private boolean passwordVisible = false;
+    private boolean recuperacionAbierta = false;
 
     /**
      * Creates new form VentanaCambiarContrasenia
@@ -49,22 +48,24 @@ public class VentanaCambiarContrasenia extends javax.swing.JFrame {
         setLocationRelativeTo(null); // Centrar ventana
 
         //Fuentes
-        Recuperar.setFont(new Font("CocogooseProTrial", Font.PLAIN, 21));
-        NuevaContrasenia.setFont(new Font("Caviar Dreams", Font.PLAIN, 16));
-        ConfirmarContrasenia.setFont(new Font("Caviar Dreams", Font.PLAIN, 16));
-        
+        Recuperar.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 24));
+        Def.setFont(new Font("Caviar Dreams", Font.PLAIN, 16));
+        txtNuevaContrasenia.setFont(new Font("Caviar Dreams", Font.PLAIN, 16));
+        txtConfirmarContrasenia.setFont(new Font("Caviar Dreams", Font.PLAIN, 16));
+        Cuenta.setFont(new Font("Caviar Dreams", Font.PLAIN, 16));
+
         //Hacer Redondeada la Ventana:
         setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 60, 60));
 
         //Darle Bordes y PlaceHolder a los TextField:   
-        NuevaContrasenia.setBorder(new RoundedBorder(new Color(165, 170, 163), 2, 30, 30));
-        NuevaContrasenia.setOpaque(false);
+        txtNuevaContrasenia.setBorder(new RoundedBorder(new Color(165, 170, 163), 1, 30, 30));
+        txtNuevaContrasenia.setOpaque(false);
 
-        ConfirmarContrasenia.setBorder(new RoundedBorder(new Color(165, 170, 163), 2, 30, 30));
-        ConfirmarContrasenia.setOpaque(false);
+        txtConfirmarContrasenia.setBorder(new RoundedBorder(new Color(165, 170, 163), 1, 30, 30));
+        txtConfirmarContrasenia.setOpaque(false);
 
-        ponerPlaceholder(NuevaContrasenia, NuevaContrasenia1);
-        ponerPlaceholder(ConfirmarContrasenia, ConfirmarContrasenia1);
+        ponerPlaceholder(txtNuevaContrasenia, NuevaContrasenia1);
+        ponerPlaceholder(txtConfirmarContrasenia, ConfirmarContrasenia1);
     }
 
     private void ponerPlaceholder(javax.swing.JTextField campo, String textoPorDefecto) {
@@ -127,19 +128,25 @@ public class VentanaCambiarContrasenia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new Design.RoundedPanel();
+        jPanel3 = new RoundedPanelContrasenia();
         jButton1 =  new RoundedButton("Entrar");
-        NuevaContrasenia = new javax.swing.JTextField();
         Recuperar = new javax.swing.JLabel();
-        ConfirmarContrasenia = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        txtNuevaContrasenia = new javax.swing.JPasswordField();
+        jButton3 = new javax.swing.JButton();
+        txtConfirmarContrasenia = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
+        Def = new javax.swing.JLabel();
+        Cuenta = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         FondoLogin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 102));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -153,27 +160,56 @@ public class VentanaCambiarContrasenia extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 130, 40));
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 420, 130, 40));
 
-        NuevaContrasenia.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        NuevaContrasenia.setForeground(new java.awt.Color(0, 0, 0));
-        NuevaContrasenia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        NuevaContrasenia.setText("Correo electrónico:");
-        NuevaContrasenia.addActionListener(new java.awt.event.ActionListener() {
+        Recuperar.setForeground(new java.awt.Color(255, 255, 255));
+        Recuperar.setText("Recuperar Contraseña");
+        jPanel3.add(Recuperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 300, -1));
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png"))); // NOI18N
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.setFocusPainted(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NuevaContraseniaActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-        jPanel3.add(NuevaContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 313, 54));
+        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, 40, 30));
 
-        Recuperar.setText("Recuperar Contraseña");
-        jPanel3.add(Recuperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 300, -1));
+        txtNuevaContrasenia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtNuevaContrasenia.setText("jPasswordField1");
+        jPanel3.add(txtNuevaContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 310, 50));
 
-        ConfirmarContrasenia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        ConfirmarContrasenia.setText("Confirmar Contraseña:");
-        jPanel3.add(ConfirmarContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 310, 50));
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png"))); // NOI18N
+        jButton3.setBorderPainted(false);
+        jButton3.setContentAreaFilled(false);
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.setFocusPainted(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 330, 40, 30));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 380, 270));
+        txtConfirmarContrasenia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtConfirmarContrasenia.setText("jPasswordField1");
+        jPanel3.add(txtConfirmarContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 310, 50));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Candado 2.png"))); // NOI18N
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 24, 90, 80));
+
+        Def.setForeground(new java.awt.Color(151, 157, 164));
+        Def.setText("Define una nueva contraseña para ");
+        jPanel3.add(Def, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 170, -1, -1));
+
+        Cuenta.setForeground(new java.awt.Color(151, 157, 164));
+        Cuenta.setText("tu cuenta. ");
+        jPanel3.add(Cuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 190, -1, -1));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 360, 490));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/icons8_Expand_Arrow_32px.png"))); // NOI18N
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -193,45 +229,74 @@ public class VentanaCambiarContrasenia extends javax.swing.JFrame {
         });
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 6, 30, 40));
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Atrás 2.png"))); // NOI18N
+        jButton4.setBorderPainted(false);
+        jButton4.setContentAreaFilled(false);
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.setFocusPainted(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 560, -1, 30));
+
         FondoLogin.setForeground(new java.awt.Color(11, 187, 187));
-        FondoLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Fondo Login.png"))); // NOI18N
-        getContentPane().add(FondoLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 410));
+        FondoLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Fondo PT.png"))); // NOI18N
+        getContentPane().add(FondoLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 610));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String nueva = NuevaContrasenia.getText().trim();
-        String confirmar = ConfirmarContrasenia.getText().trim();
 
-        if (!nueva.equals(confirmar)) {
+        String password = new String(txtNuevaContrasenia.getPassword()).trim();
+        String confirmar = new String(txtConfirmarContrasenia.getPassword()).trim();
+
+        if (password.isEmpty() || confirmar.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, llena ambos campos.");
+            return;
+        }
+
+        if (!password.equals(confirmar)) {
             JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.");
             return;
         }
 
-        if (nueva.length() < 6) {
-            JOptionPane.showMessageDialog(this, "La contraseña debe tener al menos 6 caracteres.");
+        if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[#\\$&\\-.])[A-Za-z\\d#\\$&\\-.]{8,}$")) {
+            JOptionPane.showMessageDialog(this, "La contraseña debe tener al menos 8 caracteres, incluir letras, números y alguno de estos signos: # $ & - .");
             return;
         }
 
         try {
-            boolean actualizado = UserDAO.actualizarContrasenia(email, nueva);
+            String hash = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
+
+            PersonaDAO dao = new PersonaDAO();
+            boolean actualizado = dao.actualizarContrasenia(email, hash);
+
             if (actualizado) {
-                JOptionPane.showMessageDialog(this, "Contraseña actualizada correctamente.");
-                this.dispose();
+                CodigoDAO codigoDAO = new CodigoDAO();
+               
+                JOptionPane.showMessageDialog(this, "¡Contraseña actualizada con éxito!");
+
+                Animator.fadeOut(this, () -> {
+                    Login login = new Login();
+                    login.setVisible(true);
+                    Animator.fadeIn(login);
+                    this.dispose();
+                });
+
             } else {
-                JOptionPane.showMessageDialog(this, "Error al actualizar la contraseña.");
+                JOptionPane.showMessageDialog(this, "No se pudo actualizar la contraseña.");
             }
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al actualizar la contraseña.");
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void NuevaContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevaContraseniaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NuevaContraseniaActionPerformed
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         this.setState(RecuperarContrasenia.ICONIFIED);
@@ -245,22 +310,57 @@ public class VentanaCambiarContrasenia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jLabel8MouseClicked
 
-    public static boolean actualizarContrasenia(String email, String nuevaContrasenia) throws SQLException {
-        String sql = "UPDATE usuarios SET contrasenia = ? WHERE email = ?";
-        try ( Connection conn = ConexionPostgres.conectar();  PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, nuevaContrasenia);
-            ps.setString(2, email);
-            return ps.executeUpdate() > 0;
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        if (passwordVisible) {
+            txtNuevaContrasenia.setEchoChar('•');
+            jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png")));
+            passwordVisible = false;
+        } else {
+            txtNuevaContrasenia.setEchoChar((char) 0);
+            jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/watch (1).png")));
+            passwordVisible = true;
         }
-    }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        if (recuperacionAbierta) {
+            txtConfirmarContrasenia.setEchoChar('•');
+            jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png")));
+            passwordVisible = false;
+        } else {
+            txtConfirmarContrasenia.setEchoChar((char) 0);
+            jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/watch (1).png")));
+            passwordVisible = true;
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    Animator.fadeOut(this, () -> {
+        Login miR = new Login();
+        ControladorLogin controladorLogin = new ControladorLogin(miR);
+        Animator.fadeIn(miR);
+    }); 
+
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField ConfirmarContrasenia;
+    private javax.swing.JLabel Cuenta;
+    private javax.swing.JLabel Def;
     private javax.swing.JLabel FondoLogin;
-    private javax.swing.JTextField NuevaContrasenia;
     private javax.swing.JLabel Recuperar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPasswordField txtConfirmarContrasenia;
+    private javax.swing.JPasswordField txtNuevaContrasenia;
     // End of variables declaration//GEN-END:variables
 }

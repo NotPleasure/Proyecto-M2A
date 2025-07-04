@@ -5,7 +5,10 @@
  */
 package Vista;
 
+import Animations.Animator;
+import Vista.Interfaz_Usuario;
 import AppPackage.AnimationClass;
+import Controlador.ControladorLogin;
 import Design.RoundedButtonDetalles;
 import Design.RoundedButtonIglesias;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
@@ -27,19 +30,28 @@ import Design.RoundedButtonReOscuro;
 import Design.RoundedPanel;
 import Design.RoundedPannelGris;
 import Design.RounderButton2;
+import Prueba.Animator1;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import Vista.Ventana_Principal;
 
 /**
  *
  * @author USER
  */
 public class Ventana_Principal extends javax.swing.JFrame {
-
+    
+    //La variable que siempre se usará para pasar el nombre del User:    
+    private String usuario;
+    
+    private Ventana_Inicio panelInicio;
+    private Ventana_Iglesias panelIglesias;
+    private Interfaz_Usuario panelUsuario;
+    
     private final String BusquedaText = "Buscar Lugares, Hoteles....";
 
     private int x;
@@ -48,14 +60,18 @@ public class Ventana_Principal extends javax.swing.JFrame {
     /**
      * Creates new form Ventana_Principal
      */
-    public Ventana_Principal() {
+    public Ventana_Principal(String usuario) {
 
         setUndecorated(true);
-
         setOpacity(0f);
+
         initComponents();
 
-        //Quitar componentes:
+        NombreUsuario.setText(usuario);
+        this.usuario = usuario;
+
+        //Dimensiones del usuario:
+        NombreUsuario.setBounds(60, 80, 240, 50);
         //Extender la ventana al máximo: 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         // Para pantalla completa:
@@ -203,20 +219,21 @@ public class Ventana_Principal extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         Museos = new RoundedButtonMuseos("");
         DestinosDestacados = new javax.swing.JLabel();
+        estrellaClik1 = new Design.EstrellaClick.EstrellaClik();
         jButton1 =  new RoundedButtonLugares("");
+        estrellaClik2 = new Design.EstrellaClick.EstrellaClik();
         ParquedelaMadre = new RoundedButtonLugares("");
+        estrellaClik3 = new Design.EstrellaClick.EstrellaClik();
         jButton22 = new RoundedButtonLugares("");
         Catedral = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        VerMas = new javax.swing.JButton();
         Concepción = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         IglesiasLabel = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         Cuenca_Ecuador = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         Parquedela = new javax.swing.JLabel();
         Madre = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
         ParquesLabel = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         Ubicacion_Cuenca = new javax.swing.JLabel();
@@ -229,6 +246,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         CuencaEcuadorLabel = new javax.swing.JLabel();
         jButton12 = new RoundedButtonDetalles("");
+        jLabel23 = new javax.swing.JLabel();
+        VerMas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -321,6 +340,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         Menú.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, -1, -1));
 
         jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/experiencia-del-cliente (1).png"))); // NOI18N
+        jLabel26.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel26.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel26MouseClicked(evt);
@@ -386,24 +406,51 @@ public class Ventana_Principal extends javax.swing.JFrame {
         Menú.add(btnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 250, 60));
 
         btnPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/satisfaccion (1).png"))); // NOI18N
+        btnPerfil.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPerfilMouseClicked(evt);
+            }
+        });
         Menú.add(btnPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 500, 70, 60));
 
         jLabel29.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(255, 255, 255));
         jLabel29.setText("Favoritos");
         Menú.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 520, -1, -1));
+
+        jButton10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
         Menú.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 250, 60));
 
         jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/mala-retroalimentacion (1).png"))); // NOI18N
+        jLabel30.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel30.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel30MouseClicked(evt);
+            }
+        });
         Menú.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 50, 60));
 
         jLabel31.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         jLabel31.setForeground(new java.awt.Color(255, 255, 255));
         jLabel31.setText("Comentarios");
         Menú.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 578, -1, -1));
+
+        jButton11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
         Menú.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, 250, 60));
 
         jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/salida (1).png"))); // NOI18N
+        jLabel33.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Menú.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 693, 50, 70));
 
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -447,12 +494,11 @@ public class Ventana_Principal extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Bienvenido.setFont(new java.awt.Font("Dialog", 1, 39)); // NOI18N
-        Bienvenido.setText("¡Bienvenido!");
+        Bienvenido.setText("¡Bienvenid@!");
         jPanel1.add(Bienvenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
         NombreUsuario.setFont(new java.awt.Font("Dialog", 1, 39)); // NOI18N
-        NombreUsuario.setText("Andrés");
-        jPanel1.add(NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, -1, -1));
+        jPanel1.add(NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, 240, 50));
 
         jLabel24.setFont(new java.awt.Font("Century Gothic", 0, 16)); // NOI18N
         jLabel24.setText("¡Es un gusto tenerte de vuelta!");
@@ -562,6 +608,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
         DestinosDestacados.setText("Destinos Destacados");
         content.add(DestinosDestacados);
         DestinosDestacados.setBounds(50, 352, 380, 40);
+        content.add(estrellaClik1);
+        estrellaClik1.setBounds(240, 350, 170, 160);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Catedral (1).jpg"))); // NOI18N
         jButton1.setBorderPainted(false);
@@ -569,6 +617,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
         jButton1.setFocusPainted(false);
         content.add(jButton1);
         jButton1.setBounds(50, 410, 300, 170);
+        content.add(estrellaClik2);
+        estrellaClik2.setBounds(670, 410, 50, 50);
 
         ParquedelaMadre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Parque de la madre (1).jpg"))); // NOI18N
         ParquedelaMadre.setBorderPainted(false);
@@ -576,6 +626,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
         ParquedelaMadre.setFocusPainted(false);
         content.add(ParquedelaMadre);
         ParquedelaMadre.setBounds(420, 410, 300, 170);
+        content.add(estrellaClik3);
+        estrellaClik3.setBounds(1020, 410, 50, 50);
 
         jButton22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ParqueNacionalElCajas (1).jpg"))); // NOI18N
         jButton22.setBorderPainted(false);
@@ -590,25 +642,6 @@ public class Ventana_Principal extends javax.swing.JFrame {
         Catedral.setText("Catedral de la Inmaculada");
         content.add(Catedral);
         Catedral.setBounds(50, 590, 240, 20);
-
-        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/agregar-boton (1).png"))); // NOI18N
-        content.add(jLabel23);
-        jLabel23.setBounds(785, 724, 40, 40);
-
-        VerMas.setBackground(new java.awt.Color(242, 242, 242));
-        VerMas.setForeground(new java.awt.Color(48, 35, 81));
-        VerMas.setText("Mostrar más resultados");
-        VerMas.setBorderPainted(false);
-        VerMas.setContentAreaFilled(false);
-        VerMas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        VerMas.setFocusPainted(false);
-        VerMas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerMasActionPerformed(evt);
-            }
-        });
-        content.add(VerMas);
-        VerMas.setBounds(780, 722, 330, 50);
 
         Concepción.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         Concepción.setText("Concepción de Cuenca.");
@@ -631,6 +664,10 @@ public class Ventana_Principal extends javax.swing.JFrame {
         content.add(Cuenca_Ecuador);
         Cuenca_Ecuador.setBounds(220, 640, 170, 16);
 
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hombre-caminando (2).png"))); // NOI18N
+        content.add(jLabel19);
+        jLabel19.setBounds(770, 630, 40, 40);
+
         Parquedela.setForeground(new java.awt.Color(237, 79, 31));
         Parquedela.setText("Parque de la");
         content.add(Parquedela);
@@ -639,10 +676,6 @@ public class Ventana_Principal extends javax.swing.JFrame {
         Madre.setText("Madre");
         content.add(Madre);
         Madre.setBounds(420, 610, 110, 16);
-
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hombre-caminando (2).png"))); // NOI18N
-        content.add(jLabel19);
-        jLabel19.setBounds(770, 630, 40, 40);
 
         ParquesLabel.setText("Parques");
         content.add(ParquesLabel);
@@ -707,6 +740,25 @@ public class Ventana_Principal extends javax.swing.JFrame {
         content.add(jButton12);
         jButton12.setBounds(500, 675, 140, 30);
 
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/agregar-boton (1).png"))); // NOI18N
+        content.add(jLabel23);
+        jLabel23.setBounds(785, 724, 40, 40);
+
+        VerMas.setBackground(new java.awt.Color(242, 242, 242));
+        VerMas.setForeground(new java.awt.Color(48, 35, 81));
+        VerMas.setText("Mostrar más resultados");
+        VerMas.setBorderPainted(false);
+        VerMas.setContentAreaFilled(false);
+        VerMas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VerMas.setFocusPainted(false);
+        VerMas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerMasActionPerformed(evt);
+            }
+        });
+        content.add(VerMas);
+        VerMas.setBounds(780, 722, 330, 50);
+
         getContentPane().add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 1140, 800));
 
         pack();
@@ -714,13 +766,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void InicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InicioActionPerformed
-        Ventana_Inicio MiLugar = new Ventana_Inicio();
-        MiLugar.setSize(1140, 830);
 
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();
+        
     }//GEN-LAST:event_InicioActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -732,29 +779,14 @@ public class Ventana_Principal extends javax.swing.JFrame {
         content.revalidate();
         content.repaint();    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        this.setState(Ventana_Principal.ICONIFIED);
-    }//GEN-LAST:event_jLabel7MouseClicked
-
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        int dialog = JOptionPane.YES_NO_OPTION;
-        int result = JOptionPane.showConfirmDialog(null, "¿Desea salir?", "Exit", dialog);
-        if (result == 0) {
-            System.exit(0);
-        }
-
-    }//GEN-LAST:event_jLabel5MouseClicked
-
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
-        AnimationClass Hola1 = new AnimationClass();
-        Hola1.jLabelXRight(930, 970, 10, 5, HolaBandeja);
-
-        AnimationClass Hola112 = new AnimationClass();
-        Hola112.jLabelXLeft(970, 930, 10, 5, HolaBandeja);
-    }//GEN-LAST:event_jLabel12MouseClicked
-
     private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MouseClicked
-        // TODO add your handling code here:
+
+        Animator.fadeOut(this, () -> {
+            Login miR = new Login();
+            Interfaz_Usuario controladorLogin = new Interfaz_Usuario(usuario);
+            Animator.fadeIn(miR);
+        });
+
     }//GEN-LAST:event_jLabel26MouseClicked
 
     private void btnUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuarioMouseClicked
@@ -768,39 +800,21 @@ public class Ventana_Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_InicioMouseClicked
 
-    private void VerMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerMasActionPerformed
-        Ventanas_MostrarMás MiLugar = new Ventanas_MostrarMás();
-        MiLugar.setSize(1140, 830);
-
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();     }//GEN-LAST:event_VerMasActionPerformed
-
-    private void IglesiasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IglesiasBotonActionPerformed
-        Ventana_Iglesias MiLugar = new Ventana_Iglesias();
-        MiLugar.setSize(1140, 830);
-
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();    }//GEN-LAST:event_IglesiasBotonActionPerformed
-
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        Interfaz_Usuario MiLugar = new Interfaz_Usuario();
-        MiLugar.setSize(1140, 830);
 
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();
+        Animator1.fadeOut(this, () -> {
+        this.dispose();
 
-
+        Interfaz_Usuario ventana = new Interfaz_Usuario(usuario);
+        ventana.setUndecorated(true);
+        ventana.setOpacity(0f);        
+        
+        ventana.setVisible(true);
+        
+        Animator1.fadeIn(ventana);
+    });
+        
      }//GEN-LAST:event_btnUsuarioActionPerformed
-
-    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
-        System.out.println("Hola");
-    }//GEN-LAST:event_jLabel20MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         int dialog = JOptionPane.YES_NO_OPTION;
@@ -811,40 +825,105 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ventana_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ventana_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ventana_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ventana_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        Ventana_MisFavoritos MiLugar = new Ventana_MisFavoritos();
+        MiLugar.setSize(1140, 830);
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Ventana_Principal().setVisible(true);
-            }
-        });
+        content.removeAll();
+        content.add(MiLugar, java.awt.BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+
+
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        Ventana_Comentarios MiLugar = new Ventana_Comentarios();
+        MiLugar.setSize(1140, 830);
+
+        content.removeAll();
+        content.add(MiLugar, java.awt.BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+
+
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void btnPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPerfilMouseClicked
+        Ventana_MisFavoritos MiLugar = new Ventana_MisFavoritos();
+        MiLugar.setSize(1140, 830);
+
+        content.removeAll();
+        content.add(MiLugar, java.awt.BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+
+
+    }//GEN-LAST:event_btnPerfilMouseClicked
+
+    private void jLabel30MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel30MouseClicked
+        Ventana_Comentarios MiLugar = new Ventana_Comentarios();
+        MiLugar.setSize(1140, 830);
+
+        content.removeAll();
+        content.add(MiLugar, java.awt.BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+
+    }//GEN-LAST:event_jLabel30MouseClicked
+
+    private void VerMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerMasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerMasActionPerformed
+
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+        System.out.println("Hola");
+    }//GEN-LAST:event_jLabel20MouseClicked
+
+    private void IglesiasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IglesiasBotonActionPerformed
+        if (panelIglesias == null) {
+            panelIglesias = new Ventana_Iglesias();
+        }
+        Ventana_Iglesias MiLugar = new Ventana_Iglesias();
+        MiLugar.setSize(1140, 830);
+
+        content.removeAll();
+        content.add(MiLugar, java.awt.BorderLayout.CENTER);
+        content.revalidate();
+    }//GEN-LAST:event_IglesiasBotonActionPerformed
+
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+        AnimationClass Hola1 = new AnimationClass();
+        Hola1.jLabelXRight(930, 970, 10, 5, HolaBandeja);
+
+        AnimationClass Hola112 = new AnimationClass();
+        Hola112.jLabelXLeft(970, 930, 10, 5, HolaBandeja);
+    }//GEN-LAST:event_jLabel12MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        int dialog = JOptionPane.YES_NO_OPTION;
+        int result = JOptionPane.showConfirmDialog(null, "¿Desea salir?", "Exit", dialog);
+        if (result == 0) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        this.setState(Ventana_Principal.ICONIFIED);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    //Mostrar el panel principal
+    public void mostrarPanelInicio() {
+        if (panelInicio == null) {
+            panelInicio = new Ventana_Inicio(usuario);
+            panelInicio.setSize(1140, 830);
+        }
+        content.removeAll();
+        content.add(panelInicio, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Bienvenido;
@@ -888,6 +967,9 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private javax.swing.JLabel btnPerfil;
     private javax.swing.JButton btnUsuario;
     private javax.swing.JPanel content;
+    private Design.EstrellaClick.EstrellaClik estrellaClik1;
+    private Design.EstrellaClick.EstrellaClik estrellaClik2;
+    private Design.EstrellaClick.EstrellaClik estrellaClik3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -940,7 +1022,4 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 
-    void mostrarPantallaPrincipal() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

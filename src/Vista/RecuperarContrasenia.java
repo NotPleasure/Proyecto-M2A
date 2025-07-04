@@ -5,57 +5,54 @@
  */
 package Vista;
 
-import Conexion.CodigoDAO;
+import Animations.Animator;
+import Controlador.ControladorLogin;
 import Design.RoundedBorder;
 import Design.RoundedButton;
+import Design.RoundedPanelContrasenia;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JOptionPane;
-import Conexion.UserDAO;
-import Conexion.TokenDAO;
-import Conexion.EmailService;
+import Email.EmailService;
+import Modelo.Codigo;
+import Modelo.CodigoDAO;
+import Modelo.PersonaDAO;
 import java.sql.SQLException;
 import jakarta.mail.MessagingException;
-import javax.swing.*;        // si usas JOptionPane, JButton, etc.
-import java.awt.event.*;     // si usas ActionListener, MouseAdapter, etc.
+import javax.swing.*;
+import java.awt.event.*;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author USER
  */
 public class RecuperarContrasenia extends javax.swing.JFrame {
+
     private String Correo_electronico = "Correo electronico";
 
     /**
      * Creates new form RecuperarContrasenia
      */
     public RecuperarContrasenia() {
-        
+
         setUndecorated(true);
         setOpacity(0f);
-        
+
         initComponents();
         setLocationRelativeTo(null);
-        
+
         //Fuentes:
-        
-        Recuperar.setFont(new Font("CocogooseProTrial", Font.PLAIN, 21));
+        Recuperar.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 24));
         jLabel5.setFont(new Font("Caviar Dreams", Font.PLAIN, 16));
         txtEmail.setFont(new Font("Caviar Dreams", Font.PLAIN, 16));
 
-        
-        
-          //Hacer Redondeada la Ventana:
+        //Hacer Redondeada la Ventana:
         setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 60, 60));
 
-    
-         
-        
         //Darle borde al TextField
-        
-        txtEmail.setBorder(new RoundedBorder(new Color(165, 170, 163), 2, 30, 30));
+        txtEmail.setBorder(new RoundedBorder(new Color(165, 170, 163), 1, 30, 30));
         txtEmail.setOpaque(false);
-        
 
         ponerPlaceholder(txtEmail, Correo_electronico);
     }
@@ -69,7 +66,7 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent e) {
                 if (campo.getText().equals(textoPorDefecto)) {
                     campo.setText("");
-                    campo.setForeground(new Color(0, 0, 0,255));
+                    campo.setForeground(java.awt.Color.GRAY);
                 }
             }
 
@@ -94,7 +91,7 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
                 String passText = new String(campo.getPassword());
                 if (passText.equals(textoPorDefecto)) {
                     campo.setText("");
-                    campo.setForeground(new Color(160, 160, 160));
+                    campo.setForeground(java.awt.Color.GRAY);
                     campo.setEchoChar('•');
                 }
             }
@@ -109,10 +106,8 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
                 }
             }
         });
-        
-    }
 
-    
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,14 +118,16 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new Design.RoundedPanel();
+        jPanel3 = new RoundedPanelContrasenia();
         jLabel5 = new javax.swing.JLabel();
         jButton1 =  new RoundedButton("Entrar");
         jButton2 = new javax.swing.JButton();
         txtEmail = new javax.swing.JTextField();
         Recuperar = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -138,12 +135,13 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBackground(new java.awt.Color(0, 204, 153));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(151, 157, 164));
         jLabel5.setText("Ingrese su correo electrónico:");
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 380, -1));
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 240, -1));
 
         jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton1.setText("Continuar");
@@ -156,9 +154,9 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 130, 40));
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 274, 130, 40));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Correo ícon (1).png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/correo (2).png"))); // NOI18N
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
         jButton2.setFocusPainted(false);
@@ -167,7 +165,7 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 30, 30));
+        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 216, 30, 30));
 
         txtEmail.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtEmail.setForeground(new java.awt.Color(0, 0, 0));
@@ -178,12 +176,16 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
                 txtEmailActionPerformed(evt);
             }
         });
-        jPanel3.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 313, 54));
+        jPanel3.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 310, 54));
 
+        Recuperar.setForeground(new java.awt.Color(255, 255, 255));
         Recuperar.setText("Recuperar Contraseña");
-        jPanel3.add(Recuperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 300, -1));
+        jPanel3.add(Recuperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 110, 290, -1));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 380, 230));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Candado 2.png"))); // NOI18N
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, 90, 80));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 380, 350));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/icons8_Expand_Arrow_32px.png"))); // NOI18N
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -203,35 +205,64 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
         });
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 6, 30, 40));
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Atrás 2.png"))); // NOI18N
+        jButton3.setBorderPainted(false);
+        jButton3.setContentAreaFilled(false);
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.setFocusPainted(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 480, 50, 30));
+
         jLabel2.setForeground(new java.awt.Color(11, 187, 187));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Fondo Login.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 390));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Fondo PT.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 530));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- String email = txtEmail.getText().trim();
 
-    try {
-        if (!UserDAO.existeEmail(email)) {
-            JOptionPane.showMessageDialog(this, "El correo no está registrado.");
+        String email = txtEmail.getText().trim();
+
+        if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa un correo.");
             return;
         }
 
-        String codigo = CodigoDAO.generarCodigo();  // generas el código
-        CodigoDAO.guardarCodigo(email, codigo);    // guardas en BD
+        try {
+            PersonaDAO personaDAO = new PersonaDAO();
+            if (!personaDAO.existeCorreo(email)) {
+                JOptionPane.showMessageDialog(this, "El correo no está registrado.");
+                return;
+            }
 
-        EmailService.sendResetEmail(email, codigo); // envías correo con el código
+            String codigo = CodigoDAO.generarCodigo();
 
-        // Luego abres la ventana para que el usuario ingrese el código recibido
-        new VentanaValidarCodigo(email).setVisible(true);
-        this.dispose();
+            Codigo nuevoCodigo = new Codigo(email, codigo, LocalDateTime.now());
+            CodigoDAO codigoDAO = new CodigoDAO();
+            //codigoDAO.guardarCodigo(nuevoCodigo);
+              codigoDAO.setCodigo(codigo);
+              System.out.println(codigoDAO.getCodigo());
+            EmailService.sendResetEmail(email, codigo);
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al enviar el código: " + e.getMessage());
-    }
-    
+            JOptionPane.showMessageDialog(this, "Código enviado a tu correo.");
+
+            Animator.fadeOut(this, () -> {
+                VentanaValidarCodigo validar = new VentanaValidarCodigo(email);
+                validar.setVisible(true);
+                Animator.fadeIn(validar);
+                this.dispose();
+            });
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al enviar el código.");
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
@@ -253,6 +284,16 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    Animator.fadeOut(this, () -> {
+        Login miR = new Login();
+        ControladorLogin controladorLogin = new ControladorLogin(miR);
+        Animator.fadeIn(miR);
+    }); 
+
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,6 +334,8 @@ public class RecuperarContrasenia extends javax.swing.JFrame {
     private javax.swing.JLabel Recuperar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;

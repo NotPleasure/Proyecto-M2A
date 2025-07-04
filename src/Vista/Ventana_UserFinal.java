@@ -684,13 +684,7 @@ public class Ventana_UserFinal extends javax.swing.JPanel {
     }//GEN-LAST:event_InicioMouseClicked
 
     private void InicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InicioActionPerformed
-        Ventana_Inicio MiLugar = new Ventana_Inicio();
-        MiLugar.setSize(1140, 830);
-
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();
+      
     }//GEN-LAST:event_InicioActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -742,12 +736,7 @@ public class Ventana_UserFinal extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel12MouseClicked
 
     private void IglesiasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IglesiasBotonActionPerformed
-        Ventana_Iglesias MiLugar = new Ventana_Iglesias();
-        MiLugar.setSize(1140, 830);
-
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
+   
     }//GEN-LAST:event_IglesiasBotonActionPerformed
 
     private void VerMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerMasActionPerformed

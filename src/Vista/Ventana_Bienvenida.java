@@ -5,6 +5,8 @@
 package Vista;
 
 import Animations.Animator;
+import Controlador.ControladorLogin;
+import Controlador.ControladorRegistro;
 import java.awt.Font;
 import Design.RoundedButtonRegistrarseInicio;
 import Design.RoundedButtonIniciarSesionRegistrarse;
@@ -139,20 +141,22 @@ public class Ventana_Bienvenida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void IniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IniciarSesionActionPerformed
-  Animator.fadeOut(this, () -> {
-          Registro miR = new Registro();
-            Animator.fadeIn(miR);
-        }); 
+    Animator.fadeOut(this, () -> {
+        Registro miR = new Registro();
+        ControladorRegistro c = new ControladorRegistro(miR);
+        miR.setControlador(c);
+        Animator.fadeIn(miR);
+    });
 
 
     }//GEN-LAST:event_IniciarSesionActionPerformed
 
     private void IniciarSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IniciarSesion1ActionPerformed
-  Animator.fadeOut(this, () -> {
-          Login miR = new Login();
-            Animator.fadeIn(miR);
-        }); 
-
+     Animator.fadeOut(this, () -> {
+        Login miR = new Login();
+        ControladorLogin controladorLogin = new ControladorLogin(miR);
+        Animator.fadeIn(miR);
+    }); 
 
     }//GEN-LAST:event_IniciarSesion1ActionPerformed
 

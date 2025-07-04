@@ -11,24 +11,18 @@ package Design;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * JTextField con esquinas redondeadas, fondo gris claro (#E5E4E3) y borde sutil (#918D8F).
- */
-public class RoundedTextField1 extends JTextField {
-    // Configuración fija de estilo
-    private static final Color BACKGROUND_COLOR = new Color(229, 228, 227); // #E5E4E3
-    private static final Color BORDER_COLOR     = new Color(145, 141, 143); // #918D8F
-    private static final int   THICKNESS       = 1;                       // 1px
-    private static final int   ARC             = 15;                      // radio de esquinas
 
-    /**
-     * Constructor que solo recibe el número de columnas.
-     */
+public class RoundedTextField1 extends JTextField {
+    private static final Color BACKGROUND_COLOR = new Color(229, 228, 227); 
+    private static final Color BORDER_COLOR     = new Color(145, 141, 143); 
+    private static final int   THICKNESS       = 1;                      
+    private static final int   ARC             = 15;                    
+
+    
     public RoundedTextField1(int columns) {
         super(columns);
         setOpaque(false);
         setBackground(BACKGROUND_COLOR);
-        // Padding interno: arriba/abajo = THICKNESS; izquierda/derecha = THICKNESS + 10
         setBorder(BorderFactory.createEmptyBorder(
             THICKNESS,
             THICKNESS + 10,
@@ -45,12 +39,11 @@ public class RoundedTextField1 extends JTextField {
             RenderingHints.VALUE_ANTIALIAS_ON
         );
 
-        // Pinto el fondo redondeado
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), ARC, ARC);
         g2.dispose();
 
-        super.paintComponent(g); // Texto y caret
+        super.paintComponent(g); 
     }
 
     @Override
@@ -61,7 +54,6 @@ public class RoundedTextField1 extends JTextField {
             RenderingHints.VALUE_ANTIALIAS_ON
         );
 
-        // Pinto el borde redondeado
         g2.setColor(BORDER_COLOR);
         g2.setStroke(new BasicStroke(THICKNESS));
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, ARC, ARC);

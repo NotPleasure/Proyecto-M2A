@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
  *
  * @author USER
  */
-public class Ventana_Hoteles extends javax.swing.JPanel {
+public class Ventana_Hoteles extends javax.swing.JFrame {
 
     /**
      * Creates new form Ventana_Hoteles
@@ -28,9 +28,9 @@ public class Ventana_Hoteles extends javax.swing.JPanel {
 
         //Fuentes:
         Busqueda2.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
-    lblTituloResultado.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
-    lblTextoResultado.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
-    
+        lblTituloResultado.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
+        lblTextoResultado.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
+
         //Hacer que la barra de búsqueda se oculte antes y despúes de cargar: 
         jProgressBar1.setIndeterminate(true);
         jProgressBar1.setVisible(true);
@@ -42,38 +42,38 @@ public class Ventana_Hoteles extends javax.swing.JPanel {
         Busqueda2.setForeground(Color.BLACK);
 
         //ActionListener para la búsqueda:
-Busqueda2.addActionListener(e -> {
-    String texto = Busqueda2.getText().trim();
+        Busqueda2.addActionListener(e -> {
+            String texto = Busqueda2.getText().trim();
 
-    if (texto.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Escribe algo para buscar");
-        return;
-    }
+            if (texto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Escribe algo para buscar");
+                return;
+            }
 
-    jProgressBar1.setVisible(true);
-    Busqueda2.setEnabled(false);
-    lblTituloResultado.setText("");    
-    lblTextoResultado.setText("");
+            jProgressBar1.setVisible(true);
+            Busqueda2.setEnabled(false);
+            lblTituloResultado.setText("");
+            lblTextoResultado.setText("");
 
-    new Thread(() -> {
-        try {
-            Thread.sleep(2000); 
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+            new Thread(() -> {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
 
-        SwingUtilities.invokeLater(() -> {
-            jProgressBar1.setVisible(false);
-            lblTituloResultado.setText("Resultados para: ");
-            lblTextoResultado.setText(texto);
-            lblTextoResultado.setForeground(new Color(52, 152, 219));  
+                SwingUtilities.invokeLater(() -> {
+                    jProgressBar1.setVisible(false);
+                    lblTituloResultado.setText("Resultados para: ");
+                    lblTextoResultado.setText(texto);
+                    lblTextoResultado.setForeground(new Color(52, 152, 219));
 
-            Busqueda2.setEnabled(true);
-            Busqueda2.requestFocus();
-            Busqueda2.selectAll();
+                    Busqueda2.setEnabled(true);
+                    Busqueda2.requestFocus();
+                    Busqueda2.selectAll();
+                });
+            }).start();
         });
-    }).start();
-});
 
     }
 
