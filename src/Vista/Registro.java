@@ -66,6 +66,7 @@ public class Registro extends javax.swing.JFrame {
     private String Confirmar_contrasenia1 = "Confirmar contraseña:";
     private String Correo1 = "Escriba su correo:";
     private String Cedula = "Escriba su cédula:";
+   
     private boolean passwordVisible = false;
     private boolean confirmarVisible = false;
 
@@ -83,12 +84,16 @@ public class Registro extends javax.swing.JFrame {
         initComponents();
         GlassPanePopup.install(this);
 
+        //Instanciar la cédula como "No editable":
+        txtCedula.setEnabled(false);
+
+        
         //Método para llamar al Hypervínculo:
         initMoving();
 
-        //Llamar a los métodos de Provincia y Género:
-        llenarProvincias();
-        llenarGeneros();
+        //Llamar a los métodos de Nacionalidad y Género:
+        cargarGeneros();
+        cargarNacionalidades();
 
         //Darle fuentes al hypervínculo:
         IniciarSesión.setForeground(new Color(52, 152, 219));
@@ -107,7 +112,6 @@ public class Registro extends javax.swing.JFrame {
         txtCorreo1.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         jComboBox2.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         jComboBox3.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        jComboBox4.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         Dueño.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         Click.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         txtCedula.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
@@ -226,6 +230,7 @@ public class Registro extends javax.swing.JFrame {
             }
         });
     }
+    
     //PlaceHolder para la contraseña:
 
     private void ponerPlaceholderPassword(JPasswordField campo, String textoPorDefecto) {
@@ -252,116 +257,7 @@ public class Registro extends javax.swing.JFrame {
                 }
             }
         });
-    }
-
-    //Método para llenar el ComboBox de Provincias:
-    private void llenarProvincias() {
-        String sql = "SELECT nombre FROM provincias ORDER BY nombre";
-
-        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
-
-            jComboBox2.removeAllItems();
-
-            jComboBox2.addItem("Seleccione provincia");
-
-            while (rs.next()) {
-                jComboBox2.addItem(rs.getString("nombre"));
-            }
-
-            jComboBox2.setSelectedIndex(0);
-
-            jComboBox2.setRenderer(new DefaultListCellRenderer() {
-                @Override
-                public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                        boolean isSelected, boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-                    if (index == -1 && "Seleccione provincia".equals(value)) {
-                        setForeground(Color.GRAY);
-                    } else {
-                        setForeground(Color.BLACK);
-                    }
-                    return this;
-                }
-            });
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar provincias: " + e.getMessage());
-        }
-    }
-
-    //Método para llenar los cantones por provincia:
-    private void llenarCantones(String nombreProvincia) {
-        String sql = "SELECT c.nombre FROM cantones c JOIN provincias p ON c.provincia_id = p.id WHERE p.nombre = ? ORDER BY c.nombre";
-
-        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, nombreProvincia);
-            ResultSet rs = ps.executeQuery();
-
-            jComboBox4.removeAllItems();
-            jComboBox4.addItem("Seleccione cantón");
-
-            while (rs.next()) {
-                jComboBox4.addItem(rs.getString("nombre"));
-            }
-
-            jComboBox4.setSelectedIndex(0);
-
-            // Aquí el renderer como antes
-            jComboBox4.setRenderer(new DefaultListCellRenderer() {
-                @Override
-                public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                        boolean isSelected, boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (index == -1 && "Seleccione cantón".equals(value)) {
-                        setForeground(Color.GRAY);
-                    } else {
-                        setForeground(Color.BLACK);
-                    }
-                    return this;
-                }
-            });
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar cantones: " + e.getMessage());
-        }
-    }
-
-    //Método para llenar el ComboBox de Género:
-    private void llenarGeneros() {
-        String sql = "SELECT nombre FROM generos ORDER BY nombre";
-
-        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
-
-            jComboBox3.removeAllItems();
-
-            // Placeholder
-            jComboBox3.addItem("Seleccione género");
-
-            while (rs.next()) {
-                jComboBox3.addItem(rs.getString("nombre"));
-            }
-
-            jComboBox3.setSelectedIndex(0);
-
-            jComboBox3.setRenderer(new DefaultListCellRenderer() {
-                @Override
-                public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                        boolean isSelected, boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (index == -1 && "Seleccione género".equals(value)) {
-                        setForeground(Color.GRAY);
-                    } else {
-                        setForeground(Color.BLACK);
-                    }
-                    return this;
-                }
-            });
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar géneros: " + e.getMessage());
-        }
+        
     }
 
     //Getters y Setters para los botones:
@@ -387,14 +283,6 @@ public class Registro extends javax.swing.JFrame {
 
     public void setjComboBox3(JComboBox<String> jComboBox3) {
         this.jComboBox3 = jComboBox3;
-    }
-
-    public JComboBox<String> getjComboBox4() {
-        return jComboBox4;
-    }
-
-    public void setjComboBox4(JComboBox<String> jComboBox4) {
-        this.jComboBox4 = jComboBox4;
     }
 
     public JTextField getTxtCedula() {
@@ -440,12 +328,60 @@ public class Registro extends javax.swing.JFrame {
         txtContraseña.setText("");
         txtConfirmarContraseña.setText("");
         jComboBox2.setSelectedIndex(0);
-        jComboBox4.setSelectedIndex(0);
         jComboBox3.setSelectedIndex(0);
     }
 
     public void setControlador(ControladorRegistro controlador) {
         this.controlador = controlador;
+
+    }
+
+    private void cargarGeneros() {
+        jComboBox3.removeAllItems();
+
+        String[] generos = {
+            "Seleccione género",
+            "Masculino",
+            "Femenino",
+            "Otro",};
+
+        for (String genero : generos) {
+            jComboBox3.addItem(genero);
+        }
+
+        jComboBox3.setSelectedIndex(0);
+    }
+
+    private void cargarNacionalidades() {
+        jComboBox2.removeAllItems();
+        jComboBox2.addItem("Seleccione nacionalidad");
+
+        String[] nacionalidades = {
+            "Afgana", "Alemana", "Andorrana", "Angoleña", "Antiguana", "Aparecida", "Arabe Saudita", "Argelina", "Argentina", "Armenia",
+            "Australiana", "Austríaca", "Azerbaiyana", "Bahameña", "Bahreiní", "Bangladesí", "Barbadense", "Belga", "Beliceña", "Beninesa",
+            "Bielorrusa", "Birmana", "Boliviana", "Bosnia", "Botsuana", "Brasileña", "Bruneana", "Búlgara", "Burkinesa", "Burundesa",
+            "Butanesa", "Cabo Verdiana", "Camboyana", "Camerunesa", "Canadiense", "Catarí", "Centroafricana", "Chadiana", "Checa",
+            "Chilena", "China", "Chipriota", "Colombiana", "Comorense", "Congoleña", "Costarricense", "Croata", "Cubana", "Danesa",
+            "Dominicana", "Ecuatoriana", "Egipcia", "Salvadoreña", "Emiratí", "Eritrea", "Eslovaca", "Eslovena", "Española", "Estadounidense",
+            "Estonia", "Etíope", "Filipina", "Finlandesa", "Francesa", "Gabonense", "Gambiana", "Georgiana", "Ghanesa", "Granadina",
+            "Griega", "Guatemalteca", "Guineana", "Guineana Ecuatorial", "Guineana-Bisau", "Guyana", "Haitiana", "Hondureña", "Húngara",
+            "India", "Indonesia", "Iraní", "Iraquí", "Irlandesa", "Islandesa", "Israelí", "Italiana", "Jamaicana", "Japonesa", "Jordana",
+            "Kazaja", "Keniata", "Kirguisa", "Kiribatiana", "Kuwaití", "Laosiana", "Lesotense", "Letona", "Libanesa", "Liberiana",
+            "Libia", "Liechtensteiniana", "Lituana", "Luxemburguesa", "Macedonia", "Malasia", "Malauí", "Maldiva", "Maliense", "Maltesa",
+            "Marfileña", "Marroquí", "Marshallesa", "Mauriciana", "Mauritana", "Mexicana", "Micronesia", "Moldava", "Monegasca", "Mongola",
+            "Montenegrina", "Mozambiqueña", "Namibia", "Nauruana", "Nepalí", "Nicaragüense", "Nigeriana", "Nigerina", "Norcoreana",
+            "Noruega", "Neozelandesa", "Omana", "Paquistaní", "Palaosiana", "Panameña", "Papú", "Paraguaya", "Peruana", "Polaca",
+            "Portuguesa", "Qatarí", "Reino Unido", "Centroafricana", "Rumana", "Rusa", "Ruandesa", "Samoana", "San Cristóbal y Nieves",
+            "Sanvicentina", "Santalucense", "Samoana", "Sanmarinense", "Santomense", "Senegalesa", "Serbia", "Seychellense", "Sierraleonesa",
+            "Singapurense", "Siria", "Somalí", "Sri Lanka", "Suazi", "Sudafricana", "Sudanesa", "Sueca", "Suiza", "Surcoreana",
+            "Surinamesa", "Tailandesa", "Tanzana", "Tayika", "Timorense", "Togolesa", "Tongana", "Trinitense", "Tunecina", "Turca",
+            "Turcomana", "Tuvaluana", "Ucraniana", "Ugandesa", "Uruguaya", "Uzbeca", "Vanuatuense", "Venezolana", "Vietnamita",
+            "Yemení", "Yibutiana", "Zambiana", "Zimbabuense", "Otra"
+        };
+
+        for (String nacionalidad : nacionalidades) {
+            jComboBox2.addItem(nacionalidad);
+        }
     }
 
     /**
@@ -476,8 +412,6 @@ public class Registro extends javax.swing.JFrame {
         btn_Guardar =  new RoundedButton("");
         Dueño = new javax.swing.JLabel();
         Click = new javax.swing.JLabel();
-        jComboBox4 = new Combobox<>(new String[] {});
-        ;
         txtCedula = new RoundedTextField1(20);
         jButton3 = new javax.swing.JButton();
         txtContraseña = new RoundedPasswordField(20);
@@ -544,7 +478,7 @@ public class Registro extends javax.swing.JFrame {
                 txtCorreo1ActionPerformed(evt);
             }
         });
-        jPanel2.add(txtCorreo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 250, 44));
+        jPanel2.add(txtCorreo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, 250, 44));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
         jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -553,7 +487,7 @@ public class Registro extends javax.swing.JFrame {
                 jComboBox2ActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 260, 250, 44));
+        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 250, 44));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/question (2).png"))); // NOI18N
         jButton1.setBorderPainted(false);
@@ -574,111 +508,104 @@ public class Registro extends javax.swing.JFrame {
         IniciarSesión.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel2.add(IniciarSesión, new org.netbeans.lib.awtextra.AbsoluteConstraints(402, 78, -1, -1));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 250, 44));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Masculino",
+            "Femenino",
+            "Otro"}));
+jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBox3ActionPerformed(evt);
+    }
+    });
+    jPanel2.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, 250, 44));
 
-        btn_Guardar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_Guardar.setText("Crear Cuenta");
-        btn_Guardar.setBorderPainted(false);
-        btn_Guardar.setContentAreaFilled(false);
-        btn_Guardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_Guardar.setFocusPainted(false);
-        btn_Guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_GuardarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 440, 190, -1));
+    btn_Guardar.setForeground(new java.awt.Color(255, 255, 255));
+    btn_Guardar.setText("Crear Cuenta");
+    btn_Guardar.setBorderPainted(false);
+    btn_Guardar.setContentAreaFilled(false);
+    btn_Guardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    btn_Guardar.setFocusPainted(false);
+    btn_Guardar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_GuardarActionPerformed(evt);
+        }
+    });
+    jPanel2.add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 440, 190, -1));
 
-        Dueño.setText("¿Eres dueño de un Negocio?");
-        jPanel2.add(Dueño, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, -1, -1));
+    Dueño.setText("¿Eres dueño de un Negocio?");
+    jPanel2.add(Dueño, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, -1, -1));
 
-        Click.setText("Clik Aquí.");
-        Click.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel2.add(Click, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 400, -1, -1));
+    Click.setText("Clik Aquí.");
+    Click.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    jPanel2.add(Click, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 400, -1, -1));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
-        jComboBox4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox4ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 250, 44));
+    txtCedula.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    txtCedula.setText("Cédula:");
+    jPanel2.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 250, 44));
 
-        txtCedula.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtCedula.setText("Cédula:");
-        jPanel2.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 250, 44));
+    jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png"))); // NOI18N
+    jButton3.setBorderPainted(false);
+    jButton3.setContentAreaFilled(false);
+    jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    jButton3.setFocusPainted(false);
+    jButton3.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton3ActionPerformed(evt);
+        }
+    });
+    jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 40, 20));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png"))); // NOI18N
-        jButton3.setBorderPainted(false);
-        jButton3.setContentAreaFilled(false);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.setFocusPainted(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 204, 40, 20));
+    txtContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    jPanel2.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 250, 44));
 
-        txtContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel2.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 250, 44));
+    jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png"))); // NOI18N
+    jButton4.setBorderPainted(false);
+    jButton4.setContentAreaFilled(false);
+    jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    jButton4.setFocusPainted(false);
+    jButton4.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton4ActionPerformed(evt);
+        }
+    });
+    jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 270, 40, 20));
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hidden (1).png"))); // NOI18N
-        jButton4.setBorderPainted(false);
-        jButton4.setContentAreaFilled(false);
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.setFocusPainted(false);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(618, 204, 40, 20));
+    txtConfirmarContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    jPanel2.add(txtConfirmarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 260, 250, 44));
 
-        txtConfirmarContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel2.add(txtConfirmarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, 250, 44));
+    jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 710, 500));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 710, 500));
+    jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Copilot_20250610_114322 (3).png"))); // NOI18N
+    jButton2.setBorderPainted(false);
+    jButton2.setContentAreaFilled(false);
+    jButton2.setFocusPainted(false);
+    jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 12, 60, 70));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Copilot_20250610_114322 (3).png"))); // NOI18N
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jButton2.setFocusPainted(false);
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 12, 60, 70));
+    Huellas.setForeground(new java.awt.Color(255, 255, 255));
+    Huellas.setText("Huellas ");
+    jPanel1.add(Huellas, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 30, -1, -1));
 
-        Huellas.setForeground(new java.awt.Color(255, 255, 255));
-        Huellas.setText("Huellas ");
-        jPanel1.add(Huellas, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 30, -1, -1));
+    Cuencanas.setForeground(new java.awt.Color(255, 255, 255));
+    Cuencanas.setText("Cuencanas");
+    jPanel1.add(Cuencanas, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 47, -1, -1));
 
-        Cuencanas.setForeground(new java.awt.Color(255, 255, 255));
-        Cuencanas.setText("Cuencanas");
-        jPanel1.add(Cuencanas, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 47, -1, -1));
+    jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Atrás 2.png"))); // NOI18N
+    jButton5.setBorderPainted(false);
+    jButton5.setContentAreaFilled(false);
+    jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    jButton5.setFocusPainted(false);
+    jButton5.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton5ActionPerformed(evt);
+        }
+    });
+    jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, -1, 30));
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Atrás 2.png"))); // NOI18N
-        jButton5.setBorderPainted(false);
-        jButton5.setContentAreaFilled(false);
-        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton5.setFocusPainted(false);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, -1, 30));
+    jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Imagen Registro.png"))); // NOI18N
+    jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 620));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Imagen Registro.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 620));
+    getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 620));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 620));
-
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
@@ -703,10 +630,6 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreo1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        String provincia = (String) jComboBox2.getSelectedItem();
-        if (provincia != null && !provincia.equals("Seleccione provincia")) {
-            llenarCantones(provincia);
-        }
 
 
     }//GEN-LAST:event_jComboBox2ActionPerformed
@@ -720,10 +643,6 @@ public class Registro extends javax.swing.JFrame {
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox3ActionPerformed
-
-    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox4ActionPerformed
 
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
         controlador.registrarPersona(true);
@@ -816,7 +735,6 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

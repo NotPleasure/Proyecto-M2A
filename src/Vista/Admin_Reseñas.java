@@ -45,7 +45,6 @@ public class Admin_Reseñas extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jButton1 = new RoundedButtonLugar("");
-        jButton2 = new RoundedButtonAdmin("Entrar");
         jButton3 = new RoundedButtonLugar("Entrar");
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -136,15 +135,6 @@ public class Admin_Reseñas extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 180, 50));
-
-        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton2.setText("Tablero");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 180, 50));
 
         jButton3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton3.setText("Lugares");
@@ -414,11 +404,6 @@ public class Admin_Reseñas extends javax.swing.JFrame {
         miPanel.setVisible(true);
         this.dispose();    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    Admin_Panel miPanel = new Admin_Panel();
-        miPanel.setVisible(true);
-        this.dispose();    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Admin_Lugares miPanel = new Admin_Lugares();
         miPanel.setVisible(true);
@@ -494,7 +479,6 @@ public class Admin_Reseñas extends javax.swing.JFrame {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

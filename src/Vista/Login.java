@@ -8,6 +8,8 @@ package Vista;
 import ConexionHuellasCuencanas.Seguridad;
 import javax.swing.border.Border;
 import Animations.Animator;
+import Controlador.ControladorAdministrador;
+import Controlador.ControladorLogin;
 import Controlador.ControladorRegistro;
 import Design.Message.MacOSWindowDialogFinal;
 import java.awt.Font;
@@ -16,6 +18,7 @@ import Design.RoundedBorder;
 import Design.RounderButton2;
 import Design.RoundedButton;
 import Design.RoundedPanel;
+import Modelo.Persona;
 import Modelo.PersonaDAO;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -58,8 +61,12 @@ public class Login extends javax.swing.JFrame {
 
         setOpacity(0f);
         initComponents();
-       
+
         Animator.fadeIn(this);
+
+        //Controlador de Admin:
+       Iniciar_Sesión.addActionListener(new ControladorLogin(this));
+
 
         //Método que permite que la ventana se mueva:
         initMoving();
@@ -171,6 +178,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
+
     //PlaceHolder para la contraseña:
     private void ponerPlaceholderPassword(JPasswordField campo, String textoPorDefecto) {
         campo.setEchoChar((char) 0);
@@ -216,8 +224,12 @@ public class Login extends javax.swing.JFrame {
         this.Registrarse = Registrarse;
     }
 
-    public JTextField getTxtContraseña() {
+    public JPasswordField getTxtContraseña() {
         return txtContraseña;
+    }
+
+    public void setTxtContraseña(JPasswordField txtContraseña) {
+        this.txtContraseña = txtContraseña;
     }
 
     public JTextField getTxtNombreUsuario() {
@@ -238,7 +250,7 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new Design.RoundedPanel();
+        jPanel2 = new RoundedPanel();
         jButton7 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         txtNombreUsuario = new javax.swing.JTextField();
@@ -406,28 +418,6 @@ public class Login extends javax.swing.JFrame {
 
     private void Iniciar_SesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Iniciar_SesiónActionPerformed
 
-        System.out.println("Usuario: '" + txtNombreUsuario.getText().trim() + "'");
-        System.out.println("Contraseña: '" + txtContraseña.getText().trim() + "'");
-
-        String usuario = txtNombreUsuario.getText().trim();
-        String contraseña = new String(txtContraseña.getPassword());
-
-        if (usuario.isEmpty() || usuario.equals("Nombre de usuario")
-                || contraseña.isEmpty() || contraseña.equals("Contraseña")) {
-            JOptionPane.showMessageDialog(this, "Por favor, rellena todos los campos.");
-            return;
-        }
-        PersonaDAO personaDAO = new PersonaDAO();
-
-        if (personaDAO.validarLogin(usuario, contraseña)) {
-            Animator.fadeOut(this, () -> {
-                Ventana_Principal miR = new Ventana_Principal(usuario);
-                Animator.fadeIn(miR);
-                this.dispose();
-            });
-        } else {
-            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
-        }
 
     }//GEN-LAST:event_Iniciar_SesiónActionPerformed
 

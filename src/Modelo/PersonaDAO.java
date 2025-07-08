@@ -20,57 +20,51 @@ import org.mindrot.jbcrypt.BCrypt;
 public class PersonaDAO {
 
     public boolean insertar(Persona p) {
-        RolDAO rolDAO = new RolDAO();
-        int rolId = rolDAO.obtenerIdRolPorNombre("USUARIO_PRINCIPAL");
-        if (rolId == -1) {
-            JOptionPane.showMessageDialog(null, "No existe el rol USUARIO_PRINCIPAL.");
-            return false;
-        }
+        String sql = "INSERT INTO persona (cedula, usuario, correo, contrasena, nacionalidad, genero, nombres, apellidos, fecha_nacimiento, icono, sobre_mi, rol_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id_persona";
 
-        String sql = "INSERT INTO persona "
-                + "(cedula, usuario, correo, contraseña, "
-                + "provincia, canton, genero, nombres, "
-                + "apellidos, fecha_nacimiento, sobre_mi, rol_id) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            System.out.println("Usuario seteado: " + p.getUsuario());
 
             ps.setString(1, p.getCedula());
             ps.setString(2, p.getUsuario());
             ps.setString(3, p.getCorreo());
-            ps.setString(4, p.getContraseña());
-            ps.setString(5, p.getProvincia());
-            ps.setString(6, p.getCanton());
-            ps.setString(7, p.getGenero());
-            ps.setString(8, p.getNombres());
-            ps.setString(9, p.getApellidos());
+            ps.setString(4, p.getContrasena());
+            ps.setString(5, p.getNacionalidad());
+            ps.setString(6, p.getGenero());
+            ps.setString(7, p.getNombres());
+            ps.setString(8, p.getApellidos());
             if (p.getFechaNacimiento() != null) {
-                ps.setDate(10, Date.valueOf(p.getFechaNacimiento()));
+                ps.setDate(9, java.sql.Date.valueOf(p.getFechaNacimiento()));
             } else {
-                ps.setNull(10, Types.DATE);
+                ps.setDate(9, null);
             }
+            ps.setBytes(10, p.getIcono());
             ps.setString(11, p.getSobreMi());
-            ps.setInt(12, rolId);
+            ps.setInt(12, p.getRolId());
 
-            ps.executeUpdate();
-            return true;
-
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int idGenerado = rs.getInt(1);
+                p.setIdPersona(idGenerado);
+                return true;
+            }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Error al insertar Persona:\n" + e.getMessage(),
-                    "Error SQL",
-                    JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     public boolean existeCedula(String cedula) {
+        if (cedula == null || cedula.isBlank()) {
+            return false;
+        }
         String sql = "SELECT 1 FROM persona WHERE cedula = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, cedula);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
+            try ( ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -101,21 +95,50 @@ public class PersonaDAO {
         }
     }
 
-    public boolean validarLogin(String usuario, String contraseña) {
-        String sql = "SELECT contraseña FROM persona WHERE usuario = ?";
-        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
+    public Persona obtenerPersonaPorCredenciales(String usuario, String contraseña) {
+        String sql
+                = "SELECT p.id_persona, p.cedula, p.usuario, p.correo, "
+                + "p.contrasena, p.nacionalidad, p.genero, p.nombres, "
+                + "p.apellidos, p.fecha_nacimiento, p.sobre_mi, p.icono, p.rol_id "
+                + "FROM persona p "
+                + "WHERE p.usuario = ? "
+                + "ORDER BY p.id_persona";
+
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, usuario);
-            ResultSet rs = ps.executeQuery();
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String hash = rs.getString("contrasena");
+                    if (!BCrypt.checkpw(contraseña, hash)) {
+                        return null;
+                    }
 
-            if (rs.next()) {
-                String hashGuardado = rs.getString("contraseña");
-                return BCrypt.checkpw(contraseña, hashGuardado);
+                    Persona p = new Persona();
+                    p.setIdPersona(rs.getInt("id_persona"));
+                    p.setCedula(rs.getString("cedula"));
+                    p.setUsuario(rs.getString("usuario"));
+                    p.setCorreo(rs.getString("correo"));
+                    p.setContrasena(hash);
+                    p.setNacionalidad(rs.getString("nacionalidad"));
+                    p.setGenero(rs.getString("genero"));
+                    p.setNombres(rs.getString("nombres"));
+                    p.setApellidos(rs.getString("apellidos"));
+
+                    Date fecha = rs.getDate("fecha_nacimiento");
+                    p.setFechaNacimiento(fecha != null ? fecha.toLocalDate() : null);
+
+                    p.setSobreMi(rs.getString("sobre_mi"));
+                    p.setIcono(rs.getBytes("icono"));
+                    p.setRolId(rs.getInt("rol_id"));
+
+                    return p;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     public boolean actualizarContrasenia(String email, String nuevaContraseniaHash) {
@@ -133,96 +156,221 @@ public class PersonaDAO {
     //CRUD:
     public List<Persona> listarTodas() {
         List<Persona> lista = new ArrayList<>();
-        String sql = "SELECT * FROM persona";
+
+        String sql
+                = "SELECT p.id_persona, p.cedula, p.usuario, p.correo, "
+                + "p.contrasena, p.nacionalidad, p.genero, p.nombres, "
+                + "p.apellidos, p.fecha_nacimiento, p.sobre_mi, p.icono, p.rol_id "
+                + "FROM persona p "
+                + "ORDER BY p.id_persona";
+
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Persona p = new Persona();
+                p.setIdPersona(rs.getInt("id_persona"));
                 p.setCedula(rs.getString("cedula"));
                 p.setUsuario(rs.getString("usuario"));
                 p.setCorreo(rs.getString("correo"));
-                p.setContraseña(rs.getString("contraseña"));
-                p.setProvincia(rs.getString("provincia"));
-                p.setCanton(rs.getString("canton"));
+                p.setContrasena(rs.getString("contrasena"));
+                p.setNacionalidad(rs.getString("nacionalidad"));
                 p.setGenero(rs.getString("genero"));
                 p.setNombres(rs.getString("nombres"));
                 p.setApellidos(rs.getString("apellidos"));
-                p.setFechaNacimiento(rs.getDate("fecha_nacimiento") != null
-                        ? rs.getDate("fecha_nacimiento").toLocalDate() : null);
+                Date fecha = rs.getDate("fecha_nacimiento");
+                p.setFechaNacimiento(fecha != null
+                        ? fecha.toLocalDate()
+                        : null);
                 p.setSobreMi(rs.getString("sobre_mi"));
+                p.setIcono(rs.getBytes("icono"));
                 p.setRolId(rs.getInt("rol_id"));
+
                 lista.add(p);
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    public boolean eliminar(int idPersona) {
+        String sql = "DELETE FROM persona WHERE id_persona = ?";
+        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idPersona);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean actualizar(Persona p) {
+        String sql = "UPDATE persona SET "
+                + "cedula = ?, usuario = ?, correo = ?, contrasena = ?, "
+                + "nacionalidad = ?, genero = ?, nombres = ?, apellidos = ?, "
+                + "fecha_nacimiento = ?, icono = ?, sobre_mi = ?, rol_id = ? "
+                + "WHERE id_persona = ?";
+
+        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, p.getCedula());
+            ps.setString(2, p.getUsuario());
+            ps.setString(3, p.getCorreo());
+            ps.setString(4, p.getContrasena());
+            ps.setString(5, p.getNacionalidad());
+            ps.setString(6, p.getGenero());
+            ps.setString(7, p.getNombres());
+            ps.setString(8, p.getApellidos());
+
+            if (p.getFechaNacimiento() != null) {
+                ps.setDate(9, Date.valueOf(p.getFechaNacimiento()));
+            } else {
+                ps.setNull(9, Types.DATE);
+            }
+
+            if (p.getIcono() != null) {
+                ps.setBytes(10, p.getIcono());
+            } else {
+                ps.setNull(10, Types.BINARY);
+            }
+
+            ps.setString(11, p.getSobreMi());
+            ps.setInt(12, p.getRolId());
+            ps.setInt(13, p.getIdPersona());
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean validarLogin(String usuario, String contraseña) {
+        Persona p = obtenerPersonaPorCredenciales(usuario, contraseña);
+        return p != null;
+    }
+
+    public int contarUsuarios(String condicionRol) {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM persona";
+
+        if (condicionRol != null && !condicionRol.isEmpty()) {
+            sql += " WHERE " + condicionRol;
+        }
+
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
+    public List<Persona> buscarPorUsuarioONombre(String texto) {
+        List<Persona> lista = new ArrayList<>();
+        String sql = "SELECT p.id_persona, p.cedula, p.usuario, p.correo, "
+                + "p.contrasena, p.nacionalidad, p.genero, p.nombres, "
+                + "p.apellidos, p.fecha_nacimiento, p.sobre_mi, p.icono, p.rol_id "
+                + "FROM persona p "
+                + "WHERE p.usuario ILIKE ? "
+                + "   OR p.nombres ILIKE ? "
+                + "   OR p.apellidos ILIKE ? "
+                + "ORDER BY p.id_persona";
+
+        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
+
+            String patron = "%" + texto + "%";
+            ps.setString(1, patron);
+            ps.setString(2, patron);
+            ps.setString(3, patron);
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Persona p = new Persona();
+                    p.setIdPersona(rs.getInt("id_persona"));
+                    p.setCedula(rs.getString("cedula"));
+                    p.setUsuario(rs.getString("usuario"));
+                    p.setCorreo(rs.getString("correo"));
+                    p.setContrasena(rs.getString("contrasena"));
+                    p.setNacionalidad(rs.getString("nacionalidad"));
+                    p.setGenero(rs.getString("genero"));
+                    p.setNombres(rs.getString("nombres"));
+                    p.setApellidos(rs.getString("apellidos"));
+
+                    Date fecha = rs.getDate("fecha_nacimiento");
+                    p.setFechaNacimiento(fecha != null
+                            ? fecha.toLocalDate()
+                            : null);
+
+                    p.setSobreMi(rs.getString("sobre_mi"));
+                    p.setIcono(rs.getBytes("icono"));
+                    p.setRolId(rs.getInt("rol_id"));
+
+                    lista.add(p);
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return lista;
     }
 
-    public Persona leer(String cedula) {
-        String sql = "SELECT * FROM persona WHERE cedula = ?";
+    public boolean actualizarRol(int idPersona, int nuevoRolId) {
+        String sql = "UPDATE persona SET rol_id = ? WHERE id_persona = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, cedula);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Persona p = new Persona();
-                p.setCedula(rs.getString("cedula"));
-                p.setUsuario(rs.getString("usuario"));
-                p.setCorreo(rs.getString("correo"));
-                p.setContraseña(rs.getString("contraseña"));
-                p.setProvincia(rs.getString("provincia"));
-                p.setCanton(rs.getString("canton"));
-                p.setGenero(rs.getString("genero"));
-                p.setNombres(rs.getString("nombres"));
-                p.setApellidos(rs.getString("apellidos"));
-                p.setFechaNacimiento(rs.getDate("fecha_nacimiento") != null
-                        ? rs.getDate("fecha_nacimiento").toLocalDate() : null);
-                p.setSobreMi(rs.getString("sobre_mi"));
-                p.setRolId(rs.getInt("rol_id"));
-                return p;
+
+            ps.setInt(1, nuevoRolId);
+            ps.setInt(2, idPersona);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Persona leerPorId(int idPersona) {
+        String sql = "SELECT p.id_persona, p.cedula, p.usuario, p.correo, "
+                + "p.contrasena, p.nacionalidad, p.genero, p.nombres, "
+                + "p.apellidos, p.fecha_nacimiento, p.sobre_mi, p.icono, p.rol_id "
+                + "FROM persona p WHERE p.id_persona = ?";
+
+        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idPersona);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Persona p = new Persona();
+                    p.setIdPersona(rs.getInt("id_persona"));
+                    p.setCedula(rs.getString("cedula"));
+                    p.setUsuario(rs.getString("usuario"));
+                    p.setCorreo(rs.getString("correo"));
+                    p.setContrasena(rs.getString("contrasena"));
+                    p.setNacionalidad(rs.getString("nacionalidad"));
+                    p.setGenero(rs.getString("genero"));
+                    p.setNombres(rs.getString("nombres"));
+                    p.setApellidos(rs.getString("apellidos"));
+                    Date fecha = rs.getDate("fecha_nacimiento");
+                    p.setFechaNacimiento(fecha != null ? fecha.toLocalDate() : null);
+                    p.setSobreMi(rs.getString("sobre_mi"));
+                    p.setIcono(rs.getBytes("icono"));
+                    p.setRolId(rs.getInt("rol_id"));
+                    return p;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public boolean actualizar(Persona p) {
-        String sql = "UPDATE persona SET usuario = ?, correo = ?, provincia = ?, canton = ?, genero = ?, nombres = ?, apellidos = ?, fecha_nacimiento = ?, sobre_mi = ?, rol_id = ? WHERE cedula = ?";
-        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, p.getUsuario());
-            ps.setString(2, p.getCorreo());
-            ps.setString(3, p.getProvincia());
-            ps.setString(4, p.getCanton());
-            ps.setString(5, p.getGenero());
-            ps.setString(6, p.getNombres());
-            ps.setString(7, p.getApellidos());
-            if (p.getFechaNacimiento() != null) {
-                ps.setDate(8, Date.valueOf(p.getFechaNacimiento()));
-            } else {
-                ps.setNull(8, Types.DATE);
-            }
-            ps.setString(9, p.getSobreMi());
-            ps.setInt(10, p.getRolId());
-            ps.setString(11, p.getCedula());
-
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean eliminar(String cedula) {
-        String sql = "DELETE FROM persona WHERE cedula = ?";
-        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, cedula);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
 }

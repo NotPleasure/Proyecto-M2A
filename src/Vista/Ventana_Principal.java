@@ -30,7 +30,7 @@ import Design.RoundedButtonReOscuro;
 import Design.RoundedPanel;
 import Design.RoundedPannelGris;
 import Design.RounderButton2;
-import Prueba.Animator1;
+import Animations.Animator1;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;

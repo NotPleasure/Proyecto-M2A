@@ -4,12 +4,16 @@
  */
 package Vista;
 
+import Animations.Animator;
 import ConexionHuellasCuencanas.ConexionHuellasCuencanas;
+import Controlador.ControladorLogin;
 import Controlador.ControladorRegistro;
+import Controlador.ControladorSuperUsuario;
 import Design.ComboBox.Combobox;
 import Design.RoundedButton;
 import Design.RoundedPanel;
 import Design.RoundedPasswordField;
+import Design.RoundedTextArea;
 import Design.RoundedTextField1;
 import java.awt.Color;
 import java.awt.Component;
@@ -24,36 +28,51 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import raven.glasspanepopup.GlassPanePopup;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusAdapter;
 
 /**
  *
  * @author USER
  */
 public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
-    //Variables para el placeholder:
 
+    //Variables para el placeholder:
+    private String descripcionPlaceholder = "Escriba una descripción del negocio...";
     private String Nombre_de_Usuario1 = "Nombre de usuario:";
     private String Correo_electronico1 = "Correo electronico:";
     private String Contrasenia1 = "Contraseña:";
     private String Confirmar_contrasenia1 = "Confirmar contraseña:";
     private String Correo1 = "Escriba su correo:";
     private String Cedula = "Escriba su cédula:";
+    private String NombreNegocio = "Escriba el nombre de su negocio";
+    private String Direccion = "Escriba la direccion de su negocio";
+
     private boolean passwordVisible = false;
     private boolean confirmarVisible = false;
+    private boolean ventanaCargada = false;
 
-    private ControladorRegistro controlador;
+    private ControladorSuperUsuario controladorSuperUsuario;
 
     /**
      * Creates new form Ventana_Registro_SuperUsuario
      */
     public Ventana_Registro_SuperUsuario() {
+
         initComponents();
 
-        //Llenar géneros y provincias:
-        llenarProvincias();
-        llenarGeneros();
+        controladorSuperUsuario = new ControladorSuperUsuario(this);
+        
+        //Llenar géneros, nacionalidades,cargos:
+        cargarCargos();
+        cargarGeneros();
+        cargarNacionalidades();
+
+        //Instanciar la cédula como "No editable":
+        txtCedula.setEnabled(false);
 
         //Fuentes
         Huellas.setFont(new Font("Open Sans Bold", Font.PLAIN, 13));
@@ -61,15 +80,16 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
         Catedral.setFont(new Font("CocogooseProTrial", Font.PLAIN, 35));
         Yatienes.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         IniciarSesión.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        txtContraseña.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        txtConfirmarContraseña.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
+        txtNombredeNegocio.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
+        txtDireccion.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         btn_Guardar.setFont(new Font("Caviar Dreams Bold", Font.PLAIN, 15));
         txtNombredeusuario2.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         txtCorreo1.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         jComboBox2.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         jComboBox3.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        jComboBox4.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
         txtCedula.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
+        Cargo.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
+        Descripcion.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
 
         //Hacer redonda la ventana:
         setSize(960, 660);
@@ -80,9 +100,10 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
         ponerPlaceholder(txtNombredeusuario2, Nombre_de_Usuario1);
         ponerPlaceholder(txtCorreo1, Correo1);
         ponerPlaceholder(txtCedula, Cedula);
-        ponerPlaceholderPassword(txtContraseña, "Contraseña");
-        ponerPlaceholderPassword(txtConfirmarContraseña, "Confirmar Contraseña");
-
+        ponerPlaceholder(txtDireccion, NombreNegocio);
+        ponerPlaceholder(txtNombredeNegocio, Direccion);
+        Descripcion.setText(descripcionPlaceholder);
+        Descripcion.setForeground(Color.GRAY);
     }
 
     private void ponerPlaceholder(JTextField campo, String textoPorDefecto) {
@@ -135,6 +156,33 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
         });
     }
 
+    public void ponerPlaceholderTextArea(JTextArea area, String textoPorDefecto) {
+        area.setText(textoPorDefecto);
+        area.setForeground(Color.GRAY);
+
+        area.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                System.out.println("Focus gained!");
+                if (area.getText().equals(textoPorDefecto)) {
+                    area.setText("");
+                    area.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                System.out.println("Focus lost!");
+                if (area.getText().trim().isEmpty()) {
+                    area.setText(textoPorDefecto);
+                    area.setForeground(Color.GRAY);
+                }
+            }
+        });
+
+    }
+        
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -156,19 +204,26 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
         Yatienes = new javax.swing.JLabel();
         IniciarSesión = new javax.swing.JLabel();
         txtNombredeusuario2 = new RoundedTextField1(20);
-        txtContraseña = new RoundedPasswordField(20);
         txtCorreo1 = new RoundedTextField1(20);
         jComboBox3 = new Combobox<>(new String[]{
         })
         ;
         txtCedula = new RoundedTextField1(20);
-        txtConfirmarContraseña = new RoundedPasswordField(20);
         jComboBox2 = new Combobox<>(new String[]{
         })
         ;
-        jComboBox4 = new Combobox<>(new String[] {});
-        ;
         btn_Guardar =  new RoundedButton("");
+        Cargo = new Combobox<>(new String[]{"Administrador del negocio",
+            "Gerente",
+            "Encargado",
+            "Supervisor",
+            "Jefe de operaciones"
+        });
+        txtNombredeNegocio = new RoundedTextField1(20);
+        txtDireccion = new RoundedTextField1(20);
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Descripcion = new RoundedTextArea(5, 30);
+        jButton5 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -249,9 +304,6 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
         });
         jPanel2.add(txtNombredeusuario2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 250, 44));
 
-        txtContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel2.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 250, 44));
-
         txtCorreo1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         txtCorreo1.setForeground(new java.awt.Color(0, 0, 0));
         txtCorreo1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -261,7 +313,7 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
                 txtCorreo1ActionPerformed(evt);
             }
         });
-        jPanel2.add(txtCorreo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, 250, 44));
+        jPanel2.add(txtCorreo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 190, 250, 44));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
@@ -269,14 +321,11 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
                 jComboBox3ActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, 250, 44));
+        jPanel2.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 250, 44));
 
         txtCedula.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtCedula.setText("Cédula:");
-        jPanel2.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, 250, 44));
-
-        txtConfirmarContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel2.add(txtConfirmarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 250, 44));
+        jPanel2.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 250, 44));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
         jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -285,16 +334,7 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
                 jComboBox2ActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 250, 44));
-
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
-        jComboBox4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox4ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 340, 250, 44));
+        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, 250, 44));
 
         btn_Guardar.setForeground(new java.awt.Color(255, 255, 255));
         btn_Guardar.setText("Crear Cuenta");
@@ -309,90 +349,50 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
         });
         jPanel2.add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 480, 190, 30));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 820, 530));
+        Cargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador del negocio",
+            "Gerente",
+            "Encargado",
+            "Supervisor",
+            "Jefe de operaciones" }));
+Cargo.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        CargoActionPerformed(evt);
+    }
+    });
+    jPanel2.add(Cargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 310, 250, 44));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Imagen Registro.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 660));
+    txtNombredeNegocio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    jPanel2.add(txtNombredeNegocio, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 250, 44));
+    jPanel2.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 250, 250, 44));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 660));
+    Descripcion.setColumns(20);
+    Descripcion.setRows(5);
+    jScrollPane1.setViewportView(Descripcion);
 
-        pack();
-        setLocationRelativeTo(null);
+    jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(224, 380, 360, 80));
+
+    jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 820, 530));
+
+    jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Atrás 2.png"))); // NOI18N
+    jButton5.setBorderPainted(false);
+    jButton5.setContentAreaFilled(false);
+    jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    jButton5.setFocusPainted(false);
+    jButton5.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton5ActionPerformed(evt);
+        }
+    });
+    jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 610, -1, 30));
+
+    jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Imagen Registro.png"))); // NOI18N
+    jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 660));
+
+    getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 660));
+
+    pack();
+    setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-//Método para llenar el ComboBox de Provincias:
-
-    private void llenarProvincias() {
-        String sql = "SELECT nombre FROM provincias ORDER BY nombre";
-
-        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
-
-            jComboBox2.removeAllItems();
-
-            jComboBox2.addItem("Seleccione provincia");
-
-            while (rs.next()) {
-                jComboBox2.addItem(rs.getString("nombre"));
-            }
-
-            jComboBox2.setSelectedIndex(0);
-
-            jComboBox2.setRenderer(new DefaultListCellRenderer() {
-                @Override
-                public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                        boolean isSelected, boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-                    if (index == -1 && "Seleccione provincia".equals(value)) {
-                        setForeground(Color.GRAY);
-                    } else {
-                        setForeground(Color.BLACK);
-                    }
-                    return this;
-                }
-            });
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar provincias: " + e.getMessage());
-        }
-    }
-
-    //Método para llenar los cantones por provincia:
-    private void llenarCantones(String nombreProvincia) {
-        String sql = "SELECT c.nombre FROM cantones c JOIN provincias p ON c.provincia_id = p.id WHERE p.nombre = ? ORDER BY c.nombre";
-
-        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, nombreProvincia);
-            ResultSet rs = ps.executeQuery();
-
-            jComboBox4.removeAllItems();
-            jComboBox4.addItem("Seleccione cantón");
-
-            while (rs.next()) {
-                jComboBox4.addItem(rs.getString("nombre"));
-            }
-
-            jComboBox4.setSelectedIndex(0);
-
-            // Aquí el renderer como antes
-            jComboBox4.setRenderer(new DefaultListCellRenderer() {
-                @Override
-                public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                        boolean isSelected, boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (index == -1 && "Seleccione cantón".equals(value)) {
-                        setForeground(Color.GRAY);
-                    } else {
-                        setForeground(Color.BLACK);
-                    }
-                    return this;
-                }
-            });
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar cantones: " + e.getMessage());
-        }
-    }
 
     //Método para llenar el ComboBox de Género:
     private void llenarGeneros() {
@@ -455,32 +455,12 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
         this.jComboBox3 = jComboBox3;
     }
 
-    public JComboBox<String> getjComboBox4() {
-        return jComboBox4;
-    }
-
-    public void setjComboBox4(JComboBox<String> jComboBox4) {
-        this.jComboBox4 = jComboBox4;
-    }
-
     public JTextField getTxtCedula() {
         return txtCedula;
     }
 
     public void setTxtCedula(JTextField txtCedula) {
         this.txtCedula = txtCedula;
-    }
-
-    public JPasswordField getTxtConfirmarContraseña() {
-        return txtConfirmarContraseña;
-    }
-
-    public void setTxtConfirmarContraseña(JPasswordField txtConfirmarContraseña) {
-        this.txtConfirmarContraseña = txtConfirmarContraseña;
-    }
-
-    public JPasswordField getTxtContraseña() {
-        return txtContraseña;
     }
 
     public JTextField getTxtCorreo1() {
@@ -499,21 +479,121 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
         this.txtNombredeusuario2 = txtNombredeusuario2;
     }
 
+    public JComboBox<String> getCargo() {
+        return Cargo;
+    }
+
+    public void setCargo(JComboBox<String> Cargo) {
+        this.Cargo = Cargo;
+    }
+
+    public JTextField getTxtDireccion() {
+        return txtDireccion;
+    }
+
+    public void setTxtDireccion(JTextField txtDireccion) {
+        this.txtDireccion = txtDireccion;
+    }
+
+    public JTextField getTxtNombredeNegocio() {
+        return txtNombredeNegocio;
+    }
+
+    public void setTxtNombredeNegocio(JTextField txtNombredeNegocio) {
+        this.txtNombredeNegocio = txtNombredeNegocio;
+    }
+
+    public JTextArea getjTextArea1() {
+        return Descripcion;
+    }
+
+    public void setjTextArea1(JTextArea jTextArea1) {
+        this.Descripcion = jTextArea1;
+    }
+
+    public JTextArea getDescripcion() {
+        return Descripcion;
+    }
+
+    public void setDescripcion(JTextArea Descripcion) {
+        this.Descripcion = Descripcion;
+    }
+
     public void limpiarFormulario() {
         txtCedula.setText("");
         txtNombredeusuario2.setText("");
         txtCorreo1.setText("");
-        txtContraseña.setText("");
-        txtConfirmarContraseña.setText("");
+        txtNombredeNegocio.setText("");
+        txtDireccion.setText("");
         jComboBox2.setSelectedIndex(0);
-        jComboBox4.setSelectedIndex(0);
         jComboBox3.setSelectedIndex(0);
     }
 
-    public void setControlador(ControladorRegistro controlador) {
-        this.controlador = controlador;
+    private void cargarCargos() {
+        Cargo.removeAllItems();
+
+        String[] cargos = {
+            "Administrador del negocio",
+            "Gerente",
+            "Encargado",
+            "Supervisor",
+            "Jefe de operaciones"
+        };
+
+        for (String cargo : cargos) {
+            Cargo.addItem(cargo);
+        }
+
+        Cargo.setSelectedIndex(-1);
     }
 
+    private void cargarGeneros() {
+        jComboBox3.removeAllItems();
+
+        String[] generos = {
+            "Seleccione género",
+            "Masculino",
+            "Femenino",
+            "Otro",};
+
+        for (String genero : generos) {
+            jComboBox3.addItem(genero);
+        }
+
+        jComboBox3.setSelectedIndex(0);
+    }
+
+    private void cargarNacionalidades() {
+        jComboBox2.removeAllItems();
+        jComboBox2.addItem("Seleccione nacionalidad");
+
+        String[] nacionalidades = {
+            "Afgana", "Alemana", "Andorrana", "Angoleña", "Antiguana", "Aparecida", "Arabe Saudita", "Argelina", "Argentina", "Armenia",
+            "Australiana", "Austríaca", "Azerbaiyana", "Bahameña", "Bahreiní", "Bangladesí", "Barbadense", "Belga", "Beliceña", "Beninesa",
+            "Bielorrusa", "Birmana", "Boliviana", "Bosnia", "Botsuana", "Brasileña", "Bruneana", "Búlgara", "Burkinesa", "Burundesa",
+            "Butanesa", "Cabo Verdiana", "Camboyana", "Camerunesa", "Canadiense", "Catarí", "Centroafricana", "Chadiana", "Checa",
+            "Chilena", "China", "Chipriota", "Colombiana", "Comorense", "Congoleña", "Costarricense", "Croata", "Cubana", "Danesa",
+            "Dominicana", "Ecuatoriana", "Egipcia", "Salvadoreña", "Emiratí", "Eritrea", "Eslovaca", "Eslovena", "Española", "Estadounidense",
+            "Estonia", "Etíope", "Filipina", "Finlandesa", "Francesa", "Gabonense", "Gambiana", "Georgiana", "Ghanesa", "Granadina",
+            "Griega", "Guatemalteca", "Guineana", "Guineana Ecuatorial", "Guineana-Bisau", "Guyana", "Haitiana", "Hondureña", "Húngara",
+            "India", "Indonesia", "Iraní", "Iraquí", "Irlandesa", "Islandesa", "Israelí", "Italiana", "Jamaicana", "Japonesa", "Jordana",
+            "Kazaja", "Keniata", "Kirguisa", "Kiribatiana", "Kuwaití", "Laosiana", "Lesotense", "Letona", "Libanesa", "Liberiana",
+            "Libia", "Liechtensteiniana", "Lituana", "Luxemburguesa", "Macedonia", "Malasia", "Malauí", "Maldiva", "Maliense", "Maltesa",
+            "Marfileña", "Marroquí", "Marshallesa", "Mauriciana", "Mauritana", "Mexicana", "Micronesia", "Moldava", "Monegasca", "Mongola",
+            "Montenegrina", "Mozambiqueña", "Namibia", "Nauruana", "Nepalí", "Nicaragüense", "Nigeriana", "Nigerina", "Norcoreana",
+            "Noruega", "Neozelandesa", "Omana", "Paquistaní", "Palaosiana", "Panameña", "Papú", "Paraguaya", "Peruana", "Polaca",
+            "Portuguesa", "Qatarí", "Reino Unido", "Centroafricana", "Rumana", "Rusa", "Ruandesa", "Samoana", "San Cristóbal y Nieves",
+            "Sanvicentina", "Santalucense", "Samoana", "Sanmarinense", "Santomense", "Senegalesa", "Serbia", "Seychellense", "Sierraleonesa",
+            "Singapurense", "Siria", "Somalí", "Sri Lanka", "Suazi", "Sudafricana", "Sudanesa", "Sueca", "Suiza", "Surcoreana",
+            "Surinamesa", "Tailandesa", "Tanzana", "Tayika", "Timorense", "Togolesa", "Tongana", "Trinitense", "Tunecina", "Turca",
+            "Turcomana", "Tuvaluana", "Ucraniana", "Ugandesa", "Uruguaya", "Uzbeca", "Vanuatuense", "Venezolana", "Vietnamita",
+            "Yemení", "Yibutiana", "Zambiana", "Zimbabuense", "Otra"
+        };
+
+        for (String nacionalidad : nacionalidades) {
+            jComboBox2.addItem(nacionalidad);
+        }
+    }
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         this.setState(Registro.ICONIFIED);
@@ -545,20 +625,29 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        String provincia = (String) jComboBox2.getSelectedItem();
-        if (provincia != null && !provincia.equals("Seleccione provincia")) {
-            llenarCantones(provincia);
-        }
+
 
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox4ActionPerformed
-
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
-        controlador.registrarPersona(true);
+       controladorSuperUsuario.registrarSuperUsuario(true);
+
+
     }//GEN-LAST:event_btn_GuardarActionPerformed
+
+    private void CargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargoActionPerformed
+
+
+    }//GEN-LAST:event_CargoActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Animator.fadeOut(this, () -> {
+            Login miR = new Login();
+            ControladorLogin controladorLogin = new ControladorLogin(miR);
+            Animator.fadeIn(miR);
+        });
+
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -594,28 +683,35 @@ public class Ventana_Registro_SuperUsuario extends javax.swing.JFrame {
             }
         });
     }
-
+ public boolean isVentanaCargada() {
+             System.out.println("Ventana cargada completamente");
+        return ventanaCargada;
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Cargo;
     private javax.swing.JLabel Catedral;
     private javax.swing.JLabel Cuencanas;
+    private javax.swing.JTextArea Descripcion;
     private javax.swing.JLabel Huellas;
     private javax.swing.JLabel IniciarSesión;
     private javax.swing.JLabel Yatienes;
     private javax.swing.JButton btn_Guardar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtCedula;
-    private javax.swing.JPasswordField txtConfirmarContraseña;
-    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtCorreo1;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtNombredeNegocio;
     private javax.swing.JTextField txtNombredeusuario2;
     // End of variables declaration//GEN-END:variables
 }

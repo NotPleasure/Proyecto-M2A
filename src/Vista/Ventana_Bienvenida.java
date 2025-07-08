@@ -21,24 +21,23 @@ public class Ventana_Bienvenida extends javax.swing.JFrame {
      * Creates new form Ventana_Bienvenida
      */
     public Ventana_Bienvenida() {
-              setUndecorated(true);
+        setUndecorated(true);
 
         setOpacity(0f);
         initComponents();
-     //Darle bordes redondeados a la ventana:
+        //Darle bordes redondeados a la ventana:
         setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 60, 60));
-        
+
         //Fuentes:
-         Huellas.setFont(new Font("Open Sans Bold", Font.PLAIN, 11));
+        Huellas.setFont(new Font("Open Sans Bold", Font.PLAIN, 11));
         Cuencanas.setFont(new Font("Open Sans", Font.PLAIN, 11));
         Descubra.setFont(new Font("CocogooseProTrial", Font.PLAIN, 39));
-           turísticos.setFont(new Font("Caviar Dreams", Font.PLAIN, 39));
-              Explora.setFont(new Font("Caviar Dreams", Font.PLAIN, 25));
-                atractivos.setFont(new Font("Caviar Dreams", Font.PLAIN, 25));
-                ciudad.setFont(new Font("Caviar Dreams", Font.PLAIN, 25));
-                        IniciarSesion.setFont(new Font("Open Sans", Font.PLAIN, 14));
-                        IniciarSesion1.setFont(new Font("Open Sans", Font.PLAIN, 14));
-
+        turísticos.setFont(new Font("Caviar Dreams", Font.PLAIN, 39));
+        Explora.setFont(new Font("Caviar Dreams", Font.PLAIN, 25));
+        atractivos.setFont(new Font("Caviar Dreams", Font.PLAIN, 25));
+        ciudad.setFont(new Font("Caviar Dreams", Font.PLAIN, 25));
+        IniciarSesion.setFont(new Font("Open Sans", Font.PLAIN, 14));
+        IniciarSesion1.setFont(new Font("Open Sans", Font.PLAIN, 14));
 
     }
 
@@ -141,22 +140,22 @@ public class Ventana_Bienvenida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void IniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IniciarSesionActionPerformed
-    Animator.fadeOut(this, () -> {
-        Registro miR = new Registro();
-        ControladorRegistro c = new ControladorRegistro(miR);
-        miR.setControlador(c);
-        Animator.fadeIn(miR);
-    });
+        Animator.fadeOut(this, () -> {
+            Registro miR = new Registro();
+            ControladorRegistro c = new ControladorRegistro(miR);
+            miR.setControlador(c);
+            Animator.fadeIn(miR);
+        });
 
 
     }//GEN-LAST:event_IniciarSesionActionPerformed
 
     private void IniciarSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IniciarSesion1ActionPerformed
-     Animator.fadeOut(this, () -> {
-        Login miR = new Login();
-        ControladorLogin controladorLogin = new ControladorLogin(miR);
-        Animator.fadeIn(miR);
-    }); 
+        Animator.fadeOut(this, () -> {
+            Login miR = new Login();
+            ControladorLogin controladorLogin = new ControladorLogin(miR);
+            Animator.fadeIn(miR);
+        });
 
     }//GEN-LAST:event_IniciarSesion1ActionPerformed
 

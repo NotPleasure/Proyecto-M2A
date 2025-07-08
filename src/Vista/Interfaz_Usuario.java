@@ -25,7 +25,7 @@ import Design.RoundedButtonInicio;
 import Design.RoundedButtonReOscuro;
 import Design.RoundedPanelMenu;
 import Design.RoundedPanelMini;
-import Prueba.Animator1;
+import Animations.Animator1;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.io.File;

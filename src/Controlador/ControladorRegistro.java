@@ -12,6 +12,9 @@ import Modelo.Persona;
 import Modelo.PersonaDAO;
 import Vista.Registro;
 import ConexionHuellasCuencanas.Seguridad;
+import Modelo.RolDAO;
+import Modelo.Usuario;
+import Modelo.UsuarioDAO;
 import Vista.Login;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -27,6 +30,18 @@ public class ControladorRegistro implements ActionListener {
     public ControladorRegistro(Registro vista) {
         this.vista = vista;
         this.personaDAO = new PersonaDAO();
+
+        vista.getjComboBox2().addItemListener(e -> {
+            if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                String seleccion = e.getItem().toString();
+                boolean esEcuador = seleccion.equalsIgnoreCase("Ecuatoriana");
+                vista.getTxtCedula().setEnabled(esEcuador);
+                if (!esEcuador) {
+                    vista.getTxtCedula().setText("");
+                }
+            }
+        });
+
     }
 
     @Override
@@ -36,12 +51,10 @@ public class ControladorRegistro implements ActionListener {
 
     public void registrarPersona(boolean redireccionar) {
         if (vista.getTxtNombredeusuario2().getText().trim().isEmpty()
-                || vista.getTxtCedula().getText().trim().isEmpty()
                 || vista.getTxtCorreo1().getText().trim().isEmpty()
-                || vista.getTxtContraseña().getText().trim().isEmpty()
-                || vista.getTxtConfirmarContraseña().getText().trim().isEmpty()
+                || vista.getTxtContraseña().getPassword().length == 0
+                || vista.getTxtConfirmarContraseña().getPassword().length == 0
                 || vista.getjComboBox2().getSelectedItem() == null
-                || vista.getjComboBox4().getSelectedItem() == null
                 || vista.getjComboBox3().getSelectedItem() == null) {
             JOptionPane.showMessageDialog(vista, "Por favor, rellena todos los campos.");
             return;
@@ -55,21 +68,29 @@ public class ControladorRegistro implements ActionListener {
 
         String password = new String(passwordChars).trim();
         String confirmar = new String(confirmarChars).trim();
-        String provincia = vista.getjComboBox2().getSelectedItem().toString().trim();
-        String canton = vista.getjComboBox4().getSelectedItem().toString().trim();
         String genero = vista.getjComboBox3().getSelectedItem().toString().trim();
 
-        System.out.println("Provincia seleccionada: '" + provincia + "'");
-        System.out.println("Cantón seleccionado: '" + canton + "'");
-        System.out.println("Género seleccionado: '" + genero + "'");
-
-        if (!validarCedulaEcuatoriana(cedula)) {
-            JOptionPane.showMessageDialog(vista, "Cédula inválida. Ingrese una cédula ecuatoriana correcta.");
+        if (usuario.isEmpty() || usuario.equals("Nombre de usuario:")) {
+            JOptionPane.showMessageDialog(vista, "Por favor, rellena todos los campos.");
             return;
         }
-        if (personaDAO.existeCedula(cedula)) {
-            JOptionPane.showMessageDialog(vista, "Ya existe una persona con esa cédula.");
+
+        String nacionalidad = vista.getjComboBox2().getSelectedItem().toString().trim();
+        if (nacionalidad.equalsIgnoreCase("Ecuatoriana") && vista.getTxtCedula().getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(vista, "Por favor, ingrese la cédula.");
             return;
+        }
+        if (nacionalidad.equalsIgnoreCase("Ecuatoriana")) {
+            if (!validarCedulaEcuatoriana(cedula)) {
+                JOptionPane.showMessageDialog(vista, "Cédula inválida. Ingrese una cédula ecuatoriana correcta.");
+                return;
+            }
+            if (personaDAO.existeCedula(cedula)) {
+                JOptionPane.showMessageDialog(vista, "Ya existe una persona con esa cédula.");
+                return;
+            }
+        } else {
+            cedula = null;
         }
         if (usuario.isEmpty() || usuario.length() < 3) {
             JOptionPane.showMessageDialog(vista, "El nombre de usuario debe tener al menos 3 caracteres.");
@@ -99,10 +120,14 @@ public class ControladorRegistro implements ActionListener {
             JOptionPane.showMessageDialog(vista, "Ese correo ya está registrado.");
             return;
         }
-        if (provincia.trim().equalsIgnoreCase("Seleccione provincia")
-                || canton.trim().equalsIgnoreCase("Seleccione cantón")
-                || genero.trim().equalsIgnoreCase("Seleccione género")) {
-            JOptionPane.showMessageDialog(vista, "Debe seleccionar provincia, cantón y género válidos.");
+
+        if (nacionalidad.equalsIgnoreCase("Seleccione nacionalidad")) {
+            JOptionPane.showMessageDialog(vista, "Por favor, seleccione una nacionalidad válida.");
+            return;
+        }
+
+        if (genero.equalsIgnoreCase("Seleccione género")) {
+            JOptionPane.showMessageDialog(vista, "Por favor, seleccione un género válido.");
             return;
         }
 
@@ -111,28 +136,36 @@ public class ControladorRegistro implements ActionListener {
         p.setUsuario(usuario);
         p.setCorreo(correo);
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        p.setContraseña(hashedPassword);
-        p.setProvincia(provincia);
-        p.setCanton(canton);
+        p.setContrasena(hashedPassword);
+        p.setNacionalidad(nacionalidad);
         p.setGenero(genero);
         p.setNombres(null);
         p.setApellidos(null);
         p.setFechaNacimiento(null);
         p.setSobreMi(null);
+        p.setIcono(null);
+
+        RolDAO rolDAO = new RolDAO();
+        int rolId = rolDAO.obtenerIdRolPorNombre("USUARIO_PRINCIPAL");
+        p.setRolId(rolId);
 
         if (personaDAO.insertar(p)) {
-            JOptionPane.showMessageDialog(vista, "Registro exitoso.");
-            vista.limpiarFormulario();
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            Usuario u = new Usuario();
+            u.setIdPersona(p.getIdPersona());
+            if (usuarioDAO.insertar(u)) {
+                JOptionPane.showMessageDialog(vista, "Registro exitoso.");
 
-            if (redireccionar) {
                 Animator.fadeOut(vista, () -> {
                     Login login = new Login();
                     Animator.fadeIn(login);
                     vista.dispose();
                 });
+            } else {
+                JOptionPane.showMessageDialog(vista, "Error al registrar usuario.");
             }
         } else {
-            JOptionPane.showMessageDialog(vista, "Error al registrar.");
+            JOptionPane.showMessageDialog(vista, "Error al registrar persona.");
         }
     }
 

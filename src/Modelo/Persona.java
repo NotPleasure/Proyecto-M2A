@@ -1,34 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
 
 import java.time.LocalDate;
 
-/**
- *
- * @author USER
- */
 public class Persona {
 
+    private int idPersona;
     private String cedula;
     private String usuario;
     private String correo;
-    private String contraseña;
-    private String provincia;
-    private String canton;
+    private String contrasena;
+    private String nacionalidad;
     private String genero;
     private String nombres;
     private String apellidos;
     private LocalDate fechaNacimiento;
     private String sobreMi;
-    private Rol rol;
-    
-    //Borrar Luego:
     private int rolId;
+    private byte[] icono;
 
     public Persona() {
+    }
+
+    public int getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(int idPersona) {
+        this.idPersona = idPersona;
     }
 
     public String getCedula() {
@@ -55,28 +53,20 @@ public class Persona {
         this.correo = correo;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
-    public String getProvincia() {
-        return provincia;
+    public String getNacionalidad() {
+        return nacionalidad;
     }
 
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
-    }
-
-    public String getCanton() {
-        return canton;
-    }
-
-    public void setCanton(String canton) {
-        this.canton = canton;
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
     }
 
     public String getGenero() {
@@ -119,20 +109,19 @@ public class Persona {
         this.sobreMi = sobreMi;
     }
 
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
-    
-    //Borrar luego:
     public int getRolId() {
         return rolId;
     }
 
     public void setRolId(int rolId) {
         this.rolId = rolId;
+    }
+
+    public byte[] getIcono() {
+        return icono;
+    }
+
+    public void setIcono(byte[] icono) {
+        this.icono = icono;
     }
 }

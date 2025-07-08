@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class RoundedPannelGris extends JPanel {
-    private int cornerRadius = 70;
+    private int cornerRadius = 10;
 
     public RoundedPannelGris() {
         setOpaque(false);
