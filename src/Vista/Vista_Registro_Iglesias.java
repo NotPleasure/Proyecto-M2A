@@ -4,6 +4,17 @@
  */
 package Vista;
 
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
+import org.jxmapviewer.JXMapViewer;
+import org.jxmapviewer.OSMTileFactoryInfo;
+import org.jxmapviewer.VirtualEarthTileFactoryInfo;
+import org.jxmapviewer.input.PanMouseInputListener;
+import org.jxmapviewer.input.ZoomMouseWheelListenerCenter;
+import org.jxmapviewer.viewer.DefaultTileFactory;
+import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.TileFactoryInfo;
+
 /**
  *
  * @author Usuario_2
@@ -15,6 +26,7 @@ public class Vista_Registro_Iglesias extends javax.swing.JFrame {
      */
     public Vista_Registro_Iglesias() {
         initComponents();
+        init();
     }
 
     /**
@@ -35,6 +47,10 @@ public class Vista_Registro_Iglesias extends javax.swing.JFrame {
         txtHoracierre = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
+        jxMap = new org.jxmapviewer.JXMapViewer();
+        comboMapTypes = new javax.swing.JComboBox<>();
+        jBtnGuardar = new javax.swing.JButton();
+        jBtnModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,19 +72,68 @@ public class Vista_Registro_Iglesias extends javax.swing.JFrame {
         PanelBase.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
         PanelBase.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 140, -1));
 
+        jxMap.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(6, 6, 6)));
+
+        comboMapTypes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Open Stree", "Virtual Earth", "Hybrid", "Satellite" }));
+        comboMapTypes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboMapTypesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jxMapLayout = new javax.swing.GroupLayout(jxMap);
+        jxMap.setLayout(jxMapLayout);
+        jxMapLayout.setHorizontalGroup(
+            jxMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jxMapLayout.createSequentialGroup()
+                .addGap(0, 270, Short.MAX_VALUE)
+                .addComponent(comboMapTypes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jxMapLayout.setVerticalGroup(
+            jxMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jxMapLayout.createSequentialGroup()
+                .addComponent(comboMapTypes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 226, Short.MAX_VALUE))
+        );
+
+        PanelBase.add(jxMap, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 370, 250));
+
+        jBtnGuardar.setText("Guardar");
+        PanelBase.add(jBtnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 290, -1, -1));
+
+        jBtnModificar.setText("Modificar");
+        PanelBase.add(jBtnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 290, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelBase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelBase, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelBase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelBase, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void comboMapTypesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMapTypesActionPerformed
+
+        TileFactoryInfo info;
+        int  index = comboMapTypes.getSelectedIndex();
+        if(index == 0){
+           info =new OSMTileFactoryInfo();
+        }else if(index == 1){
+            info =new VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.MAP);
+        }else if(index ==2){
+             info =new VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.HYBRID);
+        }else {
+            info =new VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.SATELLITE);
+        }
+         DefaultTileFactory tileFactory =new DefaultTileFactory(info);
+         jxMap.setTileFactory(tileFactory);
+    }//GEN-LAST:event_comboMapTypesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -104,13 +169,30 @@ public class Vista_Registro_Iglesias extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void init(){
+        TileFactoryInfo info =new OSMTileFactoryInfo();
+        DefaultTileFactory tileFactory =new DefaultTileFactory(info);
+        jxMap.setTileFactory(tileFactory);
+        GeoPosition geo =new GeoPosition(-2.8985774,-79.013287);
+        jxMap.setAddressLocation(geo);
+        jxMap.setZoom(3);
+        MouseInputListener mouse =new PanMouseInputListener(jxMap);
+        jxMap.addMouseListener(mouse);
+        jxMap.addMouseMotionListener(mouse);
+        jxMap.addMouseWheelListener(new ZoomMouseWheelListenerCenter(jxMap));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelBase;
+    private javax.swing.JComboBox<String> comboMapTypes;
+    private javax.swing.JButton jBtnGuardar;
+    private javax.swing.JButton jBtnModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private org.jxmapviewer.JXMapViewer jxMap;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtHora_aper;
     private javax.swing.JTextField txtHoracierre;
