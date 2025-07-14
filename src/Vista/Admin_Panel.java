@@ -40,6 +40,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import Design.Reloj.RelojMinimalista;
 import Animations.Animator1;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 /**
  *
@@ -102,8 +104,14 @@ public class Admin_Panel extends javax.swing.JFrame {
         Gusto.setFont(new Font("Monserrat Bold", Font.PLAIN, 30));
         Vuelta.setFont(new Font("Monserrat Bold", Font.PLAIN, 30));
         Rol.setFont(new Font("Caviar Dreams", Font.PLAIN, 24));
-        Dashboard.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
+        Dashboard.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
         admin_label.setFont(new Font("Caviar Dreams", Font.PLAIN, 24));
+        Lugares.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+        Lugares1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+        Lugares2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+        Reservas.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+        Favoritos.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+        Rutas.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
 
     }
 
@@ -174,8 +182,28 @@ public class Admin_Panel extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new RoundedButtonSalir("");
         Dashboard = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        Lugares = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        Lugares2 = new javax.swing.JLabel();
         jButton2 =  new RoundedButtonSalir("")
         ;
+        jButton9 =  new RoundedButtonSalir("")
+        ;
+        Lugares1 = new javax.swing.JLabel();
+        jButton10 =  new RoundedButtonSalir("")
+        ;
+        jLabel10 = new javax.swing.JLabel();
+        jButton11 = new RoundedButtonSalir("");
+        jLabel11 = new javax.swing.JLabel();
+        Reservas = new javax.swing.JLabel();
+        jButton12 = new RoundedButtonSalir("");
+        jLabel12 = new javax.swing.JLabel();
+        Favoritos = new javax.swing.JLabel();
+        jButton13 = new RoundedButtonSalir("");
+        jLabel13 = new javax.swing.JLabel();
+        Rutas = new javax.swing.JLabel();
+        jButton14 = new RoundedButtonSalir("");
         jPanel2 = new javax.swing.JPanel();
         miPanelDiseñado = new RoundedPanelAdmin();
         Total = new javax.swing.JLabel();
@@ -255,7 +283,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 690, -1, 70));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/tablero-de-mensajes (1).png"))); // NOI18N
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 60, 50));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 60, 50));
 
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
@@ -271,13 +299,121 @@ public class Admin_Panel extends javax.swing.JFrame {
         Dashboard.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         Dashboard.setForeground(new java.awt.Color(255, 255, 255));
         Dashboard.setText("Dashboard");
-        jPanel1.add(Dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(106, 116, -1, -1));
+        jPanel1.add(Dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 146, -1, -1));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/mapa (1).png"))); // NOI18N
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 60, 40));
+
+        Lugares.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
+        Lugares.setForeground(new java.awt.Color(255, 255, 255));
+        Lugares.setText("Reseñas");
+        jPanel1.add(Lugares, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 350, -1, -1));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/oportunidades-de-trabajo (1).png"))); // NOI18N
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 50, 50));
+
+        Lugares2.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
+        Lugares2.setForeground(new java.awt.Color(255, 255, 255));
+        Lugares2.setText("Negocios");
+        jPanel1.add(Lugares2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, -1, -1));
 
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.setFocusPainted(false);
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 250, 70));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 250, 70));
+
+        jButton9.setBorderPainted(false);
+        jButton9.setContentAreaFilled(false);
+        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton9.setFocusPainted(false);
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 250, 70));
+
+        Lugares1.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
+        Lugares1.setForeground(new java.awt.Color(255, 255, 255));
+        Lugares1.setText("Lugares");
+        jPanel1.add(Lugares1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, -1, -1));
+
+        jButton10.setBorderPainted(false);
+        jButton10.setContentAreaFilled(false);
+        jButton10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton10.setFocusPainted(false);
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 250, 70));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Reseñas.png"))); // NOI18N
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 50, 50));
+
+        jButton11.setBorderPainted(false);
+        jButton11.setContentAreaFilled(false);
+        jButton11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton11.setFocusPainted(false);
+        jPanel1.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 250, 70));
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/campana (1).png"))); // NOI18N
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 50, -1));
+
+        Reservas.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
+        Reservas.setForeground(new java.awt.Color(255, 255, 255));
+        Reservas.setText("Reservas");
+        jPanel1.add(Reservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 420, -1, -1));
+
+        jButton12.setBorderPainted(false);
+        jButton12.setContentAreaFilled(false);
+        jButton12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton12.setFocusPainted(false);
+        jPanel1.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 250, 70));
+
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/estrella (2).png"))); // NOI18N
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 480, 50, 50));
+
+        Favoritos.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
+        Favoritos.setForeground(new java.awt.Color(255, 255, 255));
+        Favoritos.setText("Favoritos");
+        jPanel1.add(Favoritos, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 490, -1, -1));
+
+        jButton13.setBorderPainted(false);
+        jButton13.setContentAreaFilled(false);
+        jButton13.setFocusPainted(false);
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 250, 70));
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/camino (1).png"))); // NOI18N
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 540, 50, 70));
+
+        Rutas.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
+        Rutas.setForeground(new java.awt.Color(255, 255, 255));
+        Rutas.setText("Rutas");
+        jPanel1.add(Rutas, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 560, -1, -1));
+
+        jButton14.setBorderPainted(false);
+        jButton14.setContentAreaFilled(false);
+        jButton14.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton14.setFocusPainted(false);
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 250, 70));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 860));
 
@@ -488,7 +624,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         Animator1.fadeOut(this, () -> {
             this.dispose();
 
-            Ventana_UsuarioPrincipal ventana = new Ventana_UsuarioPrincipal(true,personaLogueada);
+            Ventana_UsuarioPrincipal ventana = new Ventana_UsuarioPrincipal(true, personaLogueada);
             ventana.setOpacity(0f);
             ventana.setVisible(true);
 
@@ -501,8 +637,8 @@ public class Admin_Panel extends javax.swing.JFrame {
         Animator1.fadeOut(this, () -> {
             this.dispose();
 
-Ventana_Usuarios ventana = new Ventana_Usuarios(true, personaLogueada);
-      ventana.setOpacity(0f);
+            Ventana_Usuarios ventana = new Ventana_Usuarios(true, personaLogueada);
+            ventana.setOpacity(0f);
             ventana.setVisible(true);
 
             Animator1.fadeIn(ventana);
@@ -514,7 +650,7 @@ Ventana_Usuarios ventana = new Ventana_Usuarios(true, personaLogueada);
         Animator1.fadeOut(this, () -> {
             this.dispose();
 
-Ventana_Admin ventana = new Ventana_Admin(true, personaLogueada);
+            Admin_Lugares ventana = new Admin_Lugares(true);
             ventana.setOpacity(0f);
             ventana.setVisible(true);
 
@@ -523,6 +659,58 @@ Ventana_Admin ventana = new Ventana_Admin(true, personaLogueada);
 
 
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+ Animator1.fadeOut(this, () -> {
+            this.dispose();
+
+            Ventana_Lugares ventana = new Ventana_Lugares(true);
+
+            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            if (gd.isWindowTranslucencySupported(GraphicsDevice.WindowTranslucency.TRANSLUCENT)) {
+                ventana.setOpacity(0f);
+            }
+
+            ventana.setVisible(true);
+            Animator1.fadeIn(ventana);
+        });
+       
+
+
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+
+
+
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+
+ Animator1.fadeOut(this, () -> {
+            this.dispose();
+
+            Admin_Lugares ventana = new Admin_Lugares(true);
+
+            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            if (gd.isWindowTranslucencySupported(GraphicsDevice.WindowTranslucency.TRANSLUCENT)) {
+                ventana.setOpacity(0f);
+            }
+
+            ventana.setVisible(true);
+            Animator1.fadeIn(ventana);
+        });
+
+    }//GEN-LAST:event_jButton13ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -533,11 +721,17 @@ Ventana_Admin ventana = new Ventana_Admin(true, personaLogueada);
     private javax.swing.JLabel ConteoUser3;
     private javax.swing.JLabel Cuencanas;
     private javax.swing.JLabel Dashboard;
+    private javax.swing.JLabel Favoritos;
     private javax.swing.JLabel Gusto;
     private javax.swing.JLabel Huellas;
+    private javax.swing.JLabel Lugares;
+    private javax.swing.JLabel Lugares1;
+    private javax.swing.JLabel Lugares2;
     private javax.swing.JPanel PanelUsuarios;
     private javax.swing.JPanel Reloj;
+    private javax.swing.JLabel Reservas;
     private javax.swing.JLabel Rol;
+    private javax.swing.JLabel Rutas;
     private javax.swing.JLabel Total;
     private javax.swing.JLabel Total1;
     private javax.swing.JLabel Total2;
@@ -548,6 +742,11 @@ Ventana_Admin ventana = new Ventana_Admin(true, personaLogueada);
     private javax.swing.JLabel Vuelta;
     private javax.swing.JLabel admin_label;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -555,13 +754,20 @@ Ventana_Admin ventana = new Ventana_Admin(true, personaLogueada);
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;

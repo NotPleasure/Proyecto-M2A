@@ -5,7 +5,7 @@
  */
 package Vista;
 
-import Design.ProgressBar.BarraProRedonda;
+import Design.ScrollBar.BarraProRedonda;
 import Design.RoundedPannelGris;
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -8,6 +8,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class AdministradorDAO {
 
+    //Leer administrador por id:
     public Administrador leer(int idPersona) {
         String sql = "SELECT a.codigo_admin, a.id_persona, "
                 + "p.usuario, p.correo, p.nombres, p.apellidos "
@@ -37,6 +38,7 @@ public class AdministradorDAO {
         return null;
     }
 
+    //Insertar Admin:
     public boolean insertar(Administrador admin) {
         String sql = "INSERT INTO administrador (id_persona, codigo_admin) VALUES (?, ?)";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -53,6 +55,7 @@ public class AdministradorDAO {
         }
     }
 
+    //Actualizar Admin:
     public boolean actualizar(Administrador admin) {
         String sqlPersona = "UPDATE persona SET usuario = ?, correo = ?, nombres = ?, apellidos = ?, "
                 + "nacionalidad = ?, genero = ?, fecha_nacimiento = ?, cedula = ?, sobre_mi = ? "
@@ -103,6 +106,7 @@ public class AdministradorDAO {
         }
     }
 
+    //Eliminar por completo el Admin:
     public boolean eliminarCompleto(int idPersona) {
         String sqlAdministrador = "DELETE FROM administrador WHERE id_persona = ?";
         String sqlPersona = "DELETE FROM persona WHERE id_persona = ?";
@@ -133,6 +137,7 @@ public class AdministradorDAO {
         }
     }
 
+    //Listar todos los admins:
     public List<Administrador> listarTodos() {
         List<Administrador> lista = new ArrayList<>();
         String sql = "SELECT a.codigo_admin, p.id_persona, p.usuario, p.correo, p.nombres, p.apellidos, "
@@ -171,6 +176,7 @@ public class AdministradorDAO {
         return lista;
     }
 
+    //Validar las credenciales del admin:
     public boolean validarCredenciales(String usuario, String clave) {
         String sql = "SELECT * FROM persona p INNER JOIN administrador a ON p.id_persona = a.id_persona WHERE p.usuario = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -189,6 +195,7 @@ public class AdministradorDAO {
         return false;
     }
 
+    //Obtener el nombre del admin:
     public String obtenerUsuarioAdmin() {
         String sql = "SELECT usuario FROM persona WHERE rol_id = 1 LIMIT 1";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement pst = con.prepareStatement(sql);  ResultSet rs = pst.executeQuery()) {
@@ -202,6 +209,7 @@ public class AdministradorDAO {
         return "";
     }
 
+    //Bucar todos los admins (Sin excepción de campos):
     public List<Administrador> buscarUsuarios(String texto) {
         List<Administrador> lista = new ArrayList<>();
         String sql = "SELECT a.codigo_admin, p.id_persona, p.usuario, p.correo, p.nombres, p.apellidos, "
@@ -248,6 +256,7 @@ public class AdministradorDAO {
         return lista;
     }
 
+    //Obtener admin por id:
     public Administrador obtenerPorId(int idPersona) {
         String sql = "SELECT * FROM persona JOIN administrador USING (id_persona) WHERE id_persona = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -283,6 +292,57 @@ public class AdministradorDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    //Obtener ADMIN por rol:
+    public List<Administrador> listarPorRol(int rolId) {
+        List<Administrador> lista = new ArrayList<>();
+        String sql = "SELECT p.*, a.codigo_admin FROM administrador a "
+                + "JOIN persona p ON a.id_persona = p.id_persona "
+                + "WHERE p.rol_id = ?";
+
+        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, rolId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Administrador a = new Administrador();
+                a.setIdPersona(rs.getInt("id_persona"));
+                a.setUsuario(rs.getString("usuario"));
+                a.setCorreo(rs.getString("correo"));
+                a.setNombres(rs.getString("nombres"));
+                a.setApellidos(rs.getString("apellidos"));
+                a.setNacionalidad(rs.getString("nacionalidad"));
+                a.setGenero(rs.getString("genero"));
+                a.setFechaNacimiento(rs.getDate("fecha_nacimiento") != null
+                        ? rs.getDate("fecha_nacimiento").toLocalDate() : null);
+                a.setRolId(rs.getInt("rol_id"));
+                a.setCedula(rs.getString("cedula"));
+                a.setCodigoAdmin(rs.getString("codigo_admin"));
+                lista.add(a);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+    //Generar código para el admin:
+    public String generarCodigoAdmin() {
+        int randomNum = (int) (Math.random() * 9000) + 1000;
+        return "ADM" + randomNum;
+    }
+
+    // Verificar si ya existe en la tabla administrador
+    public boolean existePorId(int idPersona) {
+        String sql = "SELECT 1 FROM administrador WHERE id_persona = ?";
+        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idPersona);
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

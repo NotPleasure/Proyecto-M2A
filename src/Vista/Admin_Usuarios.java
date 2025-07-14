@@ -425,8 +425,6 @@ Admin_Comentarios admin = new Admin_Comentarios();
         this.dispose();     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Admin_Lugares miPanel = new Admin_Lugares();
-        miPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 

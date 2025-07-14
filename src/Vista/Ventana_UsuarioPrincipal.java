@@ -59,6 +59,7 @@ public class Ventana_UsuarioPrincipal extends javax.swing.JFrame {
             setUndecorated(true);
         }
 
+        //Instanciar el Popup:
         GlassPanePopup.install(this);
 
         //Para quitar la selección de la tabla:
@@ -127,7 +128,7 @@ public class Ventana_UsuarioPrincipal extends javax.swing.JFrame {
     //Cargar tabla:
     private void cargarTablaUsuarios() {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        List<Usuario> listaUsuarios = usuarioDAO.listarTodos();
+        List<Usuario> listaUsuarios = usuarioDAO.listarPorRol(2);
 
         String[] columnas = {
             "ID", "Usuario", "Correo", "Nombres", "Apellidos",
@@ -197,7 +198,7 @@ public class Ventana_UsuarioPrincipal extends javax.swing.JFrame {
                 String texto = Busqueda2.getText().trim();
                 List<Usuario> listaFiltrada;
                 if (texto.isEmpty()) {
-                    listaFiltrada = usuarioDAO.listarTodos();
+                    listaFiltrada = usuarioDAO.listarPorRol(2);
                 } else {
                     listaFiltrada = usuarioDAO.buscarUsuarios(texto);
                 }
@@ -225,7 +226,7 @@ public class Ventana_UsuarioPrincipal extends javax.swing.JFrame {
     //Refrescar la tabla:
     public void recargarTabla() {
         UsuarioDAO dao = new UsuarioDAO();
-        List<Usuario> lista = dao.listarTodos();
+        List<Usuario> lista = dao.listarPorRol(2);
         cargarTablaConLista(lista);
     }
 

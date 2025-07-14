@@ -168,6 +168,7 @@ public class ControladorAdministrador implements ActionListener {
             if (personaDAO.insertar(persona)) {
                 Administrador admin = new Administrador();
                 admin.setIdPersona(persona.getIdPersona());
+                admin.setCodigoAdmin(generarCodigoAdmin());
                 AdministradorDAO adminDAO = new AdministradorDAO();
 
                 if (adminDAO.insertar(admin)) {
@@ -213,5 +214,11 @@ public class ControladorAdministrador implements ActionListener {
         }
         int verificador = (10 - (suma % 10)) % 10;
         return verificador == Character.getNumericValue(cedula.charAt(9));
+    }
+
+    //Generar código para el admin:
+    public String generarCodigoAdmin() {
+        int randomNum = (int) (Math.random() * 9000) + 1000;
+        return "ADM" + randomNum;
     }
 }

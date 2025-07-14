@@ -7,6 +7,8 @@ import java.util.List;
 
 public class UsuarioDAO {
 
+    
+    //Insertar un usuario:
     public boolean insertar(Usuario u) {
         String sql = "INSERT INTO usuario (id_persona) VALUES (?)";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -22,6 +24,8 @@ public class UsuarioDAO {
         }
     }
 
+    
+    //Bucar usuarios principales:
     public List<Usuario> buscarUsuarios(String texto) {
         List<Usuario> lista = new ArrayList<>();
 
@@ -68,6 +72,7 @@ public class UsuarioDAO {
         return lista;
     }
 
+    //Actualizar el usuario principal:
     public boolean actualizar(Usuario u) {
         String sql = "UPDATE persona SET "
                 + "usuario          = ?, "
@@ -136,6 +141,8 @@ public class UsuarioDAO {
         }
     }
 
+    
+    //Eliminar por completo el usuario principal:
     public boolean eliminarCompleto(int idPersona) {
         String sqlUsuario = "DELETE FROM usuario WHERE id_persona = ?";
         String sqlPersona = "DELETE FROM persona WHERE id_persona = ?";
@@ -165,6 +172,8 @@ public class UsuarioDAO {
         }
     }
 
+    
+    //Filtrar todos los usuarios principales:
     public List<Usuario> listarTodos() {
         List<Usuario> lista = new ArrayList<>();
         String sql = "SELECT u.id_persona, "
@@ -210,6 +219,8 @@ public class UsuarioDAO {
         return lista;
     }
 
+    
+    //Obtener los usuarios por id:
     public Usuario obtenerPorId(int idPersona) {
         String sql = "SELECT * FROM persona WHERE id_persona = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -246,5 +257,34 @@ public class UsuarioDAO {
         }
         return null;
     }
+
+    //Obtener los usuarios por rol:
+    public List<Usuario> listarPorRol(int rolId) {
+    List<Usuario> lista = new ArrayList<>();
+    String sql = "SELECT * FROM persona WHERE rol_id = ?";
+    try (Connection con = ConexionHuellasCuencanas.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, rolId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Usuario u = new Usuario();
+            u.setIdPersona(rs.getInt("id_persona"));
+            u.setUsuario(rs.getString("usuario"));
+            u.setCorreo(rs.getString("correo"));
+            u.setNombres(rs.getString("nombres"));
+            u.setApellidos(rs.getString("apellidos"));
+            u.setNacionalidad(rs.getString("nacionalidad"));
+            u.setGenero(rs.getString("genero"));
+            u.setFechaNacimiento(rs.getDate("fecha_nacimiento") != null
+                    ? rs.getDate("fecha_nacimiento").toLocalDate() : null);
+            u.setRolId(rs.getInt("rol_id"));
+            u.setCedula(rs.getString("cedula"));
+            lista.add(u);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return lista;
+}
 
 }

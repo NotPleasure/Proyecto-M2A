@@ -35,6 +35,7 @@ public class Ventana_Usuarios extends javax.swing.JFrame {
 
     private boolean sinBordes = true;
     private Persona personaLogueada;
+    private Ventana_Admin ventanaAdministradores;
 
     /**
      * Creates new form Ventana_Usuarios
@@ -45,6 +46,7 @@ public class Ventana_Usuarios extends javax.swing.JFrame {
         if (sinBordes) {
             setUndecorated(true);
         }
+        
         //Para quitar la selección de la tabla:
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -199,7 +201,7 @@ public class Ventana_Usuarios extends javax.swing.JFrame {
 
         Gestion.setBackground(new java.awt.Color(0, 0, 0));
         Gestion.setForeground(new java.awt.Color(0, 0, 0));
-        Gestion.setText("GESTIÓN DE USUARIOS PRINCIPALES");
+        Gestion.setText("GESTIÓN DE USUARIOS ");
         jPanel2.add(Gestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 550, -1));
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -285,7 +287,7 @@ public class Ventana_Usuarios extends javax.swing.JFrame {
         int idPersona = (int) jTable1.getValueAt(fila, 0);
         String usuario = jTable1.getValueAt(fila, 1).toString();
 
-        GlassPanePopup.showPopup(new Ventana_CambiarRol(idPersona, usuario, this));
+        GlassPanePopup.showPopup(new Ventana_CambiarRol(idPersona, usuario, this, ventanaAdministradores));
 
     }//GEN-LAST:event_InsertarActionPerformed
 
@@ -294,7 +296,7 @@ public class Ventana_Usuarios extends javax.swing.JFrame {
         Animator1.fadeOut(this, () -> {
             this.dispose();
 
-           Admin_Panel ventana = new Admin_Panel(true, personaLogueada);
+            Admin_Panel ventana = new Admin_Panel(true, personaLogueada);
             ventana.setOpacity(0f);
             ventana.setVisible(true);
 

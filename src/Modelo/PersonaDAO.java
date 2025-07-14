@@ -55,6 +55,7 @@ public class PersonaDAO {
         return false;
     }
 
+    //Validar si existe la cédula:
     public boolean existeCedula(String cedula) {
         if (cedula == null || cedula.isBlank()) {
             return false;
@@ -71,6 +72,7 @@ public class PersonaDAO {
         }
     }
 
+    //Validar si existe un usuario:
     public boolean existeUsuario(String usuario) {
         String sql = "SELECT 1 FROM persona WHERE usuario = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -83,6 +85,7 @@ public class PersonaDAO {
         }
     }
 
+    //Validar si existe un correo.
     public boolean existeCorreo(String correo) {
         String sql = "SELECT 1 FROM persona WHERE correo = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -141,6 +144,7 @@ public class PersonaDAO {
         return null;
     }
 
+    //Para actualizar contraseña:
     public boolean actualizarContrasenia(String email, String nuevaContraseniaHash) {
         String sql = "UPDATE persona SET contraseña = ? WHERE correo = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -195,6 +199,7 @@ public class PersonaDAO {
         return lista;
     }
 
+    //Eliminar Persona:
     public boolean eliminar(int idPersona) {
         String sql = "DELETE FROM persona WHERE id_persona = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -206,6 +211,7 @@ public class PersonaDAO {
         }
     }
 
+    //Actualizar Persona:
     public boolean actualizar(Persona p) {
         String sql = "UPDATE persona SET "
                 + "cedula = ?, usuario = ?, correo = ?, contrasena = ?, "
@@ -249,11 +255,13 @@ public class PersonaDAO {
         }
     }
 
+    //Validar el Login:
     public boolean validarLogin(String usuario, String contraseña) {
         Persona p = obtenerPersonaPorCredenciales(usuario, contraseña);
         return p != null;
     }
 
+    //Contar los usuarios:
     public int contarUsuarios(String condicionRol) {
         int total = 0;
         String sql = "SELECT COUNT(*) FROM persona";
@@ -274,6 +282,7 @@ public class PersonaDAO {
         return total;
     }
 
+    //Buscar los usuarios:
     public List<Persona> buscarPorUsuarioONombre(String texto) {
         List<Persona> lista = new ArrayList<>();
         String sql = "SELECT p.id_persona, p.cedula, p.usuario, p.correo, "
@@ -324,6 +333,7 @@ public class PersonaDAO {
         return lista;
     }
 
+    //Actualizar el Rol:
     public boolean actualizarRol(int idPersona, int nuevoRolId) {
         String sql = "UPDATE persona SET rol_id = ? WHERE id_persona = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -338,6 +348,7 @@ public class PersonaDAO {
         }
     }
 
+    //Leer a la persona por id:
     public Persona leerPorId(int idPersona) {
         String sql = "SELECT p.id_persona, p.cedula, p.usuario, p.correo, "
                 + "p.contrasena, p.nacionalidad, p.genero, p.nombres, "
@@ -372,5 +383,4 @@ public class PersonaDAO {
         }
         return null;
     }
-
 }

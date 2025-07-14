@@ -23,8 +23,8 @@ public class Admin_Reseñas extends javax.swing.JFrame {
      */
     public Admin_Reseñas() {
         initComponents();
-        
-           setLocationRelativeTo(null);
+
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -400,13 +400,11 @@ public class Admin_Reseñas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- Admin_Comentarios miPanel = new Admin_Comentarios();
+        Admin_Comentarios miPanel = new Admin_Comentarios();
         miPanel.setVisible(true);
         this.dispose();    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Admin_Lugares miPanel = new Admin_Lugares();
-        miPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -417,12 +415,12 @@ public class Admin_Reseñas extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
- Admin_Usuarios miUsuario = new Admin_Usuarios();
+        Admin_Usuarios miUsuario = new Admin_Usuarios();
         miUsuario.setVisible(true);
         this.dispose();    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
- Admin_Reseñas miUsuario = new Admin_Reseñas();
+        Admin_Reseñas miUsuario = new Admin_Reseñas();
         miUsuario.setVisible(true);
         this.dispose();    }//GEN-LAST:event_jButton6ActionPerformed
 

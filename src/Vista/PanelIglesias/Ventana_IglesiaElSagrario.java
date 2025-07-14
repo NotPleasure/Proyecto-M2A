@@ -54,7 +54,7 @@ import Design.RoundedTextField1;
  *
  * @author USER
  */
-public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
+public class Ventana_IglesiaElSagrario extends javax.swing.JFrame {
 //Varianes para cargar las imágenes:
 
     /**
@@ -63,10 +63,9 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
     public Ventana_IglesiaElSagrario() {
 
         initComponents();
-    
+
         //Estrella:
         //Fuentes:
-        
         IglesiasLabel.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
         Cuenca_Ecuador.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
         Descripcion.setFont(new Font("Caviar Dreams", Font.PLAIN, 18));
@@ -95,7 +94,6 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
         AceptarComentario.setFont(new Font("Caviar Dreams Bold", Font.PLAIN, 14));
         CancelarComentario.setFont(new Font("Caviar Dreams Bold", Font.PLAIN, 14));
 
-        
         //Hacer invisible el panel inicialmente.
         roundedPanelCarrusel1.setVisible(false);
         roundedPanelComentar1.setVisible(false);
@@ -107,18 +105,17 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
         GeoPosition turi = new GeoPosition(-2.9271, -78.9942);
         mapViewer.setAddressLocation(turi);
         mapViewer.setZoom(5);
+        mapViewer.setPreferredSize(new Dimension(280, 220));
 
-        mapViewer.setPreferredSize(new Dimension(280, 220)); 
-
-        // Movimiento con mouse (pan)
+// Movimiento con mouse (pan)
         MouseInputListener mia = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mia);
         mapViewer.addMouseMotionListener(mia);
 
-        // Zoom con rueda del mouse
+// Zoom con rueda del mouse
         mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
 
-        // Crear Waypoints (marcadores)
+// Crear Waypoints (marcadores)
         Set<Waypoint> waypoints = new HashSet<>();
         waypoints.add(new DefaultWaypoint(turi));
 
@@ -126,7 +123,7 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
         waypointPainter.setWaypoints(waypoints);
         mapViewer.setOverlayPainter(waypointPainter);
 
-        // Click en el mapa para agregar marcadores nuevos
+// Click en el mapa para agregar marcadores y mostrar lat/lon en consola
         mapViewer.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -134,10 +131,15 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
                 waypoints.add(new DefaultWaypoint(pos));
                 waypointPainter.setWaypoints(waypoints);
                 mapViewer.repaint();
+
+                // Mostrar latitud y longitud en consola
+                double lat = pos.getLatitude();
+                double lon = pos.getLongitude();
+                System.out.println(String.format("Click en lat: %.6f, lon: %.6f", lat, lon));
             }
         });
 
-        // Mostrar el mapa dentro de jPanel1
+// Mostrar el mapa dentro de jPanel1
         jPanel1.setLayout(new BorderLayout());
         jPanel1.add(mapViewer, BorderLayout.CENTER);
         jPanel1.revalidate();
@@ -488,8 +490,19 @@ public class Ventana_IglesiaElSagrario extends javax.swing.JPanel {
         content.repaint();
 
 
-
     }//GEN-LAST:event_ComentariosActionPerformed
+
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                Ventana_IglesiaElSagrario ventana = new Ventana_IglesiaElSagrario();
+                ventana.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                ventana.pack();
+                ventana.setLocationRelativeTo(null);
+                ventana.setVisible(true);
+            }
+        });
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

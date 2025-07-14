@@ -124,7 +124,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
     //Cargar tabla:
     private void cargarTablaUsuarios() {
         AdministradorDAO dao = new AdministradorDAO();
-        List<Administrador> lista = dao.listarTodos();
+        List<Administrador> lista = dao.listarPorRol(1);
 
         String[] columnas = {
             "ID", "Usuario", "Correo", "Nombres", "Apellidos",
@@ -155,7 +155,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
     //Cargar todos los usuarios:
     public void cargarUsuarios() {
         AdministradorDAO dao = new AdministradorDAO();
-        listaUsuariosCompleta = dao.listarTodos();
+        listaUsuariosCompleta = dao.listarPorRol(1);
         cargarTablaConLista(listaUsuariosCompleta);
     }
 
@@ -187,7 +187,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
     }
 
     private void inicializarFiltroBusqueda() {
-        AdministradorDAO usuarioDAO = new AdministradorDAO();
+        AdministradorDAO dao = new AdministradorDAO();  // DECLARA EL DAO aquí
 
         Busqueda2.getDocument().addDocumentListener(new DocumentListener() {
             private void filtrar() {
@@ -195,9 +195,9 @@ public class Ventana_Admin extends javax.swing.JFrame {
                 List<Administrador> listaFiltrada;
 
                 if (texto.isEmpty()) {
-                    listaFiltrada = listaUsuariosCompleta;
+                    listaFiltrada = dao.listarPorRol(1);
                 } else {
-                    listaFiltrada = usuarioDAO.buscarUsuarios(texto);
+                    listaFiltrada = dao.buscarUsuarios(texto);
                 }
 
                 cargarTablaConLista(listaFiltrada);
@@ -218,12 +218,11 @@ public class Ventana_Admin extends javax.swing.JFrame {
                 filtrar();
             }
         });
-
     }
 
     public void recargarTabla() {
         AdministradorDAO dao = new AdministradorDAO();
-        listaUsuariosCompleta = dao.listarTodos();
+        listaUsuariosCompleta = dao.listarPorRol(1);
         cargarTablaConLista(listaUsuariosCompleta);
     }
 
@@ -420,7 +419,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
         Animator1.fadeOut(this, () -> {
             this.dispose();
 
-Admin_Panel ventana = new Admin_Panel(true, personaLogueada);
+            Admin_Panel ventana = new Admin_Panel(true, personaLogueada);
             ventana.setOpacity(0f);
             ventana.setVisible(true);
 

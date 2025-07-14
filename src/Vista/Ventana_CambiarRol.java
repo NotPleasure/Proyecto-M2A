@@ -7,6 +7,8 @@ package Vista;
 import Design.RoundedButtonAceptarComentario;
 import Design.RoundedButtonActualizar;
 import Design.RoundedButtonEliminarRe;
+import Modelo.Administrador;
+import Modelo.AdministradorDAO;
 import Modelo.Persona;
 import Modelo.PersonaDAO;
 import java.awt.Font;
@@ -27,15 +29,17 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
     private int idPersona;
     private String usuario;
     private Ventana_Usuarios ventanaUsuarios;
+    private Ventana_Admin ventanaAdministradores;
 
     /**
      * Creates new form Ventana_CambiarRol
      */
-    public Ventana_CambiarRol(int idPersona, String usuario, Ventana_Usuarios ventanaUsuarios) {
+    public Ventana_CambiarRol(int idPersona, String usuario, Ventana_Usuarios ventanaUsuarios, Ventana_Admin ventanaAdministradores) {
         initComponents();
         this.idPersona = idPersona;
         this.usuario = usuario;
         this.ventanaUsuarios = ventanaUsuarios;
+        this.ventanaAdministradores = ventanaAdministradores;
 
         lblId.setText(String.valueOf(idPersona));
         lblNombre.setText(usuario);
@@ -80,7 +84,6 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
     }
 
     private void cambiarRol(int nuevoRolId) {
-        // Verificar si el usuario ya tiene ese rol
         PersonaDAO dao = new PersonaDAO();
         Persona persona = dao.leerPorId(idPersona);
 
@@ -89,16 +92,33 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
             return;
         }
 
-        // Si no tiene ese rol, actualizarlo
         boolean actualizado = dao.actualizarRol(idPersona, nuevoRolId);
-
-        if (actualizado) {
-            JOptionPane.showMessageDialog(this, "Rol actualizado correctamente.");
-            GlassPanePopup.closePopupLast();
-            ventanaUsuarios.recargarTabla();
-        } else {
+        if (!actualizado) {
             JOptionPane.showMessageDialog(this, "Error al actualizar el rol.");
+            return;
         }
+
+        if (nuevoRolId == 1) {
+            AdministradorDAO adminDAO = new AdministradorDAO();
+            if (!adminDAO.existePorId(idPersona)) {
+                Administrador admin = new Administrador();
+                admin.setIdPersona(idPersona);
+                admin.setCodigoAdmin(adminDAO.generarCodigoAdmin());
+                adminDAO.insertar(admin);
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, "Rol actualizado correctamente.");
+        GlassPanePopup.closePopupLast();
+
+        if (ventanaUsuarios != null) {
+            ventanaUsuarios.recargarTabla();
+        }
+
+        if (ventanaAdministradores != null) {
+            ventanaAdministradores.recargarTabla();
+        }
+
     }
 
     /**
@@ -181,7 +201,7 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
                 CancelarActionPerformed(evt);
             }
         });
-        add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 294, 130, 30));
+        add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 288, 130, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
