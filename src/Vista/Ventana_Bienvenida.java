@@ -7,9 +7,14 @@ package Vista;
 import Animations.Animator;
 import Controlador.ControladorLogin;
 import Controlador.ControladorRegistro;
+import Design.RoundedButton;
 import java.awt.Font;
 import Design.RoundedButtonRegistrarseInicio;
 import Design.RoundedButtonIniciarSesionRegistrarse;
+import Design.RoundedButtonLugar;
+import Design.RoundedButtonLugares;
+import Design.RoundedButtonOscuro;
+import Design.RoundedPanelAdmin;
 
 /**
  *
@@ -25,6 +30,7 @@ public class Ventana_Bienvenida extends javax.swing.JFrame {
 
         setOpacity(0f);
         initComponents();
+
         //Darle bordes redondeados a la ventana:
         setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 60, 60));
 
@@ -113,7 +119,7 @@ public class Ventana_Bienvenida extends javax.swing.JFrame {
                 IniciarSesionActionPerformed(evt);
             }
         });
-        jPanel1.add(IniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 160, 40));
+        jPanel1.add(IniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 160, 40));
 
         IniciarSesion1.setText("Iniciar Sesión");
         IniciarSesion1.setBorderPainted(false);

@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class RoundedButton extends JButton {
+
     private int cornerRadius = 20;
 
     private Color normalColor = new Color(43, 144, 212);
@@ -16,7 +17,7 @@ public class RoundedButton extends JButton {
         super(text);
         setContentAreaFilled(false);
         setFocusPainted(false);
-        setForeground(Color.WHITE); 
+        setForeground(Color.WHITE);
 
         addMouseListener(new MouseAdapter() {
             @Override

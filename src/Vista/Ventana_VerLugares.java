@@ -4,12 +4,16 @@
  */
 package Vista;
 
+import Design.RoundedButtonInsertar;
+import Design.RoundedButtonSalirRe;
 import Design.RoundedPanelAdmin;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
+import javax.swing.JFrame;
+import raven.glasspanepopup.GlassPanePopup;
 
 /**
  *
@@ -22,20 +26,12 @@ public class Ventana_VerLugares extends javax.swing.JPanel {
      */
     public Ventana_VerLugares() {
         initComponents();
-        
-        
-        
-        
-        
+
         //Fuentes
-                Registro.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 30));
+        Registro.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 30));
 
     }
 
-   
-
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,8 +44,11 @@ public class Ventana_VerLugares extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         Registro = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        Salir = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        Salir = new RoundedButtonSalirRe("");
+        jLabel2 = new javax.swing.JLabel();
         Ver = new RoundedButtonInsertar("");
+        jLabel4 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -64,14 +63,59 @@ public class Ventana_VerLugares extends javax.swing.JPanel {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/lista-de-verificacion (1).png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 120, 70));
 
-        Salir.setText("jButton1");
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Salir");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(244, 190, -1, -1));
+
+        Salir.setBorderPainted(false);
+        Salir.setContentAreaFilled(false);
+        Salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Salir.setFocusPainted(false);
+        Salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirActionPerformed(evt);
+            }
+        });
         jPanel1.add(Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 140, 40));
 
-        Ver.setText("jButton1");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Ver mi Registro");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 190, -1, -1));
+
+        Ver.setBorderPainted(false);
+        Ver.setContentAreaFilled(false);
+        Ver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Ver.setFocusPainted(false);
+        Ver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerActionPerformed(evt);
+            }
+        });
         jPanel1.add(Ver, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 140, 40));
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 330));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("Ver mi Registro");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 190, -1, -1));
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 260));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void VerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerActionPerformed
+
+        GlassPanePopup.closePopupLast();
+        Ventana_TarjetasIglesia ventana = new Ventana_TarjetasIglesia();
+        ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ventana.setVisible(true);
+
+    }//GEN-LAST:event_VerActionPerformed
+
+    private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
+        GlassPanePopup.closePopupLast();
+
+
+    }//GEN-LAST:event_SalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -79,6 +123,9 @@ public class Ventana_VerLugares extends javax.swing.JPanel {
     private javax.swing.JButton Salir;
     private javax.swing.JButton Ver;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

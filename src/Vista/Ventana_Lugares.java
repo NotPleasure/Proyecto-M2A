@@ -11,6 +11,7 @@ import Design.RoundedPanelLugares2;
 import Design.RoundedPanelLugares3;
 import Design.RoundedPanelLugares4;
 import java.awt.Font;
+import javax.swing.JFrame;
 import raven.glasspanepopup.GlassPanePopup;
 
 /**
@@ -31,16 +32,14 @@ public class Ventana_Lugares extends javax.swing.JFrame {
             setUndecorated(true);
         }
         initComponents();
-        
-                GlassPanePopup.install(this);
 
+        GlassPanePopup.install(this);
 
         //Extender la ventana al máximo: 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         // Para pantalla completa:
         setExtendedState(Ventana_Principal.MAXIMIZED_BOTH);
 
-        
         //Fuentes:
         Huellas.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         Cuencanas.setFont(new Font("Segoe UI Light", Font.PLAIN, 20));
@@ -479,7 +478,6 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
     private void GestionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionarActionPerformed
 
-
         Ventana_InsertarIglesia ayudaPanel = new Ventana_InsertarIglesia();
 
         GlassPanePopup.showPopup(ayudaPanel);
@@ -488,9 +486,9 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-  Ventana_VerLugares ayudaPanel = new Ventana_VerLugares();
-
-        GlassPanePopup.showPopup(ayudaPanel);
+        Ventana_TarjetasIglesia ventana = new Ventana_TarjetasIglesia();
+        ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ventana.setVisible(true);
 
 
     }//GEN-LAST:event_jButton1ActionPerformed

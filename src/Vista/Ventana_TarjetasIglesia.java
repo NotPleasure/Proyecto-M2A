@@ -57,7 +57,7 @@ public class Ventana_TarjetasIglesia extends javax.swing.JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         // Para pantalla completa:
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        jPanelContenedorIglesias.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
+        jPanelContenedorIglesias.setBorder(BorderFactory.createEmptyBorder(10, 10, 70, 10));
 
         cargarIglesias();
     }

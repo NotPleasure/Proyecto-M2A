@@ -39,7 +39,6 @@ public class PanelCardIglesia extends javax.swing.JPanel {
         lblHoraCierre.setText("Salida: " + horaCierre);
 
         lblNombre.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
-
         lblHoraApertura.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         lblHoraCierre.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
 

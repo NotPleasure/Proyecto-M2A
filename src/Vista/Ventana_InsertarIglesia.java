@@ -483,12 +483,10 @@ public class Ventana_InsertarIglesia extends javax.swing.JPanel {
                     img1, img2, img3
             );
 
-            JOptionPane.showMessageDialog(this, "Iglesia guardada correctamente.");
+            Ventana_VerLugares popup = new Ventana_VerLugares();
+            GlassPanePopup.showPopup(popup);
+
             limpiarFormulario();
-            Ventana_TarjetasIglesia ventana = new Ventana_TarjetasIglesia();
-            ventana.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-            ventana.setVisible(true);
-            ventana.agregarTarjeta(nombre, horaApertura, horaCierre, img1);
 
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(this,
@@ -543,14 +541,12 @@ public class Ventana_InsertarIglesia extends javax.swing.JPanel {
             return;
         }
 
-        // Si no seleccionó nada, avisar y dejar la ranura libre
         if (datos == null) {
             JOptionPane.showMessageDialog(this,
                     "No se cargó ninguna imagen.",
                     "Carga de imagen",
                     JOptionPane.WARNING_MESSAGE);
 
-            // Si quieres, puedes resetear la ranura:
             if (imagenBytes1 == null) {
                 roundedImageLabel1.setImagenDesdeBytes(null);
             } else if (imagenBytes2 == null) {
