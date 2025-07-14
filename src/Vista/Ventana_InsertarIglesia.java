@@ -99,6 +99,13 @@ public class Ventana_InsertarIglesia extends javax.swing.JPanel {
         DescripcionHistorica.add(scrollPane, BorderLayout.CENTER);
         DescripcionHistorica.revalidate();
         DescripcionHistorica.repaint();
+        
+        
+        
+        
+        
+        
+        
 
         
         
