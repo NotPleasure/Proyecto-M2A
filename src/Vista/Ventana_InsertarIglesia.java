@@ -100,6 +100,8 @@ public class Ventana_InsertarIglesia extends javax.swing.JPanel {
         DescripcionHistorica.revalidate();
         DescripcionHistorica.repaint();
 
+        
+        
     }
 
     /**
