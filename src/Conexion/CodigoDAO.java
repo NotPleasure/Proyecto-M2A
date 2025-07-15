@@ -18,12 +18,6 @@ public class CodigoDAO {
         
         try (Connection conn = ConexionPostgres.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            
-          
-            
-            
-            
-            
             ps.setString(1, email);
             ps.setString(2, codigo);
             

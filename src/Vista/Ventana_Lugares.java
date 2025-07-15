@@ -478,7 +478,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
     private void GestionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionarActionPerformed
 
-        Ventana_InsertarIglesia ayudaPanel = new Ventana_InsertarIglesia();
+        Ventana_InsertarMuseo ayudaPanel = new Ventana_InsertarMuseo();
 
         GlassPanePopup.showPopup(ayudaPanel);
 

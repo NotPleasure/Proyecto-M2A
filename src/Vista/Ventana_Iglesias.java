@@ -167,7 +167,7 @@ public class Ventana_Iglesias extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(1140, 830));
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         content.setBackground(new java.awt.Color(242, 242, 242));
         content.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -460,7 +460,7 @@ public class Ventana_Iglesias extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.GridLayout(0, 3));
         content.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1070, 760));
 
-        add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1180, 860));
+        getContentPane().add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1180, 860));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
