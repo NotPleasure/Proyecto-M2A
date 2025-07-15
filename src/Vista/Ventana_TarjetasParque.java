@@ -7,6 +7,7 @@ package Vista;
 import Vista.*;
 import Controlador.ControladorIglesia;
 import Controlador.ControladorMuseo;
+import Controlador.ControladorParque;
 import Design.Panel.WrapLayout;
 import Modelo.Iglesia;
 import Modelo.Iglesia;
@@ -14,6 +15,8 @@ import Modelo.IglesiaVista;
 import Modelo.IglesiaVista;
 import Modelo.Museo;
 import Modelo.MuseoVista;
+import Modelo.Parque;
+import Modelo.ParqueVista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -33,15 +36,15 @@ import javax.swing.BoxLayout;
  *
  * @author USER
  */
-public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
+public class Ventana_TarjetasParque extends javax.swing.JFrame {
 
-    private List<Museo> museosGuardados;
-    private ControladorMuseo ctrl = new ControladorMuseo();
+    private List<Parque> museosGuardados;
+    private ControladorParque ctrl = new ControladorParque();
 
     /**
      * Creates new form Ventana_TarjetasIglesia
      */
-    public Ventana_TarjetasMuseo() {
+    public Ventana_TarjetasParque() {
         initComponents();
 
         
@@ -65,21 +68,21 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         jPanelContenedorMuseos.setBorder(BorderFactory.createEmptyBorder(10, 10, 70, 10));
 
-        cargarMuseos();
+        cargarParques();
     }
 
     
     //Cargar todas las iglesias existentes:
-    public void cargarMuseos() {
+    public void cargarParques() {
         try {
-            List<MuseoVista> lista = ctrl.obtenerMuseosVista();
+            List<ParqueVista> lista = ctrl.obtenerMuseosVista();
 
-            for (MuseoVista iv : lista) {
-                agregarTarjeta(iv.getNombre(), iv.getHoraApertura().toString(), iv.getHoraCierre().toString(), iv.getImagenPrincipal());
+            for (ParqueVista iv : lista) {
+                agregarTarjeta(iv.getNombre(),iv.getEntidad_gestora(),iv.getSuperficie(), iv.getImagenPrincipal());
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
-                    "Error al cargar museos: " + e.getMessage(),
+                    "Error al cargar parques: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -87,8 +90,8 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
     }
 
     //Agregar las tarjetas:
-    public void agregarTarjeta(String nombre, String horaApertura, String horaCierre, byte[] imagen) {
-        PanelCardMuseo tarjeta = new PanelCardMuseo(nombre, horaApertura, horaCierre, imagen);
+    public void agregarTarjeta(String nombre, String entidad_gestora, float superficie, byte[] imagen) {
+        PanelCardParque tarjeta = new PanelCardParque(nombre, entidad_gestora, superficie, imagen);
         tarjeta.setAlignmentX(Component.LEFT_ALIGNMENT);
         jPanelContenedorMuseos.add(tarjeta);
         jPanelContenedorMuseos.revalidate();
@@ -172,21 +175,23 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ventana_TarjetasMuseo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_TarjetasParque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ventana_TarjetasMuseo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_TarjetasParque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ventana_TarjetasMuseo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_TarjetasParque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ventana_TarjetasMuseo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_TarjetasParque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Ventana_TarjetasMuseo().setVisible(true);
+                new Ventana_TarjetasParque().setVisible(true);
             }
         });
     }

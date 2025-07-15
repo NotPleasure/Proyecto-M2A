@@ -11,7 +11,7 @@ import java.time.LocalTime;
  * @author MeiRen
  */
 public class Museo {
-     private int id;
+    private int id;
     private int lugarInteresId;
     private LocalTime horaApertura;
     private LocalTime horaCierre;

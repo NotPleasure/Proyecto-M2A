@@ -5,9 +5,6 @@
 package Controlador;
 
 import ConexionHuellasCuencanas.ConexionHuellasCuencanas;
-import Modelo.Iglesia;
-import Modelo.IglesiaDAO;
-import Modelo.IglesiaVista;
 import Modelo.ImagenLugar;
 import Modelo.ImagenLugarDAO;
 import Modelo.InformacionHistorica;
@@ -17,6 +14,9 @@ import Modelo.LugarInteresDAO;
 import Modelo.Museo;
 import Modelo.MuseoDAO;
 import Modelo.MuseoVista;
+import Modelo.Parque;
+import Modelo.ParqueDao;
+import Modelo.ParqueVista;
 import Modelo.UbicacionDAO;
 import Modelo.UbicacionLugar;
 import java.sql.Connection;
@@ -32,12 +32,11 @@ import java.util.List;
  *
  * @author MeiRen
  */
-public class ControladorMuseo {
-
-    public void guardarMuseo(
+public class ControladorParque {
+      public void guardarParque(
             String nombreLugar,
-            String horaAperturaStr,
-            String horaCierreStr,
+            String entidad_gestora,
+            float superfice,
             String direccion,
             double latitud,
             double longitud,
@@ -51,12 +50,12 @@ public class ControladorMuseo {
             throw new IllegalArgumentException("El nombre del lugar es obligatorio.");
         }
 
-        if (horaAperturaStr == null || horaAperturaStr.trim().isEmpty()) {
-            throw new IllegalArgumentException("La hora de apertura es obligatoria.");
+        if (entidad_gestora.isEmpty()) {
+            throw new IllegalArgumentException("La entidad gestora es obligatoria.");
         }
 
-        if (horaCierreStr == null || horaCierreStr.trim().isEmpty()) {
-            throw new IllegalArgumentException("La hora de cierre es obligatoria.");
+        if (superfice == 0) {
+            throw new IllegalArgumentException("La superficie en metros cuadrados  es obligatoria.");
         }
 
         if (direccion == null || direccion.trim().isEmpty()) {
@@ -71,19 +70,7 @@ public class ControladorMuseo {
             throw new IllegalArgumentException("Se requieren tres imágenes.");
         }
 
-        LocalTime horaApertura = LocalTime.parse(horaAperturaStr.trim());
-        LocalTime horaCierre = LocalTime.parse(horaCierreStr.trim());
 
-        try {
-            horaApertura = LocalTime.parse(horaAperturaStr.trim());
-            horaCierre = LocalTime.parse(horaCierreStr.trim());
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Formato de hora inválido. Usa HH:mm, por ejemplo: 08:30");
-        }
-
-        if (!horaCierre.isAfter(horaApertura)) {
-            throw new IllegalArgumentException("La hora de cierre debe ser posterior a la de apertura.");
-        }
 
         if (latitud < -90 || latitud > 90) {
             throw new IllegalArgumentException("La latitud debe estar entre -90 y 90.");
@@ -104,8 +91,8 @@ public class ControladorMuseo {
                 LugarInteres lugar = new LugarInteres(nombreLugar.trim());
                 int lugarId = LugarInteresDAO.insertar(con, lugar);
 
-                Museo museo = new Museo(lugarId, horaApertura, horaCierre);
-                MuseoDAO.insertar(con, museo);
+                Parque parque = new Parque(lugarId, entidad_gestora, superfice);
+                ParqueDao.insertar(con, parque);
 
                 UbicacionLugar ubicacion = new UbicacionLugar(lugarId, direccion.trim(), latitud, longitud);
                 UbicacionDAO.insertar(con, ubicacion);
@@ -126,12 +113,12 @@ public class ControladorMuseo {
         }
     }
 
-    public List<MuseoVista> obtenerMuseosVista() throws SQLException {
-        List<MuseoVista> lista = new ArrayList<>();
+    public List<ParqueVista> obtenerMuseosVista() throws SQLException {
+        List<ParqueVista> lista = new ArrayList<>();
 
-        String sql = "SELECT li.nombre, m.hora_apertura, m.hora_cierre, img.imagen "
+        String sql = "SELECT li.nombre, p.entidad_gestora, p.superficie, img.imagen "
                 + "FROM lugares_interes li "
-                + "JOIN museo m ON m.lugar_interes_id = li.lugar_interes_id "
+                + "JOIN parque p ON p.lugar_interes_id = li.lugar_interes_id "
                 + "JOIN imagenes_lugar img ON img.lugar_interes_id = li.lugar_interes_id "
                 + "WHERE img.imagen_lugar_id = ( "
                 + "    SELECT MIN(imagen_lugar_id) "
@@ -143,11 +130,11 @@ public class ControladorMuseo {
 
             while (rs.next()) {
                 String nombre = rs.getString("nombre");
-                LocalTime horaApertura = rs.getTime("hora_apertura").toLocalTime();
-                LocalTime horaCierre = rs.getTime("hora_cierre").toLocalTime();
+                String entidad_gestora = rs.getString("entidad_gestora");
+                float superfice = rs.getFloat("superficie");
                 byte[] imagen = rs.getBytes("imagen");
 
-                lista.add(new MuseoVista(nombre, horaApertura, horaCierre, imagen));
+                lista.add(new ParqueVista(nombre, superfice, entidad_gestora, imagen));
             }
         }
 
