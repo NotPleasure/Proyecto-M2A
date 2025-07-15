@@ -46,6 +46,7 @@ public class Ventana_InsertarParque extends javax.swing.JPanel {
     private byte[] imagenBytes3;
     private Controlador.ControladorIglesia controlador;
 
+    
     /**
      * Creates new form Ventana_InsertarIglesia
      */
