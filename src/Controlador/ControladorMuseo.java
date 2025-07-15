@@ -128,9 +128,9 @@ public class ControladorMuseo {
     public List<MuseoVista> obtenerMuseosVista() throws SQLException {
         List<MuseoVista> lista = new ArrayList<>();
 
-        String sql = "SELECT li.nombre, i.hora_apertura, i.hora_cierre, img.imagen "
+        String sql = "SELECT li.nombre, m.hora_apertura, m.hora_cierre, img.imagen "
                 + "FROM lugares_interes li "
-                + "JOIN iglesia i ON i.lugar_interes_id = li.lugar_interes_id "
+                + "JOIN museo m ON m.lugar_interes_id = li.lugar_interes_id "
                 + "JOIN imagenes_lugar img ON img.lugar_interes_id = li.lugar_interes_id "
                 + "WHERE img.imagen_lugar_id = ( "
                 + "    SELECT MIN(imagen_lugar_id) "
