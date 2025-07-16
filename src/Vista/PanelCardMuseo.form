@@ -35,12 +35,12 @@
         <Component class="javax.swing.JLabel" name="lblImagenIglesia">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Im&#xe1;genes/IconoMuseo3.png"/>
+              <Image iconType="3" name="/Im&#xe1;genes/Museoa A.png"/>
             </Property>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="160" width="70" height="90"/>
+              <AbsoluteConstraints x="10" y="160" width="70" height="90"/>
             </Constraint>
           </Constraints>
         </Component>

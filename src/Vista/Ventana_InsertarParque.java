@@ -178,16 +178,16 @@ public class Ventana_InsertarParque extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1350, 750));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(34, 54, 94));
+        jPanel1.setBackground(new java.awt.Color(25, 162, 80));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IconoMuseo_.png"))); // NOI18N
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 50, 60));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Arbol 1.png"))); // NOI18N
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, 60, 60));
 
         Registro.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
         Registro.setForeground(new java.awt.Color(255, 255, 255));
         Registro.setText("Registro de Parques");
-        jPanel1.add(Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, -1, -1));
+        jPanel1.add(Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 26, -1, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1350, 100));
 
@@ -359,12 +359,12 @@ public class Ventana_InsertarParque extends javax.swing.JPanel {
         jPanel5.setBackground(new java.awt.Color(248, 249, 250));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IconoMuseo_2.png"))); // NOI18N
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Info Paques.png"))); // NOI18N
         jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 50, 40));
 
         Categorias4.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         Categorias4.setForeground(new java.awt.Color(44, 62, 80));
-        Categorias4.setText("Información del Museo");
+        Categorias4.setText("Información del Parque");
         jPanel5.add(Categorias4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 16, 320, 40));
 
         jSeparator3.setForeground(new java.awt.Color(224, 224, 224));

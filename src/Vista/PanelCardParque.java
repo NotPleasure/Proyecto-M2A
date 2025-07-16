@@ -79,21 +79,21 @@ public Dimension getPreferredSize() {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblImagenIglesia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IconoMuseo3.png"))); // NOI18N
-        jPanel1.add(lblImagenIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 70, 90));
+        lblImagenIglesia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Parques A.png"))); // NOI18N
+        jPanel1.add(lblImagenIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 160, 70, 90));
 
         lblNombre.setForeground(new java.awt.Color(49, 49, 49));
-        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 240, 30));
+        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 260, 30));
         jPanel1.add(lblImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 180));
 
         lblReloj.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/oRA.png"))); // NOI18N
-        jPanel1.add(lblReloj, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 240, 30, 30));
+        jPanel1.add(lblReloj, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 30, 30));
 
         lblHoraCierre.setForeground(new java.awt.Color(127, 140, 141));
-        jPanel1.add(lblHoraCierre, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 80, 20));
+        jPanel1.add(lblHoraCierre, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 242, 130, 20));
 
         lblHoraApertura.setForeground(new java.awt.Color(127, 140, 141));
-        jPanel1.add(lblHoraApertura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 242, 80, 20));
+        jPanel1.add(lblHoraApertura, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 242, 120, 20));
 
         Ver.setText("Ver");
         Ver.setBorderPainted(false);

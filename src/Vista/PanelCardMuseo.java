@@ -79,8 +79,8 @@ public Dimension getPreferredSize() {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblImagenIglesia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IconoMuseo3.png"))); // NOI18N
-        jPanel1.add(lblImagenIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 70, 90));
+        lblImagenIglesia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Museoa A.png"))); // NOI18N
+        jPanel1.add(lblImagenIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 70, 90));
 
         lblNombre.setForeground(new java.awt.Color(49, 49, 49));
         jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 240, 30));

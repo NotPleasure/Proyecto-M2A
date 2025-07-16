@@ -8,6 +8,7 @@ import Vista.*;
 import Controlador.ControladorIglesia;
 import Controlador.ControladorMuseo;
 import Design.Panel.WrapLayout;
+import Design.RoundedButtonRegresarMuseos;
 import Modelo.Iglesia;
 import Modelo.Iglesia;
 import Modelo.IglesiaVista;
@@ -106,6 +107,8 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         Registro = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jButton1 = new RoundedButtonRegresarMuseos("");
         jPanelCentro = new javax.swing.JPanel();
         jPanelContenedorMuseos = new javax.swing.JPanel();
 
@@ -114,13 +117,25 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(149, 125, 102));
+        jPanel1.setBackground(new java.awt.Color(217, 188, 138));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Registro.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
         Registro.setForeground(new java.awt.Color(255, 255, 255));
         Registro.setText("Mis Museos");
-        jPanel1.add(Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 340, -1));
+        jPanel1.add(Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 22, 180, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ImaMuseo.png"))); // NOI18N
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 14, 70, 60));
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Salir");
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 30, 140, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 90));
 
@@ -193,6 +208,8 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Registro;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelCentro;
     private javax.swing.JPanel jPanelContenedorMuseos;

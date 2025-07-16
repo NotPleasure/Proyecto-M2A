@@ -5,6 +5,8 @@
 package Vista;
 
 import Design.RoundedButtonLugaresEvent;
+import Design.RoundedButtonVerMuseos;
+import Design.RoundedButtonVerParques;
 import Design.RoundedPanelAdmin;
 import Design.RoundedPanelLugares;
 import Design.RoundedPanelLugares2;
@@ -151,7 +153,14 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jPanel8 = new RoundedPanelAdmin();
-        jButton1 = new javax.swing.JButton();
+        jButton1 = new RoundedButtonLugaresEvent("");
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jButton2 = new RoundedButtonVerMuseos(""
+        );
+        jLabel14 = new javax.swing.JLabel();
+        jButton4 = new RoundedButtonVerParques(""
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1390, 800));
@@ -249,7 +258,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Actividad.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         Actividad.setForeground(new java.awt.Color(44, 62, 80));
         Actividad.setText("Actividad Reciente");
-        jPanel1.add(Actividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 635, -1, -1));
+        jPanel1.add(Actividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 620, -1, -1));
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -460,20 +469,60 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         jPanel1.add(Categorias1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 226, -1, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ppppppp.png"))); // NOI18N
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 610, 90, 80));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 596, 90, 80));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/a1.png"))); // NOI18N
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 90, 80));
 
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("jButton1");
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setText("Ver mis Iglesisas");
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel8.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
+        jPanel8.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 140, 30));
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Iglesias 3.png"))); // NOI18N
+        jPanel8.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 70, 90));
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Museoa A.png"))); // NOI18N
+        jPanel8.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, -10, 70, 90));
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton2.setText("Ver mis Museos");
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.setFocusPainted(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, 140, 30));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Parques A.png"))); // NOI18N
+        jPanel8.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, -10, 70, 90));
+
+        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton4.setText("Ver mis Parques");
+        jButton4.setBorderPainted(false);
+        jButton4.setContentAreaFilled(false);
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.setFocusPainted(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 140, 30));
 
         jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 680, 1220, 70));
 
@@ -505,7 +554,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
     private void Gestionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Gestionar1ActionPerformed
 
-   Ventana_InsertarMuseo ayudaPanel = new Ventana_InsertarMuseo();
+        Ventana_InsertarMuseo ayudaPanel = new Ventana_InsertarMuseo();
 
         GlassPanePopup.showPopup(ayudaPanel);
 
@@ -514,10 +563,26 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
     private void Gestionar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Gestionar2ActionPerformed
 
-   Ventana_InsertarParque ayudaPanel = new Ventana_InsertarParque();
+        Ventana_InsertarParque ayudaPanel = new Ventana_InsertarParque();
 
         GlassPanePopup.showPopup(ayudaPanel);
     }//GEN-LAST:event_Gestionar2ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        Ventana_TarjetasMuseo ventana = new Ventana_TarjetasMuseo();
+        ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ventana.setVisible(true);
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        Ventana_TarjetasParque ventana = new Ventana_TarjetasParque();
+        ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ventana.setVisible(true);
+
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -596,9 +661,14 @@ public class Ventana_Lugares extends javax.swing.JFrame {
     private javax.swing.JLabel Registradas7;
     private javax.swing.JLabel Registros;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
