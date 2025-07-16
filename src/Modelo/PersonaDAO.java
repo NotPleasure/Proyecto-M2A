@@ -146,7 +146,7 @@ public class PersonaDAO {
 
     //Para actualizar contraseña:
     public boolean actualizarContrasenia(String email, String nuevaContraseniaHash) {
-        String sql = "UPDATE persona SET contraseña = ? WHERE correo = ?";
+        String sql = "UPDATE persona SET contrasena = ? WHERE correo = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, nuevaContraseniaHash);
             ps.setString(2, email);
