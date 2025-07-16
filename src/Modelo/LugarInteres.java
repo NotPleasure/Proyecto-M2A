@@ -12,6 +12,11 @@ public class LugarInteres {
     public LugarInteres() {
     }
 
+    public LugarInteres(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+   
     public LugarInteres(String nombre) {
         this.nombre = nombre;
     }

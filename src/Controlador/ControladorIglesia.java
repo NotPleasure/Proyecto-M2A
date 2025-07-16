@@ -5,6 +5,7 @@ import Modelo.LugarInteres;
 import Modelo.LugarInteresDAO;
 import Modelo.Iglesia;
 import Modelo.IglesiaDAO;
+import Modelo.IglesiaDetalleVista;
 import Modelo.IglesiaVista;
 import Modelo.UbicacionLugar;
 import Modelo.UbicacionDAO;
@@ -26,6 +27,8 @@ import java.util.List;
 import java.sql.Connection;
 
 public class ControladorIglesia {
+
+    private IglesiaDAO iglesiaDAO = new IglesiaDAO();
 
     public void guardarIglesia(
             String nombreLugar,
@@ -118,11 +121,10 @@ public class ControladorIglesia {
             }
         }
     }
-
-    public List<IglesiaVista> obtenerIglesiasVista() throws SQLException {
+     public List<IglesiaVista> obtenerIglesiasVista() throws SQLException {
         List<IglesiaVista> lista = new ArrayList<>();
 
-        String sql = "SELECT li.nombre, i.hora_apertura, i.hora_cierre, img.imagen "
+        String sql = "SELECT li.lugar_interes_id,li.nombre, i.hora_apertura, i.hora_cierre, img.imagen "
                 + "FROM lugares_interes li "
                 + "JOIN iglesia i ON i.lugar_interes_id = li.lugar_interes_id "
                 + "JOIN imagenes_lugar img ON img.lugar_interes_id = li.lugar_interes_id "
@@ -132,19 +134,23 @@ public class ControladorIglesia {
                 + "    WHERE lugar_interes_id = li.lugar_interes_id "
                 + ")";
 
-        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = ConexionHuellasCuencanas.conectar(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
+                int id = rs.getInt("lugar_interes_id");
                 String nombre = rs.getString("nombre");
                 LocalTime horaApertura = rs.getTime("hora_apertura").toLocalTime();
                 LocalTime horaCierre = rs.getTime("hora_cierre").toLocalTime();
                 byte[] imagen = rs.getBytes("imagen");
 
-                lista.add(new IglesiaVista(nombre, horaApertura, horaCierre, imagen));
+                lista.add(new IglesiaVista(id,nombre, horaApertura, horaCierre, imagen));
             }
         }
 
         return lista;
+    }
+    public IglesiaDetalleVista obtenerDetalleIglesia(int lugarInteresId) throws SQLException {
+        return iglesiaDAO.obtenerDetalleIglesia(lugarInteresId);
     }
 
 }

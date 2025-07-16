@@ -69,7 +69,8 @@ public class Ventana_TarjetasIglesia extends javax.swing.JFrame {
             List<IglesiaVista> lista = ctrl.obtenerIglesiasVista();
 
             for (IglesiaVista iv : lista) {
-                agregarTarjeta(iv.getNombre(), iv.getHoraApertura().toString(), iv.getHoraCierre().toString(), iv.getImagenPrincipal());
+                agregarTarjeta(iv.getId(),iv.getNombre(), iv.getHoraApertura().toString(), iv.getHoraCierre().toString(), iv.getImagenPrincipal());
+                System.out.println(iv.getId());
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
@@ -81,8 +82,8 @@ public class Ventana_TarjetasIglesia extends javax.swing.JFrame {
     }
 
     //Agregar las tarjetas:
-    public void agregarTarjeta(String nombre, String horaApertura, String horaCierre, byte[] imagen) {
-        PanelCardIglesia tarjeta = new PanelCardIglesia(nombre, horaApertura, horaCierre, imagen);
+    public void agregarTarjeta(int id,String nombre, String horaApertura, String horaCierre, byte[] imagen) {
+        PanelCardIglesia tarjeta = new PanelCardIglesia(id,nombre, horaApertura, horaCierre, imagen);
         tarjeta.setAlignmentX(Component.LEFT_ALIGNMENT);
         jPanelContenedorIglesias.add(tarjeta);
         jPanelContenedorIglesias.revalidate();

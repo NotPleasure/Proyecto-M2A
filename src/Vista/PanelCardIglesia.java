@@ -4,12 +4,17 @@
  */
 package Vista;
 
+import Controlador.ControladorIglesia;
 import Design.RoundedButtonInsertar;
 import Design.RoundedPanelLugares;
+import Modelo.IglesiaDetalleVista;
+import Modelo.IglesiaVista;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.time.LocalTime;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,11 +22,14 @@ import javax.swing.ImageIcon;
  */
 public class PanelCardIglesia extends javax.swing.JPanel {
 
+    private IglesiaVista vista;
+    
     /**
      * Creates new form PanelCardIglesia
      */
-    public PanelCardIglesia() {
+    public PanelCardIglesia(IglesiaVista vista) {
         initComponents();
+        this.vista = vista;
 
         //Fuentes:
         lblNombre.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
@@ -31,9 +39,23 @@ public class PanelCardIglesia extends javax.swing.JPanel {
 
     }
 
-    public PanelCardIglesia(String nombre, String horaApertura, String horaCierre, byte[] imagenBytes) {
+    public PanelCardIglesia(int id, String nombre, String horaApertura, String horaCierre, byte[] imagenBytes) {
         initComponents();
+        System.out.println(id);
+        LocalTime apertura = null;
+        LocalTime cierre = null;
+        try {
+            if (horaApertura != null && !horaApertura.isEmpty()) {
+                apertura = LocalTime.parse(horaApertura);
+            }
+            if (horaCierre != null && !horaCierre.isEmpty()) {
+                cierre = LocalTime.parse(horaCierre);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        this.vista = new IglesiaVista(id, nombre, apertura, cierre, imagenBytes);
         lblNombre.setText(nombre);
         lblHoraApertura.setText("Entrada: " + horaApertura);
         lblHoraCierre.setText("Salida: " + horaCierre);
@@ -42,20 +64,41 @@ public class PanelCardIglesia extends javax.swing.JPanel {
         lblHoraApertura.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         lblHoraCierre.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
 
-        // Imagen principal
         if (imagenBytes != null) {
             ImageIcon icono = new ImageIcon(imagenBytes);
             Image img = icono.getImage().getScaledInstance(350, 180, Image.SCALE_SMOOTH);
             lblImagen.setIcon(new ImageIcon(img));
         }
 
-        // (Los iconos lblImagenIglesia y lblReloj ya los pusiste desde el diseñador, así que no hay que tocarlos aquí.)
+        btnVer.addActionListener(e -> mostrarVentanaDetalle());
     }
-    
+
     @Override
-public Dimension getPreferredSize() {
-    return new Dimension(350, 340); 
-}
+    public Dimension getPreferredSize() {
+        return new Dimension(350, 340);
+    }
+
+    private void mostrarVentanaDetalle() {
+        try {
+            int id = vista.getId();
+            ControladorIglesia ctrl = new ControladorIglesia();
+            IglesiaDetalleVista detalle = ctrl.obtenerDetalleIglesia(id);
+
+            if (detalle != null) {
+                Ventana_VerIglesias ventana = new Ventana_VerIglesias(detalle);
+                ventana.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontraron los datos completos.");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Error al mostrar la iglesia:\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -73,7 +116,7 @@ public Dimension getPreferredSize() {
         lblReloj = new javax.swing.JLabel();
         lblHoraCierre = new javax.swing.JLabel();
         lblHoraApertura = new javax.swing.JLabel();
-        Ver = new RoundedButtonInsertar("");
+        btnVer = new RoundedButtonInsertar("");
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -95,18 +138,27 @@ public Dimension getPreferredSize() {
         lblHoraApertura.setForeground(new java.awt.Color(127, 140, 141));
         jPanel1.add(lblHoraApertura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 242, 80, 20));
 
-        Ver.setText("Ver");
-        Ver.setBorderPainted(false);
-        Ver.setContentAreaFilled(false);
-        Ver.setFocusPainted(false);
-        jPanel1.add(Ver, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 90, -1));
+        btnVer.setText("Ver");
+        btnVer.setBorderPainted(false);
+        btnVer.setContentAreaFilled(false);
+        btnVer.setFocusPainted(false);
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 90, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 340));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Ver;
+    private javax.swing.JButton btnVer;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblHoraApertura;
     private javax.swing.JLabel lblHoraCierre;

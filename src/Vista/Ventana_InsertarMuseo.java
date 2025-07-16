@@ -484,7 +484,7 @@ public class Ventana_InsertarMuseo extends javax.swing.JPanel {
                     img1, img2, img3
             );
 
-            Ventana_VerLugares popup = new Ventana_VerLugares();
+            Ventana_VerMuseos popup = new Ventana_VerMuseos();
             GlassPanePopup.showPopup(popup);
 
             limpiarFormulario();

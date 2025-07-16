@@ -511,7 +511,7 @@ public class Ventana_InsertarParque extends javax.swing.JPanel {
                     img1, img2, img3
             );
 
-            Ventana_VerLugares popup = new Ventana_VerLugares();
+            Ventana_VerParques popup = new Ventana_VerParques();
             GlassPanePopup.showPopup(popup);
 
             limpiarFormulario();

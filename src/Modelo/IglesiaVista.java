@@ -7,19 +7,32 @@ package Modelo;
 import java.time.LocalTime;
 
 public class IglesiaVista {
-
+    private int id;
     private String nombre;
     private LocalTime horaApertura;
     private LocalTime horaCierre;
     private byte[] imagenPrincipal;
 
-    public IglesiaVista(String nombre, LocalTime horaApertura, LocalTime horaCierre, byte[] imagenPrincipal) {
+
+    public IglesiaVista(int id, String nombre, LocalTime horaApertura, LocalTime horaCierre, byte[] imagenPrincipal) {
+        this.id = id;
         this.nombre = nombre;
         this.horaApertura = horaApertura;
         this.horaCierre = horaCierre;
         this.imagenPrincipal = imagenPrincipal;
     }
+    
+    public IglesiaVista() {
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNombre() {
         return nombre;
     }

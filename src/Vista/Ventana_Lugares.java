@@ -346,6 +346,11 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Gestionar1.setContentAreaFilled(false);
         Gestionar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Gestionar1.setFocusPainted(false);
+        Gestionar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Gestionar1ActionPerformed(evt);
+            }
+        });
         jPanel5.add(Gestionar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 170, 30));
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 290, 270, 310));
@@ -393,6 +398,11 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Gestionar2.setContentAreaFilled(false);
         Gestionar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Gestionar2.setFocusPainted(false);
+        Gestionar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Gestionar2ActionPerformed(evt);
+            }
+        });
         jPanel6.add(Gestionar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 170, 30));
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 290, 270, 310));
@@ -478,7 +488,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
     private void GestionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionarActionPerformed
 
-        Ventana_InsertarMuseo ayudaPanel = new Ventana_InsertarMuseo();
+        Ventana_InsertarIglesia ayudaPanel = new Ventana_InsertarIglesia();
 
         GlassPanePopup.showPopup(ayudaPanel);
 
@@ -492,6 +502,22 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void Gestionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Gestionar1ActionPerformed
+
+   Ventana_InsertarMuseo ayudaPanel = new Ventana_InsertarMuseo();
+
+        GlassPanePopup.showPopup(ayudaPanel);
+
+
+    }//GEN-LAST:event_Gestionar1ActionPerformed
+
+    private void Gestionar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Gestionar2ActionPerformed
+
+   Ventana_InsertarParque ayudaPanel = new Ventana_InsertarParque();
+
+        GlassPanePopup.showPopup(ayudaPanel);
+    }//GEN-LAST:event_Gestionar2ActionPerformed
 
     /**
      * @param args the command line arguments
