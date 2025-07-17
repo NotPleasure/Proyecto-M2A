@@ -76,10 +76,10 @@ public class Ventana_TarjetasParque extends javax.swing.JFrame {
     //Cargar todas las iglesias existentes:
     public void cargarParques() {
         try {
-            List<ParqueVista> lista = ctrl.obtenerMuseosVista();
+            List<ParqueVista> lista = ctrl.obtenerParquesVista();
 
             for (ParqueVista iv : lista) {
-                agregarTarjeta(iv.getNombre(),iv.getEntidad_gestora(),iv.getSuperficie(), iv.getImagenPrincipal());
+                agregarTarjeta(iv.getId(),iv.getNombre(),iv.getEntidad_gestora(),iv.getSuperficie(), iv.getImagenPrincipal());
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
@@ -91,8 +91,8 @@ public class Ventana_TarjetasParque extends javax.swing.JFrame {
     }
 
     //Agregar las tarjetas:
-    public void agregarTarjeta(String nombre, String entidad_gestora, float superficie, byte[] imagen) {
-        PanelCardParque tarjeta = new PanelCardParque(nombre, entidad_gestora, superficie, imagen);
+    public void agregarTarjeta(int id,String nombre, String entidad_gestora, float superficie, byte[] imagen) {
+        PanelCardParque tarjeta = new PanelCardParque(id,nombre, entidad_gestora, superficie, imagen);
         tarjeta.setAlignmentX(Component.LEFT_ALIGNMENT);
         jPanelContenedorMuseos.add(tarjeta);
         jPanelContenedorMuseos.revalidate();

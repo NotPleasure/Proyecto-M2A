@@ -76,7 +76,7 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
             List<MuseoVista> lista = ctrl.obtenerMuseosVista();
 
             for (MuseoVista iv : lista) {
-                agregarTarjeta(iv.getNombre(), iv.getHoraApertura().toString(), iv.getHoraCierre().toString(), iv.getImagenPrincipal());
+                agregarTarjeta(iv.getId(),iv.getNombre(), iv.getHoraApertura().toString(), iv.getHoraCierre().toString(), iv.getImagenPrincipal());
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
@@ -88,8 +88,8 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
     }
 
     //Agregar las tarjetas:
-    public void agregarTarjeta(String nombre, String horaApertura, String horaCierre, byte[] imagen) {
-        PanelCardMuseo tarjeta = new PanelCardMuseo(nombre, horaApertura, horaCierre, imagen);
+    public void agregarTarjeta(int id,String nombre, String horaApertura, String horaCierre, byte[] imagen) {
+        PanelCardMuseo tarjeta = new PanelCardMuseo(id,nombre, horaApertura, horaCierre, imagen);
         tarjeta.setAlignmentX(Component.LEFT_ALIGNMENT);
         jPanelContenedorMuseos.add(tarjeta);
         jPanelContenedorMuseos.revalidate();

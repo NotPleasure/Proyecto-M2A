@@ -19,14 +19,14 @@ import Design.RoundedButtonRanking;
  *
  * @author USER
  */
-public class Ventanas_MostrarMás extends javax.swing.JFrame {
+public class Ventanas_MostrarMas extends javax.swing.JFrame {
 
     private final String BusquedaText = "Buscar Iglesias, Parques, Museos, Miradores";
 
     /**
      * Creates new form Ventanas_MostrarMás
      */
-    public Ventanas_MostrarMás() {
+    public Ventanas_MostrarMas() {
         initComponents();
 
         //Fuentes:

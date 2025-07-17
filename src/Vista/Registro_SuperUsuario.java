@@ -361,7 +361,7 @@ public class Registro_SuperUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtConfirmarContraseñaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Mensaje_ÉxitoSuperUsuario miLogin = new Mensaje_ÉxitoSuperUsuario();
+        Mensaje_ExitoSuperUsuario miLogin = new Mensaje_ExitoSuperUsuario();
         miLogin.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

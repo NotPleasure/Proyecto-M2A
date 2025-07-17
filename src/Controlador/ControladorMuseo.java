@@ -7,6 +7,7 @@ package Controlador;
 import ConexionHuellasCuencanas.ConexionHuellasCuencanas;
 import Modelo.Iglesia;
 import Modelo.IglesiaDAO;
+import Modelo.IglesiaDetalleVista;
 import Modelo.IglesiaVista;
 import Modelo.ImagenLugar;
 import Modelo.ImagenLugarDAO;
@@ -16,6 +17,7 @@ import Modelo.LugarInteres;
 import Modelo.LugarInteresDAO;
 import Modelo.Museo;
 import Modelo.MuseoDAO;
+import Modelo.MuseoDetalleVista;
 import Modelo.MuseoVista;
 import Modelo.UbicacionDAO;
 import Modelo.UbicacionLugar;
@@ -129,7 +131,7 @@ public class ControladorMuseo {
     public List<MuseoVista> obtenerMuseosVista() throws SQLException {
         List<MuseoVista> lista = new ArrayList<>();
 
-        String sql = "SELECT li.nombre, m.hora_apertura, m.hora_cierre, img.imagen "
+        String sql = "SELECT li.li.lugar_interes_id,li.nombre, m.hora_apertura, m.hora_cierre, img.imagen "
                 + "FROM lugares_interes li "
                 + "JOIN museo m ON m.lugar_interes_id = li.lugar_interes_id "
                 + "JOIN imagenes_lugar img ON img.lugar_interes_id = li.lugar_interes_id "
@@ -142,15 +144,20 @@ public class ControladorMuseo {
         try (Connection conn = ConexionHuellasCuencanas.conectar(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
+                int id = rs.getInt("li.lugar_interes_id");
                 String nombre = rs.getString("nombre");
                 LocalTime horaApertura = rs.getTime("hora_apertura").toLocalTime();
                 LocalTime horaCierre = rs.getTime("hora_cierre").toLocalTime();
                 byte[] imagen = rs.getBytes("imagen");
 
-                lista.add(new MuseoVista(nombre, horaApertura, horaCierre, imagen));
+                lista.add(new MuseoVista(id,nombre, horaApertura, horaCierre, imagen));
             }
         }
 
         return lista;
+    }
+    public MuseoDetalleVista obtenerDetalleMuseo(int lugarInteresId) throws SQLException {
+        MuseoDAO museo =new MuseoDAO();
+        return museo.obtenerDetalleMuseo(lugarInteresId);
     }
 }

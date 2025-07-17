@@ -1,0 +1,27 @@
+<component name="libraryTable">
+  <library name="Lib 2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Lib 2/jbcrypt-0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/jakarta.mail-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/postgresql-42.7.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/AnimatonClass.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/flatlaf-3.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/jakarta.activation-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/swing-worker-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/TimingFramework-0.55.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/xchart-demo-3.8.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/xchart-3.8.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/LGoodDatePicker-11.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/miglayout-4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/swingx-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/filters-2.0.235.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/glasspane-popup-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/AbsoluteLayout.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/jxmapviewer2-2.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib 2/flatlaf-intellij-themes-3.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

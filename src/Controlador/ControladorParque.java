@@ -13,9 +13,11 @@ import Modelo.LugarInteres;
 import Modelo.LugarInteresDAO;
 import Modelo.Museo;
 import Modelo.MuseoDAO;
+import Modelo.MuseoDetalleVista;
 import Modelo.MuseoVista;
 import Modelo.Parque;
 import Modelo.ParqueDao;
+import Modelo.ParqueDetalleVista;
 import Modelo.ParqueVista;
 import Modelo.UbicacionDAO;
 import Modelo.UbicacionLugar;
@@ -113,7 +115,7 @@ public class ControladorParque {
         }
     }
 
-    public List<ParqueVista> obtenerMuseosVista() throws SQLException {
+    public List<ParqueVista> obtenerParquesVista() throws SQLException {
         List<ParqueVista> lista = new ArrayList<>();
 
         String sql = "SELECT li.nombre, p.entidad_gestora, p.superficie, img.imagen "
@@ -139,5 +141,9 @@ public class ControladorParque {
         }
 
         return lista;
+    }
+    public ParqueDetalleVista obtenerDetalleParque(int lugarInteresId) throws SQLException {
+        ParqueDao parque =new ParqueDao();
+        return parque.obtenerDetalleParque(lugarInteresId);
     }
 }

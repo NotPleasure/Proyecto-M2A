@@ -11,21 +11,32 @@ import java.time.LocalTime;
  * @author MeiRen
  */
 public class MuseoVista {
+    private int id;
     private String nombre;
     private LocalTime horaApertura;
     private LocalTime horaCierre;
     private byte[] imagenPrincipal;
 
-    public MuseoVista(String nombre, LocalTime horaApertura, LocalTime horaCierre, byte[] imagenPrincipal) {
+
+    public MuseoVista(int id, String nombre, LocalTime horaApertura, LocalTime horaCierre, byte[] imagenPrincipal) {
+        this.id = id;
         this.nombre = nombre;
         this.horaApertura = horaApertura;
         this.horaCierre = horaCierre;
         this.imagenPrincipal = imagenPrincipal;
     }
-
+    
     public MuseoVista() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNombre() {
         return nombre;
     }

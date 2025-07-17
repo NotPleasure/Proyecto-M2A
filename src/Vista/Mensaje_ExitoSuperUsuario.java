@@ -12,12 +12,12 @@ import java.awt.Font;
  *
  * @author USER
  */
-public class Mensaje_ÉxitoSuperUsuario extends javax.swing.JFrame {
+public class Mensaje_ExitoSuperUsuario extends javax.swing.JFrame {
 
     /**
      * Creates new form Mensaje_ÉxitoSuperUsuario
      */
-    public Mensaje_ÉxitoSuperUsuario() {
+    public Mensaje_ExitoSuperUsuario() {
         initComponents();
         setLocationRelativeTo(null);
         
@@ -109,20 +109,21 @@ public class Mensaje_ÉxitoSuperUsuario extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Mensaje_ÉxitoSuperUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mensaje_ExitoSuperUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Mensaje_ÉxitoSuperUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mensaje_ExitoSuperUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Mensaje_ÉxitoSuperUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mensaje_ExitoSuperUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Mensaje_ÉxitoSuperUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mensaje_ExitoSuperUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Mensaje_ÉxitoSuperUsuario().setVisible(true);
+                new Mensaje_ExitoSuperUsuario().setVisible(true);
             }
         });
     }

@@ -9,6 +9,7 @@ package Modelo;
  * @author MeiRen
  */
 public class ParqueVista {
+    private int id;
      private String nombre;
      private float superficie;
      private String entidad_gestora;
@@ -17,6 +18,14 @@ public class ParqueVista {
     public ParqueVista() {
     }
 
+    public ParqueVista(int id, String nombre, float superficie, String entidad_gestora, byte[] imagenPrincipal) {
+        this.id = id;
+        this.nombre = nombre;
+        this.superficie = superficie;
+        this.entidad_gestora = entidad_gestora;
+        this.imagenPrincipal = imagenPrincipal;
+    }
+    
     public ParqueVista(String nombre, float superficie, String entidad_gestora, byte[] imagenPrincipal) {
         this.nombre = nombre;
         this.superficie = superficie;
@@ -24,6 +33,14 @@ public class ParqueVista {
         this.imagenPrincipal = imagenPrincipal;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+     
     public String getNombre() {
         return nombre;
     }

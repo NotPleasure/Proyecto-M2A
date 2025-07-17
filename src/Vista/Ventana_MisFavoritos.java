@@ -367,7 +367,7 @@ public class Ventana_MisFavoritos extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Ventanas_MostrarMás MiLugar = new Ventanas_MostrarMás();
+        Ventanas_MostrarMas MiLugar = new Ventanas_MostrarMas();
         MiLugar.setSize(1140, 830);
 
         content.removeAll();

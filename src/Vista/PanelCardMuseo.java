@@ -4,19 +4,27 @@
  */
 package Vista;
 
+import Controlador.ControladorIglesia;
+import Controlador.ControladorMuseo;
 import Design.RoundedButtonInsertar;
 import Design.RoundedPanelLugares;
+import Modelo.IglesiaDetalleVista;
+import Modelo.IglesiaVista;
+import Modelo.MuseoDetalleVista;
+import Modelo.MuseoVista;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.time.LocalTime;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author USER
  */
 public class PanelCardMuseo extends javax.swing.JPanel {
-
+     private MuseoVista vista;
     /**
      * Creates new form PanelCardIglesia
      */
@@ -25,15 +33,28 @@ public class PanelCardMuseo extends javax.swing.JPanel {
 
         //Fuentes:
         lblNombre.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
-
         lblHoraApertura.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         lblHoraCierre.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
 
     }
 
-    public PanelCardMuseo(String nombre, String horaApertura, String horaCierre, byte[] imagenBytes) {
-        initComponents();
+    public PanelCardMuseo(int id,String nombre, String horaApertura, String horaCierre, byte[] imagenBytes) {
+          initComponents();
+        System.out.println(id);
+        LocalTime apertura = null;
+        LocalTime cierre = null;
+        try {
+            if (horaApertura != null && !horaApertura.isEmpty()) {
+                apertura = LocalTime.parse(horaApertura);
+            }
+            if (horaCierre != null && !horaCierre.isEmpty()) {
+                cierre = LocalTime.parse(horaCierre);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        this.vista = new MuseoVista(id, nombre, apertura, cierre, imagenBytes);
         lblNombre.setText(nombre);
         lblHoraApertura.setText("Entrada: " + horaApertura);
         lblHoraCierre.setText("Salida: " + horaCierre);
@@ -42,13 +63,13 @@ public class PanelCardMuseo extends javax.swing.JPanel {
         lblHoraApertura.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         lblHoraCierre.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
 
-        // Imagen principal
         if (imagenBytes != null) {
             ImageIcon icono = new ImageIcon(imagenBytes);
             Image img = icono.getImage().getScaledInstance(350, 180, Image.SCALE_SMOOTH);
             lblImagen.setIcon(new ImageIcon(img));
         }
 
+         Ver.addActionListener(e -> mostrarVentanaDetalle());
         // (Los iconos lblImagenIglesia y lblReloj ya los pusiste desde el diseñador, así que no hay que tocarlos aquí.)
     }
     
@@ -56,7 +77,27 @@ public class PanelCardMuseo extends javax.swing.JPanel {
 public Dimension getPreferredSize() {
     return new Dimension(350, 340); 
 }
+   private void mostrarVentanaDetalle() {
+        try {
+            int id = vista.getId();
+            ControladorMuseo ctrl = new ControladorMuseo();
+            MuseoDetalleVista detalle = ctrl.obtenerDetalleMuseo(id);
 
+            if (detalle != null) {
+                Ventana_VerDetalleMuseos ventana = new Ventana_VerDetalleMuseos(detalle);
+                ventana.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontraron los datos completos.");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Error al mostrar la museo:\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

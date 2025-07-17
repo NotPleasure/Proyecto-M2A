@@ -4,12 +4,18 @@
  */
 package Vista;
 
+import Controlador.ControladorMuseo;
+import Controlador.ControladorParque;
 import Design.RoundedButtonInsertar;
 import Design.RoundedPanelLugares;
+import Modelo.MuseoDetalleVista;
+import Modelo.ParqueDetalleVista;
+import Modelo.ParqueVista;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +26,7 @@ public class PanelCardParque extends javax.swing.JPanel {
     /**
      * Creates new form PanelCardIglesia
      */
+     private ParqueVista vista;
     public PanelCardParque() {
         initComponents();
 
@@ -31,9 +38,9 @@ public class PanelCardParque extends javax.swing.JPanel {
 
     }
 
-    public PanelCardParque(String nombre, String entidad_gestora, float superfice, byte[] imagenBytes) {
+    public PanelCardParque(int id,String nombre, String entidad_gestora, float superfice, byte[] imagenBytes) {
         initComponents();
-
+        this.vista =new ParqueVista(id,nombre,superfice,entidad_gestora,imagenBytes);
         lblNombre.setText(nombre);
         lblHoraApertura.setText("Entidad Gestora: " + entidad_gestora);
         lblHoraCierre.setText("Superficie  m2: " + superfice);
@@ -41,14 +48,14 @@ public class PanelCardParque extends javax.swing.JPanel {
         lblNombre.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         lblHoraApertura.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         lblHoraCierre.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
-
+         
         // Imagen principal
         if (imagenBytes != null) {
             ImageIcon icono = new ImageIcon(imagenBytes);
             Image img = icono.getImage().getScaledInstance(350, 180, Image.SCALE_SMOOTH);
             lblImagen.setIcon(new ImageIcon(img));
         }
-
+         Ver.addActionListener(e -> mostrarVentanaDetalle());
         // (Los iconos lblImagenIglesia y lblReloj ya los pusiste desde el diseñador, así que no hay que tocarlos aquí.)
     }
     
@@ -56,7 +63,27 @@ public class PanelCardParque extends javax.swing.JPanel {
 public Dimension getPreferredSize() {
     return new Dimension(350, 340); 
 }
+   private void mostrarVentanaDetalle() {
+        try {
+            int id = vista.getId();
+            ControladorParque ctrl = new ControladorParque();
+            ParqueDetalleVista detalle = ctrl.obtenerDetalleParque(id);
 
+            if (detalle != null) {
+                Ventana_VerDetalleParques ventana = new Ventana_VerDetalleParques(detalle);
+                ventana.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontraron los datos completos.");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Error al mostrar la parque:\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

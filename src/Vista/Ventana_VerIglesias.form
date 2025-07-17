@@ -103,27 +103,6 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="Design.Imagen.RoundedImageLabel" name="roundedImageLabel1">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="30" y="120" width="390" height="190"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="Design.Imagen.RoundedImageLabel" name="roundedImageLabel2">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="30" y="330" width="390" height="200"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="Design.Imagen.RoundedImageLabel" name="roundedImageLabel3">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="30" y="550" width="390" height="200"/>
-            </Constraint>
-          </Constraints>
-        </Component>
         <Container class="javax.swing.JPanel" name="PanelMapa">
           <Properties>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -472,6 +451,27 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="Design.Imagen.RoundedImageLabel" name="roundedImageLabel1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="20" y="120" width="380" height="200"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="Design.Imagen.RoundedImageLabel" name="roundedImageLabel2">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="20" y="360" width="380" height="170"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="Design.Imagen.RoundedImageLabel" name="roundedImageLabel3">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="30" y="570" width="370" height="240"/>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
