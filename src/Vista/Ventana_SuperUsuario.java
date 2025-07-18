@@ -31,8 +31,10 @@ import Modelo.AdministradorDAO;
 import Modelo.Administrador;
 import Animations.Animator1;
 import Controlador.ControladorActualizarAdmin;
+import Controlador.ControladorActualizarSuperUsuario;
 import Controlador.ControladorActualizarUsuarioPrincipal;
 import Controlador.ControladorAdministrador;
+import Controlador.ControladorInsertarSuperUsuario;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
@@ -44,9 +46,10 @@ import Modelo.Persona;
  *
  * @author USER
  */
-public class Ventana_Admin extends javax.swing.JFrame {
+public class Ventana_SuperUsuario extends javax.swing.JFrame {
 
-    private List<Administrador> listaUsuariosCompleta = new ArrayList<>();
+    private List<SuperUsuario> listaUsuariosCompleta = new ArrayList<>();
+    private SuperUsuarioDAO superUsuarioDAO = new SuperUsuarioDAO();
 
     private boolean sinBordes = true;
     private Persona personaLogueada;
@@ -54,7 +57,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
     /**
      * Creates new form Ventana_Admin
      */
-    public Ventana_Admin(boolean sinBordes, Persona persona) {
+    public Ventana_SuperUsuario(boolean sinBordes, Persona persona) {
         this.personaLogueada = persona;
         if (sinBordes) {
             setUndecorated(true);
@@ -73,7 +76,8 @@ public class Ventana_Admin extends javax.swing.JFrame {
 
         //Método para personalizar la tabla:
         personalizarTabla(jTable1);
-        listaUsuariosCompleta = new AdministradorDAO().listarTodos();
+
+        listaUsuariosCompleta = superUsuarioDAO.listarTodos();
         cargarTablaConLista(listaUsuariosCompleta);
 
         inicializarFiltroBusqueda();
@@ -122,9 +126,9 @@ public class Ventana_Admin extends javax.swing.JFrame {
     }
 
     //Cargar tabla:
-    private void cargarTablaUsuarios() {
-        AdministradorDAO dao = new AdministradorDAO();
-        List<Administrador> lista = dao.listarPorRol(1);
+    private void cargarTablaSuperUsuarios() {
+        SuperUsuarioDAO dao = new SuperUsuarioDAO();
+        List<SuperUsuario> lista = dao.listarTodos();
 
         String[] columnas = {
             "ID", "Usuario", "Correo", "Nombres", "Apellidos",
@@ -133,7 +137,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
 
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
 
-        for (Administrador u : lista) {
+        for (SuperUsuario u : lista) {
             Object[] fila = {
                 u.getIdPersona(),
                 u.getUsuario(),
@@ -152,52 +156,51 @@ public class Ventana_Admin extends javax.swing.JFrame {
         jTable1.setModel(modelo);
     }
 
-    //Cargar todos los usuarios:
+    //Cargar todos los superusuarios:
     public void cargarUsuarios() {
-        AdministradorDAO dao = new AdministradorDAO();
-        listaUsuariosCompleta = dao.listarPorRol(1);
+        SuperUsuarioDAO dao = new SuperUsuarioDAO();
+        listaUsuariosCompleta = dao.listarTodos();
         cargarTablaConLista(listaUsuariosCompleta);
     }
 
     //Cargar la tabla con el Array:
-    private void cargarTablaConLista(List<Administrador> lista) {
+    private void cargarTablaConLista(List<SuperUsuario> lista) {
         String[] columnas = {"ID", "Usuario", "Correo", "Nombres", "Apellidos",
             "Nacionalidad", "Género", "Nacimiento", "Rol", "Cédula"};
 
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
 
-        for (Administrador u : lista) {
+        for (SuperUsuario su : lista) {
             Object[] fila = {
-                u.getIdPersona(),
-                u.getUsuario(),
-                u.getCorreo(),
-                u.getNombres(),
-                u.getApellidos(),
-                u.getNacionalidad(),
-                u.getGenero(),
-                u.getFechaNacimiento(),
-                u.getRolId(),
-                u.getCedula()
+                su.getIdPersona(),
+                su.getUsuario(),
+                su.getCorreo(),
+                su.getNombres(),
+                su.getApellidos(),
+                su.getNacionalidad(),
+                su.getGenero(),
+                su.getFechaNacimiento(),
+                su.getRolId(),
+                su.getCedula()
             };
             modelo.addRow(fila);
         }
 
         jTable1.setModel(modelo);
         personalizarTabla(jTable1);
+
     }
 
     private void inicializarFiltroBusqueda() {
-        AdministradorDAO dao = new AdministradorDAO();  // DECLARA EL DAO aquí
-
         Busqueda2.getDocument().addDocumentListener(new DocumentListener() {
             private void filtrar() {
                 String texto = Busqueda2.getText().trim();
-                List<Administrador> listaFiltrada;
+                List<SuperUsuario> listaFiltrada;
 
                 if (texto.isEmpty()) {
-                    listaFiltrada = dao.listarPorRol(1);
+                    listaFiltrada = superUsuarioDAO.listarTodos();
                 } else {
-                    listaFiltrada = dao.buscarUsuarios(texto);
+                    listaFiltrada = superUsuarioDAO.buscarSuperusuarios(texto);
                 }
 
                 cargarTablaConLista(listaFiltrada);
@@ -221,8 +224,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
     }
 
     public void recargarTabla() {
-        AdministradorDAO dao = new AdministradorDAO();
-        listaUsuariosCompleta = dao.listarPorRol(1);
+        listaUsuariosCompleta = superUsuarioDAO.listarTodos();
         cargarTablaConLista(listaUsuariosCompleta);
     }
 
@@ -253,10 +255,9 @@ public class Ventana_Admin extends javax.swing.JFrame {
         Salir = new RoundedButtonSalirRe("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1390, 800));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(254, 199, 218));
+        jPanel1.setBackground(new java.awt.Color(255, 64, 89));
         jPanel1.setPreferredSize(new java.awt.Dimension(1330, 720));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -264,7 +265,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
 
         Gestion.setBackground(new java.awt.Color(0, 0, 0));
         Gestion.setForeground(new java.awt.Color(0, 0, 0));
-        Gestion.setText("GESTIÓN DE ADMINISTRADORES");
+        Gestion.setText("GESTIÓN DE SUPERUSUARIOS");
         jPanel2.add(Gestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 550, -1));
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -358,7 +359,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
                 SalirActionPerformed(evt);
             }
         });
-        jPanel2.add(Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 600, 110, 30));
+        jPanel2.add(Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 600, 110, 30));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 1300, 680));
 
@@ -372,34 +373,35 @@ public class Ventana_Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_Busqueda2ActionPerformed
 
     private void InsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertarActionPerformed
+        Ventana_FormularioSuperUsuario formSuper = new Ventana_FormularioSuperUsuario();
 
-        Ventana_FormularioAdmin ayudaPanel = new Ventana_FormularioAdmin();
+        GlassPanePopup.showPopup(formSuper);
 
-        GlassPanePopup.showPopup(ayudaPanel);
-        new ControladorAdministrador(ayudaPanel, this);
-
+        new ControladorInsertarSuperUsuario(this, formSuper);
 
     }//GEN-LAST:event_InsertarActionPerformed
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         int fila = jTable1.getSelectedRow();
         if (fila == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione un usuario de la tabla");
+            JOptionPane.showMessageDialog(null, "Seleccione un superusuario de la tabla");
             return;
         }
 
         int idPersona = (int) jTable1.getValueAt(fila, 0);
 
-        AdministradorDAO dao = new AdministradorDAO();
-        Administrador admin = dao.obtenerPorId(idPersona);
-        if (admin != null) {
-            Ventana_Actualizar_Admin form = new Ventana_Actualizar_Admin();
-            form.cargarDatosAdministrador(admin);
-            new ControladorActualizarAdmin(form, admin, this);
+        SuperUsuarioDAO dao = new SuperUsuarioDAO();
+        SuperUsuario superUsuario = dao.obtenerPorId(idPersona);
+
+        if (superUsuario != null) {
+            Ventana_Actualizar_SuperUsuario form = new Ventana_Actualizar_SuperUsuario();
+            form.cargarDatosSuperUsuario(superUsuario);
+            new ControladorActualizarSuperUsuario(form, superUsuario, this);
             GlassPanePopup.showPopup(form);
         } else {
-            JOptionPane.showMessageDialog(this, "No se pudo cargar el administrador.");
+            JOptionPane.showMessageDialog(this, "No se pudo cargar el superusuario.");
         }
+
 
     }//GEN-LAST:event_ActualizarActionPerformed
 
@@ -429,9 +431,9 @@ public class Ventana_Admin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_SalirActionPerformed
 
-    public void mostrarConfirmacionEliminar(int idPersona, String usuario) {
-        Ventana_EliminarAdmin panel = new Ventana_EliminarAdmin(idPersona, usuario, this);
-        raven.glasspanepopup.GlassPanePopup.showPopup(panel);
+    private void mostrarConfirmacionEliminar(int idPersona, String usuario) {
+        Ventana_EliminarSuperUsuario popup = new Ventana_EliminarSuperUsuario(idPersona, usuario, this);
+        GlassPanePopup.showPopup(popup);
     }
 
     /**

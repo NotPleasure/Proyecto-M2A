@@ -165,6 +165,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         PanelUsuarios.repaint();
     }
 
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -514,6 +519,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         jButton7.setContentAreaFilled(false);
         jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton7.setFocusPainted(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         jPanel4.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 70, 30));
 
         jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 240, 140));
@@ -650,7 +660,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         Animator1.fadeOut(this, () -> {
             this.dispose();
 
-            Admin_Lugares ventana = new Admin_Lugares(true);
+            Ventana_Admin ventana = new Ventana_Admin(true, personaLogueada);
             ventana.setOpacity(0f);
             ventana.setVisible(true);
 
@@ -711,6 +721,20 @@ public class Admin_Panel extends javax.swing.JFrame {
         });
 
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+ Animator1.fadeOut(this, () -> {
+            this.dispose();
+
+            Ventana_SuperUsuario ventana = new Ventana_SuperUsuario(true, personaLogueada);
+            ventana.setOpacity(0f);
+            ventana.setVisible(true);
+
+            Animator1.fadeIn(ventana);
+        });
+
+    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

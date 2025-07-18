@@ -1,0 +1,316 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package Vista;
+
+import Design.Graficos.GraficoMinimal;
+import Design.Graficos.GraficosEstadisticos;
+import Design.Graficos.PanelUtil;
+import Design.RoundedButtonEliminarRe;
+import Design.RoundedPanelAdmin;
+import Design.RoundedPanelStats2;
+import Design.RoundedPanelStats3;
+import Design.RoundedPanelStats4;
+import Modelo.LugarInteresDAO;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.knowm.xchart.CategoryChart;
+import org.knowm.xchart.XChartPanel;
+import raven.glasspanepopup.GlassPanePopup;
+
+/**
+ *
+ * @author USER
+ */
+public class Ventana_EstadísticasLugares extends javax.swing.JPanel {
+
+    /**
+     * Creates new form Ventana_EstadísticasLugares
+     */
+    public Ventana_EstadísticasLugares() {
+        initComponents();
+
+        this.setOpaque(false);
+
+        PanelLugares.setLayout(new BorderLayout());
+        PanelImagenes.setLayout(new BorderLayout());
+        PanelHorarios.setLayout(new BorderLayout());
+
+        mostrarGraficoLugares();
+        mostrarGraficoRecursos();
+        mostrarGraficoHorarios();
+
+        //Fuentes:
+        Dash.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 30));
+        Luga.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
+        Ora.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
+        Luga1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
+        Ora1.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
+        Luga2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
+        Ora2.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
+    }
+
+    //Para darle esos bordes:
+    @Override
+    protected void paintComponent(Graphics grphcs) {
+        Graphics2D g2 = (Graphics2D) grphcs.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        Shape clip = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 25, 25);
+        g2.setClip(clip);
+
+        g2.setColor(getBackground());
+        g2.fill(clip);
+
+        g2.dispose();
+
+        // super.paintComponent(grphcs);
+    }
+
+    public void mostrarGraficoLugares() {
+        LugarInteresDAO lugarDAO = new LugarInteresDAO();
+        GraficosEstadisticos grafico = new GraficosEstadisticos();
+
+        int iglesias = lugarDAO.contarIglesias();
+        int museos = lugarDAO.contarMuseos();
+        int parques = lugarDAO.contarParques();
+
+        JFreeChart chart = grafico.crearGraficoLugares(iglesias, museos, parques);
+        ChartPanel panel = PanelUtil.crearPanelConFunciones(chart);
+
+        PanelLugares.removeAll();
+        PanelLugares.setLayout(new BorderLayout());
+        PanelLugares.add(panel, BorderLayout.CENTER);
+        PanelLugares.revalidate();
+        PanelLugares.repaint();
+    }
+
+    public void mostrarGraficoRecursos() {
+        LugarInteresDAO lugarDAO = new LugarInteresDAO();
+        GraficosEstadisticos grafico = new GraficosEstadisticos();
+
+        int imagenes = lugarDAO.contarImagenes();
+        int descripciones = lugarDAO.contarDescripciones();
+
+        JFreeChart chart = grafico.crearGraficoRecursos(imagenes, descripciones);
+        ChartPanel panel = PanelUtil.crearPanelConFunciones(chart);
+
+        PanelImagenes.removeAll();
+        PanelImagenes.setLayout(new BorderLayout());
+        PanelImagenes.add(panel, BorderLayout.CENTER);
+        PanelImagenes.revalidate();
+        PanelImagenes.repaint();
+    }
+
+    public void mostrarGraficoHorarios() {
+        LugarInteresDAO lugarDAO = new LugarInteresDAO();
+        GraficosEstadisticos grafico = new GraficosEstadisticos();
+
+        int horariosIglesias = lugarDAO.contarHorariosIglesias();
+        int horariosMuseos = lugarDAO.contarHorariosMuseos();
+        int horariosParques = lugarDAO.contarHorariosParques();
+
+        JFreeChart chart = grafico.crearGraficoHorarios(horariosIglesias, horariosMuseos, horariosParques);
+        ChartPanel panel = PanelUtil.crearPanelConFunciones(chart);
+
+        PanelHorarios.removeAll();
+        PanelHorarios.setLayout(new BorderLayout());
+        PanelHorarios.add(panel, BorderLayout.CENTER);
+        PanelHorarios.revalidate();
+        PanelHorarios.repaint();
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new Design.RoundedPanelStats3();
+        Dash = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new Design.RoundedPanelStats4();
+        Luga = new javax.swing.JLabel();
+        Ora = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        PanelLugares = new RoundedPanelAdmin();
+        jPanel4 = new RoundedPanelStats2();
+        Luga2 = new javax.swing.JLabel();
+        Ora2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        PanelHorarios = new RoundedPanelAdmin();
+        jPanel6 = new RoundedPanelStats3();
+        Luga1 = new javax.swing.JLabel();
+        Ora1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        PanelImagenes = new RoundedPanelAdmin();
+        jButton1 = new RoundedButtonEliminarRe("");
+
+        setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(1240, 730));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Dash.setBackground(new java.awt.Color(255, 255, 255));
+        Dash.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
+        Dash.setForeground(new java.awt.Color(255, 255, 255));
+        Dash.setText("Dashboard de Estadísticas");
+        jPanel1.add(Dash, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, 70, 50));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/api.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, 50, 50));
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1250, 90));
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Luga.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        Luga.setForeground(new java.awt.Color(255, 255, 255));
+        Luga.setText("Lugares por Tipo");
+        jPanel2.add(Luga, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 210, -1));
+
+        Ora.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        Ora.setForeground(new java.awt.Color(255, 255, 255));
+        Ora.setText("Iglesias, parques, museos...");
+        jPanel2.add(Ora, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 190, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/aaae.png"))); // NOI18N
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 24, 30, 40));
+
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 390, 100));
+
+        javax.swing.GroupLayout PanelLugaresLayout = new javax.swing.GroupLayout(PanelLugares);
+        PanelLugares.setLayout(PanelLugaresLayout);
+        PanelLugaresLayout.setHorizontalGroup(
+            PanelLugaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 390, Short.MAX_VALUE)
+        );
+        PanelLugaresLayout.setVerticalGroup(
+            PanelLugaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 420, Short.MAX_VALUE)
+        );
+
+        add(PanelLugares, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 390, 420));
+
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Luga2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        Luga2.setForeground(new java.awt.Color(255, 255, 255));
+        Luga2.setText("Horarios Registrados");
+        jPanel4.add(Luga2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 210, -1));
+
+        Ora2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        Ora2.setForeground(new java.awt.Color(255, 255, 255));
+        Ora2.setText("Entrada y Salida");
+        jPanel4.add(Ora2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 260, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Nota.png"))); // NOI18N
+        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 24, 30, 40));
+
+        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 110, 390, 100));
+
+        javax.swing.GroupLayout PanelHorariosLayout = new javax.swing.GroupLayout(PanelHorarios);
+        PanelHorarios.setLayout(PanelHorariosLayout);
+        PanelHorariosLayout.setHorizontalGroup(
+            PanelHorariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 390, Short.MAX_VALUE)
+        );
+        PanelHorariosLayout.setVerticalGroup(
+            PanelHorariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 420, Short.MAX_VALUE)
+        );
+
+        add(PanelHorarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 210, 390, 420));
+
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Luga1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        Luga1.setForeground(new java.awt.Color(255, 255, 255));
+        Luga1.setText("Lugares por Tipo");
+        jPanel6.add(Luga1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 210, -1));
+
+        Ora1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        Ora1.setForeground(new java.awt.Color(255, 255, 255));
+        Ora1.setText("Imágenes y descripciones históricas");
+        jPanel6.add(Ora1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 190, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/imgi.png"))); // NOI18N
+        jPanel6.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 24, 40, 40));
+
+        add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, 390, 100));
+
+        javax.swing.GroupLayout PanelImagenesLayout = new javax.swing.GroupLayout(PanelImagenes);
+        PanelImagenes.setLayout(PanelImagenesLayout);
+        PanelImagenesLayout.setHorizontalGroup(
+            PanelImagenesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 390, Short.MAX_VALUE)
+        );
+        PanelImagenesLayout.setVerticalGroup(
+            PanelImagenesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 420, Short.MAX_VALUE)
+        );
+
+        add(PanelImagenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 210, 390, 420));
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setText("Salir");
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 660, 190, 40));
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        GlassPanePopup.closePopupLast();
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Dash;
+    private javax.swing.JLabel Luga;
+    private javax.swing.JLabel Luga1;
+    private javax.swing.JLabel Luga2;
+    private javax.swing.JLabel Ora;
+    private javax.swing.JLabel Ora1;
+    private javax.swing.JLabel Ora2;
+    private javax.swing.JPanel PanelHorarios;
+    private javax.swing.JPanel PanelImagenes;
+    private javax.swing.JPanel PanelLugares;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel6;
+    // End of variables declaration//GEN-END:variables
+}

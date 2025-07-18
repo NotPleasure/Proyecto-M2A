@@ -2,40 +2,39 @@ package Controlador;
 
 import Design.Imagen.ImagenUtils;
 import Design.RoundedFormattedTextField;
+import Modelo.SuperUsuario;
+import Modelo.SuperUsuarioDAO;
 import Modelo.Usuario;
-import Modelo.UsuarioDAO;
-import Vista.Ventana_Actualizar_UsuarioPrincipal;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import Vista.Ventana_Actualizar_SuperUsuario;
+import Vista.Ventana_SuperUsuario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import javax.swing.JOptionPane;
 import org.mindrot.jbcrypt.BCrypt;
 import raven.glasspanepopup.GlassPanePopup;
 
-public class ControladorActualizarUsuarioPrincipal {
+public class ControladorActualizarSuperUsuario {
 
-    private Ventana_Actualizar_UsuarioPrincipal vista;
-    private Usuario usuario;
-    private UsuarioDAO usuarioDAO;
+    private Ventana_Actualizar_SuperUsuario vista;
+    private SuperUsuario usuario;
+    private SuperUsuarioDAO usuarioDAO;
     private byte[] iconoBytes;
-    private Vista.Ventana_UsuarioPrincipal ventanaUsuarios;
+    private Ventana_SuperUsuario ventanaSuperUsuarios;
 
-    public ControladorActualizarUsuarioPrincipal(
-            Ventana_Actualizar_UsuarioPrincipal vista,
-            Usuario usuario,
-            Vista.Ventana_UsuarioPrincipal ventanaUsuarios) {
+    public ControladorActualizarSuperUsuario(
+            Ventana_Actualizar_SuperUsuario vista,
+            SuperUsuario usuario,
+            Ventana_SuperUsuario ventanaSuperUsuarios) {
 
         this.vista = vista;
         this.usuario = usuario;
-        this.usuarioDAO = new UsuarioDAO();
-        this.ventanaUsuarios = ventanaUsuarios;
+        this.usuarioDAO = new SuperUsuarioDAO();
+        this.ventanaSuperUsuarios = ventanaSuperUsuarios;
 
-        vista.cargarDatosUsuario(usuario);
+        vista.cargarDatosSuperUsuario(usuario);
 
         final boolean tieneCedulaOriginal = usuario.getCedula() != null && !usuario.getCedula().trim().isEmpty();
 
@@ -154,8 +153,8 @@ public class ControladorActualizarUsuarioPrincipal {
                     JOptionPane.showMessageDialog(vista, "Cédula inválida. Ingrese una cédula ecuatoriana correcta.");
                     return;
                 }
-
             }
+
             if (!contrasena.isBlank()) {
                 if (!contrasena.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[#\\$&\\-.])[A-Za-z\\d#\\$&\\-.]{8,}$")) {
                     JOptionPane.showMessageDialog(vista, "Contraseña insegura. Debe tener:\n- Letras y números\n- 1 símbolo\n- Mínimo 8 caracteres");
@@ -167,7 +166,7 @@ public class ControladorActualizarUsuarioPrincipal {
             boolean actualizado = usuarioDAO.actualizar(usuario);
             if (actualizado) {
                 JOptionPane.showMessageDialog(vista, "Usuario actualizado correctamente.");
-                ventanaUsuarios.recargarTabla();
+                ventanaSuperUsuarios.recargarTabla();
                 GlassPanePopup.closePopupLast();
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al actualizar usuario.");

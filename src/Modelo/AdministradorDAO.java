@@ -209,7 +209,7 @@ public class AdministradorDAO {
         return "";
     }
 
-    //Bucar todos los admins (Sin excepción de campos):
+    //Buscar todos los admins:
     public List<Administrador> buscarUsuarios(String texto) {
         List<Administrador> lista = new ArrayList<>();
         String sql = "SELECT a.codigo_admin, p.id_persona, p.usuario, p.correo, p.nombres, p.apellidos, "
@@ -338,7 +338,18 @@ public class AdministradorDAO {
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idPersona);
             ResultSet rs = ps.executeQuery();
-            return rs.next(); 
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarPorId(int idPersona) {
+        String sql = "DELETE FROM administrador WHERE id_persona = ?";
+        try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idPersona);
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

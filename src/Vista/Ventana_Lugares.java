@@ -4,7 +4,9 @@
  */
 package Vista;
 
+import Animations.Animator1;
 import Design.RoundedButtonLugaresEvent;
+import Design.RoundedButtonSalirRe;
 import Design.RoundedButtonVerMuseos;
 import Design.RoundedButtonVerParques;
 import Design.RoundedPanelAdmin;
@@ -12,6 +14,10 @@ import Design.RoundedPanelLugares;
 import Design.RoundedPanelLugares2;
 import Design.RoundedPanelLugares3;
 import Design.RoundedPanelLugares4;
+import Design.RounderButton2;
+import Modelo.LugarInteresDAO;
+import Modelo.Persona;
+import Modelo.PersonaDAO;
 import java.awt.Font;
 import javax.swing.JFrame;
 import raven.glasspanepopup.GlassPanePopup;
@@ -24,6 +30,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
     //Permitir entrar a la ventana:
     private boolean sinBordes = true;
+    private Persona personaLogueada;
 
     /**
      * Creates new form Ventana_Lugares
@@ -37,6 +44,9 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
         GlassPanePopup.install(this);
 
+        //Cargar las estadísticas del panel general: 
+        cargarEstadisticasGenerales();
+
         //Extender la ventana al máximo: 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         // Para pantalla completa:
@@ -45,36 +55,36 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         //Fuentes:
         Huellas.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         Cuencanas.setFont(new Font("Segoe UI Light", Font.PLAIN, 20));
-        ConteoUser1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 45));
+        LabelTotalUsuarios.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 45));
         Lugares.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
-        ConteoUser2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 45));
-        ConteoUser3.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 45));
+        ConteoLugares.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 45));
+        ConteoImagenes.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 45));
         Lugares1.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
-        ConteoUser4.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 45));
+        ConteoDescripciones.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 45));
         Lugares2.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
         Lugares3.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
         Actividad.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         Iglesias.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         Gestion.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
         ConteoUser5.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
-        ConteoUser6.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
+        LabelIglesias.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         Registradas.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Registradas1.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Gestion1.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
         Museos.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
-        ConteoUser7.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
+        LabelMuseos.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         ConteoUser8.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         Registradas2.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Registradas3.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Parques.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         Gestion2.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
-        ConteoUser9.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
+        LabelParques.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         ConteoUser10.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         Registradas4.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Registradas5.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Registros.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         Gestion3.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
-        ConteoUser11.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
+        LabelHistorias.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         ConteoUser12.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         Registradas6.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Registradas7.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
@@ -97,16 +107,16 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Huellas = new javax.swing.JLabel();
         Cuencanas = new javax.swing.JLabel();
         jPanel3 = new RoundedPanelAdmin();
-        ConteoUser1 = new javax.swing.JLabel();
+        LabelTotalUsuarios = new javax.swing.JLabel();
         Lugares = new javax.swing.JLabel();
-        ConteoUser2 = new javax.swing.JLabel();
+        ConteoLugares = new javax.swing.JLabel();
         Lugares1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
-        ConteoUser3 = new javax.swing.JLabel();
+        ConteoImagenes = new javax.swing.JLabel();
         Lugares2 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
-        ConteoUser4 = new javax.swing.JLabel();
+        ConteoDescripciones = new javax.swing.JLabel();
         Lugares3 = new javax.swing.JLabel();
         Actividad = new javax.swing.JLabel();
         jPanel4 = new RoundedPanelLugares();
@@ -114,7 +124,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Iglesias = new javax.swing.JLabel();
         Gestion = new javax.swing.JLabel();
         ConteoUser5 = new javax.swing.JLabel();
-        ConteoUser6 = new javax.swing.JLabel();
+        LabelIglesias = new javax.swing.JLabel();
         Registradas = new javax.swing.JLabel();
         Registradas1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -123,7 +133,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         Gestion1 = new javax.swing.JLabel();
         Museos = new javax.swing.JLabel();
-        ConteoUser7 = new javax.swing.JLabel();
+        LabelMuseos = new javax.swing.JLabel();
         ConteoUser8 = new javax.swing.JLabel();
         Registradas2 = new javax.swing.JLabel();
         Registradas3 = new javax.swing.JLabel();
@@ -133,7 +143,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         Parques = new javax.swing.JLabel();
         Gestion2 = new javax.swing.JLabel();
-        ConteoUser9 = new javax.swing.JLabel();
+        LabelParques = new javax.swing.JLabel();
         ConteoUser10 = new javax.swing.JLabel();
         Registradas4 = new javax.swing.JLabel();
         Registradas5 = new javax.swing.JLabel();
@@ -143,7 +153,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         Registros = new javax.swing.JLabel();
         Gestion3 = new javax.swing.JLabel();
-        ConteoUser11 = new javax.swing.JLabel();
+        LabelHistorias = new javax.swing.JLabel();
         ConteoUser12 = new javax.swing.JLabel();
         Registradas6 = new javax.swing.JLabel();
         Registradas7 = new javax.swing.JLabel();
@@ -161,6 +171,8 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jButton4 = new RoundedButtonVerParques(""
         );
+        Regresar = new RoundedButtonSalirRe("");
+        jButton5 = new RounderButton2("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1390, 800));
@@ -197,22 +209,20 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ConteoUser1.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
-        ConteoUser1.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser1.setText("0");
-        ConteoUser1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(ConteoUser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 20, 90, 40));
+        LabelTotalUsuarios.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
+        LabelTotalUsuarios.setForeground(new java.awt.Color(142, 68, 173));
+        LabelTotalUsuarios.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel3.add(LabelTotalUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 20, 90, 40));
 
         Lugares.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Lugares.setForeground(new java.awt.Color(127, 140, 141));
         Lugares.setText("Usuarios Totales");
         jPanel3.add(Lugares, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 70, -1, -1));
 
-        ConteoUser2.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
-        ConteoUser2.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser2.setText("0");
-        ConteoUser2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(ConteoUser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, 90, 40));
+        ConteoLugares.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
+        ConteoLugares.setForeground(new java.awt.Color(142, 68, 173));
+        ConteoLugares.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel3.add(ConteoLugares, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 90, 40));
 
         Lugares1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Lugares1.setForeground(new java.awt.Color(127, 140, 141));
@@ -227,11 +237,10 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel3.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 30, 110));
 
-        ConteoUser3.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
-        ConteoUser3.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser3.setText("0");
-        ConteoUser3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(ConteoUser3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, 90, 40));
+        ConteoImagenes.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
+        ConteoImagenes.setForeground(new java.awt.Color(142, 68, 173));
+        ConteoImagenes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel3.add(ConteoImagenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 90, 40));
 
         Lugares2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Lugares2.setForeground(new java.awt.Color(127, 140, 141));
@@ -242,11 +251,10 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel3.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 0, 30, 110));
 
-        ConteoUser4.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
-        ConteoUser4.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser4.setText("0");
-        ConteoUser4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(ConteoUser4, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 20, 90, 40));
+        ConteoDescripciones.setFont(new java.awt.Font("Arial Black", 0, 30)); // NOI18N
+        ConteoDescripciones.setForeground(new java.awt.Color(142, 68, 173));
+        ConteoDescripciones.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel3.add(ConteoDescripciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 20, 90, 40));
 
         Lugares3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Lugares3.setForeground(new java.awt.Color(127, 140, 141));
@@ -280,11 +288,11 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         ConteoUser5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel4.add(ConteoUser5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 156, 90, 40));
 
-        ConteoUser6.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
-        ConteoUser6.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser6.setText("0");
-        ConteoUser6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel4.add(ConteoUser6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 156, 90, 40));
+        LabelIglesias.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
+        LabelIglesias.setForeground(new java.awt.Color(142, 68, 173));
+        LabelIglesias.setText("0");
+        LabelIglesias.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel4.add(LabelIglesias, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 156, 90, 40));
 
         Registradas.setForeground(new java.awt.Color(127, 140, 141));
         Registradas.setText("Favoritos");
@@ -326,11 +334,11 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Museos.setText("Museos");
         jPanel5.add(Museos, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 80, -1, -1));
 
-        ConteoUser7.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
-        ConteoUser7.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser7.setText("0");
-        ConteoUser7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel5.add(ConteoUser7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 156, 90, 40));
+        LabelMuseos.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
+        LabelMuseos.setForeground(new java.awt.Color(142, 68, 173));
+        LabelMuseos.setText("0");
+        LabelMuseos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel5.add(LabelMuseos, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 156, 90, 40));
 
         ConteoUser8.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
         ConteoUser8.setForeground(new java.awt.Color(142, 68, 173));
@@ -378,11 +386,11 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Gestion2.setText("Gestión de Parques.");
         jPanel6.add(Gestion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
-        ConteoUser9.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
-        ConteoUser9.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser9.setText("0");
-        ConteoUser9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel6.add(ConteoUser9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 156, 90, 40));
+        LabelParques.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
+        LabelParques.setForeground(new java.awt.Color(142, 68, 173));
+        LabelParques.setText("0");
+        LabelParques.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel6.add(LabelParques, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 156, 90, 40));
 
         ConteoUser10.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
         ConteoUser10.setForeground(new java.awt.Color(142, 68, 173));
@@ -430,11 +438,11 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Gestion3.setText("Información Histórica de Lugares");
         jPanel7.add(Gestion3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
-        ConteoUser11.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
-        ConteoUser11.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser11.setText("0");
-        ConteoUser11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel7.add(ConteoUser11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 156, 90, 40));
+        LabelHistorias.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
+        LabelHistorias.setForeground(new java.awt.Color(142, 68, 173));
+        LabelHistorias.setText("0");
+        LabelHistorias.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel7.add(LabelHistorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 156, 90, 40));
 
         ConteoUser12.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
         ConteoUser12.setForeground(new java.awt.Color(142, 68, 173));
@@ -524,6 +532,31 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         });
         jPanel8.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 140, 30));
 
+        Regresar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        Regresar.setText("Regresar");
+        Regresar.setBorderPainted(false);
+        Regresar.setContentAreaFilled(false);
+        Regresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Regresar.setFocusPainted(false);
+        Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegresarActionPerformed(evt);
+            }
+        });
+        jPanel8.add(Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 20, 140, 30));
+
+        jButton5.setText("Estadísticas");
+        jButton5.setBorderPainted(false);
+        jButton5.setContentAreaFilled(false);
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.setFocusPainted(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 20, 140, 30));
+
         jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 680, 1220, 70));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 860));
@@ -584,6 +617,51 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
+
+ Animator1.fadeOut(this, () -> {
+            this.dispose();
+
+            Admin_Panel ventana = new Admin_Panel(true, personaLogueada);
+            ventana.setOpacity(0f);
+            ventana.setVisible(true);
+
+            Animator1.fadeIn(ventana);
+        });
+
+    }//GEN-LAST:event_RegresarActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+ Ventana_EstadísticasLugares ayudaPanel = new Ventana_EstadísticasLugares();
+
+        GlassPanePopup.showPopup(ayudaPanel);
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    public void cargarEstadisticasGenerales() {
+        LugarInteresDAO lugarDAO = new LugarInteresDAO();
+        PersonaDAO personaDAO = new PersonaDAO();
+        int totalIglesias = lugarDAO.contarIglesias();
+        int totalMuseos = lugarDAO.contarMuseos();
+        int totalParques = lugarDAO.contarParques();
+        int totalLugares = lugarDAO.contarLugares();
+        int totalImagenes = lugarDAO.contarImagenes();
+        int totalDescripciones = lugarDAO.contarDescripciones();
+        int totalUsuarios = personaDAO.contarUsuarios(null);
+
+        // Labels generales
+        LabelTotalUsuarios.setText(String.valueOf(totalUsuarios));
+        ConteoLugares.setText(String.valueOf(totalLugares));
+        ConteoImagenes.setText(String.valueOf(totalImagenes));
+        ConteoDescripciones.setText(String.valueOf(totalDescripciones));
+
+        LabelIglesias.setText(String.valueOf(totalIglesias));
+        LabelMuseos.setText(String.valueOf(totalMuseos));
+        LabelParques.setText(String.valueOf(totalParques));
+        LabelHistorias.setText(String.valueOf(totalDescripciones));
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -622,18 +700,13 @@ public class Ventana_Lugares extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Actividad;
     private javax.swing.JLabel Categorias1;
-    private javax.swing.JLabel ConteoUser1;
+    private javax.swing.JLabel ConteoDescripciones;
+    private javax.swing.JLabel ConteoImagenes;
+    private javax.swing.JLabel ConteoLugares;
     private javax.swing.JLabel ConteoUser10;
-    private javax.swing.JLabel ConteoUser11;
     private javax.swing.JLabel ConteoUser12;
-    private javax.swing.JLabel ConteoUser2;
-    private javax.swing.JLabel ConteoUser3;
-    private javax.swing.JLabel ConteoUser4;
     private javax.swing.JLabel ConteoUser5;
-    private javax.swing.JLabel ConteoUser6;
-    private javax.swing.JLabel ConteoUser7;
     private javax.swing.JLabel ConteoUser8;
-    private javax.swing.JLabel ConteoUser9;
     private javax.swing.JLabel Cuencanas;
     private javax.swing.JLabel Gestion;
     private javax.swing.JLabel Gestion1;
@@ -645,6 +718,11 @@ public class Ventana_Lugares extends javax.swing.JFrame {
     private javax.swing.JButton Gestionar3;
     private javax.swing.JLabel Huellas;
     private javax.swing.JLabel Iglesias;
+    private javax.swing.JLabel LabelHistorias;
+    private javax.swing.JLabel LabelIglesias;
+    private javax.swing.JLabel LabelMuseos;
+    private javax.swing.JLabel LabelParques;
+    private javax.swing.JLabel LabelTotalUsuarios;
     private javax.swing.JLabel Lugares;
     private javax.swing.JLabel Lugares1;
     private javax.swing.JLabel Lugares2;
@@ -660,10 +738,12 @@ public class Ventana_Lugares extends javax.swing.JFrame {
     private javax.swing.JLabel Registradas6;
     private javax.swing.JLabel Registradas7;
     private javax.swing.JLabel Registros;
+    private javax.swing.JButton Regresar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

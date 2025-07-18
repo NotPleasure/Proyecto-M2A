@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Vista;
 
 import Design.RoundedButtonAceptarComentario;
@@ -11,6 +7,10 @@ import Modelo.Administrador;
 import Modelo.AdministradorDAO;
 import Modelo.Persona;
 import Modelo.PersonaDAO;
+import Modelo.SuperUsuario;
+import Modelo.SuperUsuarioDAO;
+import Modelo.Usuario;
+import Modelo.UsuarioDAO;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -30,16 +30,18 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
     private String usuario;
     private Ventana_Usuarios ventanaUsuarios;
     private Ventana_Admin ventanaAdministradores;
+    private Ventana_SuperUsuario ventanaSuperUsuario;
 
     /**
      * Creates new form Ventana_CambiarRol
      */
-    public Ventana_CambiarRol(int idPersona, String usuario, Ventana_Usuarios ventanaUsuarios, Ventana_Admin ventanaAdministradores) {
+    public Ventana_CambiarRol(int idPersona, String usuario, Ventana_Usuarios ventanaUsuarios, Ventana_Admin ventanaAdministradores, Ventana_SuperUsuario ventanaSuperUsuario) {
         initComponents();
         this.idPersona = idPersona;
         this.usuario = usuario;
         this.ventanaUsuarios = ventanaUsuarios;
         this.ventanaAdministradores = ventanaAdministradores;
+        this.ventanaSuperUsuario = ventanaSuperUsuario;
 
         lblId.setText(String.valueOf(idPersona));
         lblNombre.setText(usuario);
@@ -54,6 +56,8 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
 
         btnUsuario.addActionListener(e -> cambiarRol(2));
         btnAdmin.addActionListener(e -> cambiarRol(1));
+        btnSuperUsuario.addActionListener(e -> cambiarRol(3));
+
     }
 
     //Darle fondo redondeado al Popup:
@@ -84,41 +88,68 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
     }
 
     private void cambiarRol(int nuevoRolId) {
-        PersonaDAO dao = new PersonaDAO();
-        Persona persona = dao.leerPorId(idPersona);
-
-        if (persona != null && persona.getRolId() == nuevoRolId) {
-            JOptionPane.showMessageDialog(this, "Este usuario ya tiene ese rol.");
+        PersonaDAO personaDAO = new PersonaDAO();
+        Persona persona = personaDAO.leerPorId(idPersona);
+        if (persona.getRolId() == nuevoRolId) {
+            JOptionPane.showMessageDialog(this, "Ya tiene ese rol.");
             return;
         }
 
-        boolean actualizado = dao.actualizarRol(idPersona, nuevoRolId);
-        if (!actualizado) {
-            JOptionPane.showMessageDialog(this, "Error al actualizar el rol.");
-            return;
+        switch (persona.getRolId()) {
+            case 1:
+                new AdministradorDAO().eliminarPorId(idPersona);
+                break;
+            case 2:
+                new UsuarioDAO().eliminarPorId(idPersona);
+                break;
+            case 3:
+                new SuperUsuarioDAO().eliminarPorId(idPersona);
+                break;
         }
 
-        if (nuevoRolId == 1) {
-            AdministradorDAO adminDAO = new AdministradorDAO();
-            if (!adminDAO.existePorId(idPersona)) {
-                Administrador admin = new Administrador();
-                admin.setIdPersona(idPersona);
-                admin.setCodigoAdmin(adminDAO.generarCodigoAdmin());
-                adminDAO.insertar(admin);
-            }
-        }
+        personaDAO.actualizarRol(idPersona, nuevoRolId);
 
-        JOptionPane.showMessageDialog(this, "Rol actualizado correctamente.");
-        GlassPanePopup.closePopupLast();
+        switch (nuevoRolId) {
+            case 1:
+                AdministradorDAO adminDao = new AdministradorDAO();
+                if (!adminDao.existePorId(idPersona)) {
+                    Administrador admin = new Administrador();
+                    admin.setIdPersona(idPersona);
+                    admin.setCodigoAdmin(adminDao.generarCodigoAdmin());
+                    adminDao.insertar(admin);
+                }
+                break;
+
+            case 2:
+                UsuarioDAO userDao = new UsuarioDAO();
+                if (!userDao.existePorId(idPersona)) {
+                    Usuario u = new Usuario();
+                    u.setIdPersona(idPersona);
+                    userDao.insertar(u);
+                }
+                break;
+            case 3:
+                SuperUsuarioDAO suDao = new SuperUsuarioDAO();
+                if (!suDao.existePorId(idPersona)) {
+                    SuperUsuario su = new SuperUsuario();
+                    su.setIdPersona(idPersona);
+                    suDao.insertar(su);
+                }
+                break;
+        }
 
         if (ventanaUsuarios != null) {
             ventanaUsuarios.recargarTabla();
         }
-
         if (ventanaAdministradores != null) {
             ventanaAdministradores.recargarTabla();
         }
+        if (ventanaSuperUsuario != null) {
+            ventanaSuperUsuario.recargarTabla();
+        }
 
+        JOptionPane.showMessageDialog(this, "Rol actualizado correctamente.");
+        GlassPanePopup.closePopupLast();
     }
 
     /**
@@ -141,8 +172,9 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
         btnAdmin = new RoundedButtonAceptarComentario("");
         btnUsuario = new RoundedButtonActualizar("");
         Cancelar = new RoundedButtonEliminarRe("");
+        btnSuperUsuario = new RoundedButtonActualizar("");
 
-        setPreferredSize(new java.awt.Dimension(623, 350));
+        setPreferredSize(new java.awt.Dimension(630, 360));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(234, 45, 65));
@@ -180,7 +212,7 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
                 btnAdminActionPerformed(evt);
             }
         });
-        add(btnAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, -1, -1));
+        add(btnAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, -1, -1));
 
         btnUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnUsuario.setText("Cambiar a Usuario");
@@ -188,7 +220,12 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
         btnUsuario.setContentAreaFilled(false);
         btnUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUsuario.setFocusPainted(false);
-        add(btnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 290, -1, -1));
+        btnUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuarioActionPerformed(evt);
+            }
+        });
+        add(btnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, -1, -1));
 
         Cancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Cancelar.setText("Cancelar");
@@ -201,7 +238,15 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
                 CancelarActionPerformed(evt);
             }
         });
-        add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 288, 130, 30));
+        add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 130, 30));
+
+        btnSuperUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSuperUsuario.setText("Cambiar a SuperUsuario");
+        btnSuperUsuario.setBorderPainted(false);
+        btnSuperUsuario.setContentAreaFilled(false);
+        btnSuperUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSuperUsuario.setFocusPainted(false);
+        add(btnSuperUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 320, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
@@ -212,12 +257,17 @@ public class Ventana_CambiarRol extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdminActionPerformed
 
+    private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUsuarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cambiar;
     private javax.swing.JButton Cancelar;
     private javax.swing.JLabel Esta;
     private javax.swing.JButton btnAdmin;
+    private javax.swing.JButton btnSuperUsuario;
     private javax.swing.JButton btnUsuario;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;

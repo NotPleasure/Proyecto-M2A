@@ -36,6 +36,7 @@ public class Ventana_Usuarios extends javax.swing.JFrame {
     private boolean sinBordes = true;
     private Persona personaLogueada;
     private Ventana_Admin ventanaAdministradores;
+    private Ventana_SuperUsuario ventanaSuperUsuario;
 
     /**
      * Creates new form Ventana_Usuarios
@@ -287,7 +288,7 @@ public class Ventana_Usuarios extends javax.swing.JFrame {
         int idPersona = (int) jTable1.getValueAt(fila, 0);
         String usuario = jTable1.getValueAt(fila, 1).toString();
 
-        GlassPanePopup.showPopup(new Ventana_CambiarRol(idPersona, usuario, this, ventanaAdministradores));
+GlassPanePopup.showPopup(new Ventana_CambiarRol(idPersona, usuario, this, ventanaAdministradores, ventanaSuperUsuario));
 
     }//GEN-LAST:event_InsertarActionPerformed
 
