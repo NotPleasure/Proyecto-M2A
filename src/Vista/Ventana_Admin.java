@@ -343,7 +343,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
                 EliminarActionPerformed(evt);
             }
         });
-        jPanel2.add(Eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 600, 110, 30));
+        jPanel2.add(Eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 600, 110, 30));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/cerrar-sesion (1).png"))); // NOI18N
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 580, 50, 60));
@@ -358,7 +358,7 @@ public class Ventana_Admin extends javax.swing.JFrame {
                 SalirActionPerformed(evt);
             }
         });
-        jPanel2.add(Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 600, 110, 30));
+        jPanel2.add(Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 600, 110, 30));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 1300, 680));
 

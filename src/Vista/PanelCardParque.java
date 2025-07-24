@@ -64,10 +64,13 @@ public Dimension getPreferredSize() {
     return new Dimension(350, 340); 
 }
    private void mostrarVentanaDetalle() {
-        try {
-            int id = vista.getId();
-            ControladorParque ctrl = new ControladorParque();
-            ParqueDetalleVista detalle = ctrl.obtenerDetalleParque(id);
+       
+         try {
+        System.out.println("ID que se envía al detalle: " + vista.getId()); 
+        
+        int id = vista.getId();
+        ControladorParque ctrl = new ControladorParque();
+        ParqueDetalleVista detalle = ctrl.obtenerDetalleParque(id);
 
             if (detalle != null) {
                 Ventana_VerDetalleParques ventana = new Ventana_VerDetalleParques(detalle);

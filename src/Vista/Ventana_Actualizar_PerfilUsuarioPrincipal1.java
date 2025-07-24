@@ -39,7 +39,7 @@ import java.awt.Font;
  *
  * @author USER
  */
-public class Ventana_Actualizar_UsuarioPrincipal extends javax.swing.JPanel {
+public class Ventana_Actualizar_PerfilUsuarioPrincipal1 extends javax.swing.JPanel {
 //Declarar para cargar la imagen:
 
     private CircularImageLabel lblFotoPerfil;
@@ -52,7 +52,7 @@ public class Ventana_Actualizar_UsuarioPrincipal extends javax.swing.JPanel {
     /**
      * Creates new form Ventana_Actualizar_UsuarioPrincipal
      */
-    public Ventana_Actualizar_UsuarioPrincipal() {
+    public Ventana_Actualizar_PerfilUsuarioPrincipal1() {
         setOpaque(false);
 
         initComponents();
@@ -137,14 +137,22 @@ public class Ventana_Actualizar_UsuarioPrincipal extends javax.swing.JPanel {
 
     }
 
+   
+    //Para darle esos bordes:
     @Override
     protected void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        Shape clip = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 25, 25);
+        g2.setClip(clip);
+
         g2.setColor(getBackground());
-        g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 25, 25));
+        g2.fill(clip);
+
         g2.dispose();
-        super.paintComponent(grphcs);
+
+        // super.paintComponent(grphcs);
     }
 
     //Método para cargar Nacionalidades:
@@ -342,6 +350,8 @@ public class Ventana_Actualizar_UsuarioPrincipal extends javax.swing.JPanel {
     public void setLblFotoPerfil(CircularImageLabel lblFotoPerfil) {
         this.lblFotoPerfil = lblFotoPerfil;
     }
+    
+   
 
     /**
      * This method is called from within the constructor to initialize the form.

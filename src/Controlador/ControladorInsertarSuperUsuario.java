@@ -140,6 +140,12 @@ public class ControladorInsertarSuperUsuario implements ActionListener {
                 JOptionPane.showMessageDialog(vistaForm, "Imagen demasiado grande (Max 2MB)");
                 return;
             }
+            
+            if (nacionalidad.equalsIgnoreCase("Seleccione Nacionalidad") || nacionalidad.isEmpty()) {
+    JOptionPane.showMessageDialog(vistaForm, "Por favor, seleccione una nacionalidad válida.");
+    return;
+}
+
 
             Persona persona = new Persona();
             persona.setCedula(cedula.isEmpty() ? null : cedula);

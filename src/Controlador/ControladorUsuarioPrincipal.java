@@ -147,6 +147,11 @@ public class ControladorUsuarioPrincipal implements ActionListener {
                 return;
             }
 
+            if (nacionalidad.equalsIgnoreCase("Seleccione Nacionalidad") || nacionalidad.isEmpty()) {
+                JOptionPane.showMessageDialog(vista, "Por favor, seleccione una nacionalidad válida.");
+                return;
+            }
+
             Persona persona = new Persona();
             persona.setCedula(cedula.isEmpty() ? null : cedula);
             persona.setNombres(nombres.isEmpty() ? null : nombres);

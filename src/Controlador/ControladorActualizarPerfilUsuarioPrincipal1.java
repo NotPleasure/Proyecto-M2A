@@ -4,7 +4,8 @@ import Design.Imagen.ImagenUtils;
 import Design.RoundedFormattedTextField;
 import Modelo.Usuario;
 import Modelo.UsuarioDAO;
-import Vista.Ventana_Actualizar_UsuarioPrincipal;
+import Vista.Interfaz_Usuario;
+import Vista.Ventana_Actualizar_PerfilUsuarioPrincipal1;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -17,18 +18,18 @@ import javax.swing.JOptionPane;
 import org.mindrot.jbcrypt.BCrypt;
 import raven.glasspanepopup.GlassPanePopup;
 
-public class ControladorActualizarUsuarioPrincipal {
+public class ControladorActualizarPerfilUsuarioPrincipal1 {
 
-    private Ventana_Actualizar_UsuarioPrincipal vista;
+    private Ventana_Actualizar_PerfilUsuarioPrincipal1 vista;
     private Usuario usuario;
     private UsuarioDAO usuarioDAO;
     private byte[] iconoBytes;
-    private Vista.Ventana_UsuarioPrincipal ventanaUsuarios;
-
-    public ControladorActualizarUsuarioPrincipal(
-            Ventana_Actualizar_UsuarioPrincipal vista,
+    private Interfaz_Usuario ventanaUsuarios;  
+    
+    public ControladorActualizarPerfilUsuarioPrincipal1(
+            Ventana_Actualizar_PerfilUsuarioPrincipal1 vista,
             Usuario usuario,
-            Vista.Ventana_UsuarioPrincipal ventanaUsuarios) {
+            Interfaz_Usuario ventanaUsuarios) {
 
         this.vista = vista;
         this.usuario = usuario;
@@ -172,12 +173,14 @@ public class ControladorActualizarUsuarioPrincipal {
             boolean actualizado = usuarioDAO.actualizar(usuario);
             if (actualizado) {
                 JOptionPane.showMessageDialog(vista, "Usuario actualizado correctamente.");
-                ventanaUsuarios.recargarTabla();
-                GlassPanePopup.closePopupLast();
-            } else {
-                JOptionPane.showMessageDialog(vista, "Error al actualizar usuario.");
-            }
+    ventanaUsuarios.refreshFields(usuario);
+                    GlassPanePopup.closePopupLast();
 
+                if (ventanaUsuarios != null) {
+                    ventanaUsuarios.recargarTabla();
+                } else {
+                }
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(vista, "Error inesperado:\n" + ex.getMessage());

@@ -32,27 +32,29 @@ import Design.RoundedPannelGris;
 import Design.RounderButton2;
 import Animations.Animator1;
 import Modelo.Persona;
+import Modelo.Usuario;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import Vista.Ventana_Principal;
+import Vista.Ventana_VistaSuperUsuario;
 
 /**
  *
  * @author USER
  */
-public class Ventana_Principal extends javax.swing.JFrame {
+public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
 
     //La variable que siempre se usará para pasar el nombre del User:    
     private String usuario;
+    private Usuario usuarioLogueado;
 
     private Ventana_Inicio panelInicio;
     private Ventana_Iglesias panelIglesias;
     private Interfaz_Usuario panelUsuario;
-    private Persona persona;
+    private Usuario persona;
     private Ventana_UsuarioPrincipal ventanaUsuarios;
 
     private final String BusquedaText = "Buscar Lugares, Hoteles....";
@@ -63,15 +65,18 @@ public class Ventana_Principal extends javax.swing.JFrame {
     /**
      * Creates new form Ventana_Principal
      */
-    public Ventana_Principal(Persona persona) {
+    public Ventana_VistaSuperUsuario(Persona persona) {
 
         setUndecorated(true);
         setOpacity(0f);
 
         initComponents();
 
-        this.persona = persona;
+    if (persona instanceof Usuario) {
+        System.out.println("Ventana_Principal persona = " + persona);
 
+        this.persona = (Usuario) persona;
+    }
         this.usuario = persona != null ? persona.getUsuario() : "Desconocido";
 
         NombreUsuario.setText(this.usuario);
@@ -83,7 +88,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Para pantalla completa:
-        setExtendedState(Ventana_Principal.MAXIMIZED_BOTH);
+        setExtendedState(Ventana_VistaSuperUsuario.MAXIMIZED_BOTH);
 
         //Fuentes de los labels, jButtons y Jfileds:
         Huellas.setFont(new Font("Open Sans Bold", Font.PLAIN, 20));
@@ -791,7 +796,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         Animator.fadeOut(this, () -> {
             Login miR = new Login();
-            Interfaz_Usuario controladorLogin = new Interfaz_Usuario(persona,ventanaUsuarios );
+            Interfaz_Usuario controladorLogin = new Interfaz_Usuario(persona, ventanaUsuarios);
             Animator.fadeIn(miR);
         });
 
@@ -813,7 +818,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         Animator1.fadeOut(this, () -> {
             this.dispose();
 
-            Interfaz_Usuario ventana = new Interfaz_Usuario(persona, ventanaUsuarios);
+            Interfaz_Usuario ventana = new Interfaz_Usuario(usuarioLogueado, ventanaUsuarios);
             ventana.setUndecorated(true);
             ventana.setOpacity(0f);
 
@@ -917,7 +922,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        this.setState(Ventana_Principal.ICONIFIED);
+        this.setState(Ventana_VistaSuperUsuario.ICONIFIED);
     }//GEN-LAST:event_jLabel7MouseClicked
 
     //Mostrar el panel principal

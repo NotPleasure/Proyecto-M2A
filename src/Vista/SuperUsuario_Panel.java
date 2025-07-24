@@ -5,19 +5,28 @@
  */
 package Vista;
 
+import Modelo.Persona;
+import Modelo.SuperUsuario;
+
 /**
  *
  * @author USER
  */
-public class Interfaz_Hoteles extends javax.swing.JPanel {
-
+public class SuperUsuario_Panel extends javax.swing.JFrame {
+    private Persona personaLogueada;
+private Persona persona;
     /**
      * Creates new form Interfaz_Hoteles
      */
-    public Interfaz_Hoteles() {
+    public SuperUsuario_Panel() {
         initComponents();
+                this.personaLogueada = persona;
+
     }
 
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

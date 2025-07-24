@@ -60,6 +60,7 @@ public class ParqueDao {
     }
 
     public ParqueDetalleVista obtenerDetalleParque(int lugarInteresId) throws SQLException {
+        
         ParqueDetalleVista detalle = null;
         String sql = "SELECT "
                 + "li.lugar_interes_id, "

@@ -229,6 +229,8 @@ public class Ventana_UsuarioPrincipal extends javax.swing.JFrame {
         List<Usuario> lista = dao.listarPorRol(2);
         cargarTablaConLista(lista);
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

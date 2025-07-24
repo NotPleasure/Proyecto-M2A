@@ -93,6 +93,12 @@ public class ControladorActualizarSuperUsuario {
             String contrasena = new String(vista.getContrasenia().getPassword()).trim();
             String cedulaStr = vista.getTxtCedula().getText().trim();
 
+            if (nacionalidad.equalsIgnoreCase("Seleccione Nacionalidad") || nacionalidad.isEmpty()) {
+    JOptionPane.showMessageDialog(vista, "Por favor, seleccione una nacionalidad válida.");
+    return;
+}
+
+            
             if (correo.isEmpty() || usuarioNombre.isEmpty()) {
                 JOptionPane.showMessageDialog(vista, "Usuario y correo son obligatorios");
                 return;

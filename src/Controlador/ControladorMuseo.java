@@ -95,7 +95,7 @@ public class ControladorMuseo {
             throw new IllegalArgumentException("La longitud debe estar entre -180 y 180.");
         }
 
-        try (Connection con = ConexionHuellasCuencanas.conectar()) {
+        try ( Connection con = ConexionHuellasCuencanas.conectar()) {
             try {
                 con.setAutoCommit(false);
 
@@ -131,33 +131,34 @@ public class ControladorMuseo {
     public List<MuseoVista> obtenerMuseosVista() throws SQLException {
         List<MuseoVista> lista = new ArrayList<>();
 
-        String sql = "SELECT li.li.lugar_interes_id,li.nombre, m.hora_apertura, m.hora_cierre, img.imagen "
+        String sql = "SELECT li.lugar_interes_id, li.nombre, m.hora_apertura, m.hora_cierre, img.imagen "
                 + "FROM lugares_interes li "
                 + "JOIN museo m ON m.lugar_interes_id = li.lugar_interes_id "
                 + "JOIN imagenes_lugar img ON img.lugar_interes_id = li.lugar_interes_id "
                 + "WHERE img.imagen_lugar_id = ( "
-                + "    SELECT MIN(imagen_lugar_id) "
-                + "    FROM imagenes_lugar "
-                + "    WHERE lugar_interes_id = li.lugar_interes_id "
+                + "    SELECT MIN(img2.imagen_lugar_id) "
+                + "    FROM imagenes_lugar img2 "
+                + "    WHERE img2.lugar_interes_id = img.lugar_interes_id "
                 + ")";
 
-        try (Connection conn = ConexionHuellasCuencanas.conectar(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                int id = rs.getInt("li.lugar_interes_id");
+                int id = rs.getInt("lugar_interes_id");
                 String nombre = rs.getString("nombre");
                 LocalTime horaApertura = rs.getTime("hora_apertura").toLocalTime();
                 LocalTime horaCierre = rs.getTime("hora_cierre").toLocalTime();
                 byte[] imagen = rs.getBytes("imagen");
 
-                lista.add(new MuseoVista(id,nombre, horaApertura, horaCierre, imagen));
+                lista.add(new MuseoVista(id, nombre, horaApertura, horaCierre, imagen));
             }
         }
 
         return lista;
     }
+
     public MuseoDetalleVista obtenerDetalleMuseo(int lugarInteresId) throws SQLException {
-        MuseoDAO museo =new MuseoDAO();
+        MuseoDAO museo = new MuseoDAO();
         return museo.obtenerDetalleMuseo(lugarInteresId);
     }
 }

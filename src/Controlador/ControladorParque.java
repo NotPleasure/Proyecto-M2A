@@ -35,7 +35,8 @@ import java.util.List;
  * @author MeiRen
  */
 public class ControladorParque {
-      public void guardarParque(
+
+    public void guardarParque(
             String nombreLugar,
             String entidad_gestora,
             float superfice,
@@ -72,8 +73,6 @@ public class ControladorParque {
             throw new IllegalArgumentException("Se requieren tres imágenes.");
         }
 
-
-
         if (latitud < -90 || latitud > 90) {
             throw new IllegalArgumentException("La latitud debe estar entre -90 y 90.");
         }
@@ -82,7 +81,7 @@ public class ControladorParque {
             throw new IllegalArgumentException("La longitud debe estar entre -180 y 180.");
         }
 
-        try (Connection con = ConexionHuellasCuencanas.conectar()) {
+        try ( Connection con = ConexionHuellasCuencanas.conectar()) {
             try {
                 con.setAutoCommit(false);
 
@@ -117,33 +116,36 @@ public class ControladorParque {
 
     public List<ParqueVista> obtenerParquesVista() throws SQLException {
         List<ParqueVista> lista = new ArrayList<>();
+        
+        String sql = "SELECT li.lugar_interes_id, li.nombre, p.entidad_gestora, p.superficie, img.imagen "
+        + "FROM lugares_interes li "
+        + "JOIN parque p ON p.lugar_interes_id = li.lugar_interes_id "
+        + "JOIN imagenes_lugar img ON img.lugar_interes_id = li.lugar_interes_id "
+        + "WHERE img.imagen_lugar_id = ( "
+        + "    SELECT MIN(imagen_lugar_id) "
+        + "    FROM imagenes_lugar "
+        + "    WHERE lugar_interes_id = li.lugar_interes_id "
+        + ")";
 
-        String sql = "SELECT li.nombre, p.entidad_gestora, p.superficie, img.imagen "
-                + "FROM lugares_interes li "
-                + "JOIN parque p ON p.lugar_interes_id = li.lugar_interes_id "
-                + "JOIN imagenes_lugar img ON img.lugar_interes_id = li.lugar_interes_id "
-                + "WHERE img.imagen_lugar_id = ( "
-                + "    SELECT MIN(imagen_lugar_id) "
-                + "    FROM imagenes_lugar "
-                + "    WHERE lugar_interes_id = li.lugar_interes_id "
-                + ")";
 
-        try (Connection conn = ConexionHuellasCuencanas.conectar(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
+                int id = rs.getInt("lugar_interes_id");
                 String nombre = rs.getString("nombre");
                 String entidad_gestora = rs.getString("entidad_gestora");
                 float superfice = rs.getFloat("superficie");
                 byte[] imagen = rs.getBytes("imagen");
 
-                lista.add(new ParqueVista(nombre, superfice, entidad_gestora, imagen));
+                lista.add(new ParqueVista(id,nombre, superfice, entidad_gestora, imagen));
             }
         }
 
         return lista;
     }
+
     public ParqueDetalleVista obtenerDetalleParque(int lugarInteresId) throws SQLException {
-        ParqueDao parque =new ParqueDao();
+        ParqueDao parque = new ParqueDao();
         return parque.obtenerDetalleParque(lugarInteresId);
     }
 }

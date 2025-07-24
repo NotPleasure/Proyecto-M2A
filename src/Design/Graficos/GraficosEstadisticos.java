@@ -10,7 +10,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
-
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.ui.Drawable;
 import java.awt.Color;
 import java.awt.Paint;
 import java.text.DecimalFormat;

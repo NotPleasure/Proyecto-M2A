@@ -25,13 +25,6 @@ public class ParqueVista {
         this.entidad_gestora = entidad_gestora;
         this.imagenPrincipal = imagenPrincipal;
     }
-    
-    public ParqueVista(String nombre, float superficie, String entidad_gestora, byte[] imagenPrincipal) {
-        this.nombre = nombre;
-        this.superficie = superficie;
-        this.entidad_gestora = entidad_gestora;
-        this.imagenPrincipal = imagenPrincipal;
-    }
 
     public int getId() {
         return id;

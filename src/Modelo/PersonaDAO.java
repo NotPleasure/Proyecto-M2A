@@ -99,45 +99,93 @@ public class PersonaDAO {
     }
 
     public Persona obtenerPersonaPorCredenciales(String usuario, String contraseña) {
-        String sql
-                = "SELECT p.id_persona, p.cedula, p.usuario, p.correo, "
-                + "p.contrasena, p.nacionalidad, p.genero, p.nombres, "
-                + "p.apellidos, p.fecha_nacimiento, p.sobre_mi, p.icono, p.rol_id "
-                + "FROM persona p "
-                + "WHERE p.usuario = ? "
-                + "ORDER BY p.id_persona";
+        String sql = "SELECT p.id_persona, p.cedula, p.usuario, p.correo,"
+                + " p.contrasena, p.nacionalidad, p.genero, p.nombres,"
+                + " p.apellidos, p.fecha_nacimiento, p.sobre_mi, p.icono, p.rol_id"
+                + " FROM persona p"
+                + " WHERE p.usuario = ?"
+                + " ORDER BY p.id_persona";
 
         try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, usuario);
             try ( ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    String hash = rs.getString("contrasena");
-                    if (!BCrypt.checkpw(contraseña, hash)) {
+                if (!rs.next()) {
+                    return null;
+                }
+
+                String hashBD = rs.getString("contrasena");
+                if (!BCrypt.checkpw(contraseña, hashBD)) {
+                    return null; // Contraseña incorrecta
+                }
+
+                int id = rs.getInt("id_persona");
+                String cedula = rs.getString("cedula");
+                String usr = rs.getString("usuario");
+                String correo = rs.getString("correo");
+                String nac = rs.getString("nacionalidad");
+                String gen = rs.getString("genero");
+                String nom = rs.getString("nombres");
+                String ape = rs.getString("apellidos");
+                Date fechaDb = rs.getDate("fecha_nacimiento");
+                String sobreMi = rs.getString("sobre_mi");
+                byte[] icono = rs.getBytes("icono");
+                int rolId = rs.getInt("rol_id");
+
+                switch (rolId) {
+                    case 1:
+                        Administrador admin = new Administrador();
+                        admin.setIdPersona(id);
+                        admin.setCedula(cedula);
+                        admin.setUsuario(usr);
+                        admin.setCorreo(correo);
+                        admin.setContrasena(hashBD);
+                        admin.setNacionalidad(nac);
+                        admin.setGenero(gen);
+                        admin.setNombres(nom);
+                        admin.setApellidos(ape);
+                        admin.setFechaNacimiento(fechaDb != null ? fechaDb.toLocalDate() : null);
+                        admin.setSobreMi(sobreMi);
+                        admin.setIcono(icono);
+                        admin.setRolId(rolId);
+                        return admin;
+                    case 2:
+                        Usuario usuarioPrincipal = new Usuario();
+                        usuarioPrincipal.setIdPersona(id);
+                        usuarioPrincipal.setCedula(cedula);
+                        usuarioPrincipal.setUsuario(usr);
+                        usuarioPrincipal.setCorreo(correo);
+                        usuarioPrincipal.setContrasena(hashBD);
+                        usuarioPrincipal.setNacionalidad(nac);
+                        usuarioPrincipal.setGenero(gen);
+                        usuarioPrincipal.setNombres(nom);
+                        usuarioPrincipal.setApellidos(ape);
+                        usuarioPrincipal.setFechaNacimiento(fechaDb != null ? fechaDb.toLocalDate() : null);
+                        usuarioPrincipal.setSobreMi(sobreMi);
+                        usuarioPrincipal.setIcono(icono);
+                        usuarioPrincipal.setRolId(rolId);
+                        return usuarioPrincipal;
+                    case 3:
+                        SuperUsuario superu = new SuperUsuario();
+                        superu.setIdPersona(id);
+                        superu.setCedula(cedula);
+                        superu.setUsuario(usr);
+                        superu.setCorreo(correo);
+                        superu.setContrasena(hashBD);
+                        superu.setNacionalidad(nac);
+                        superu.setGenero(gen);
+                        superu.setNombres(nom);
+                        superu.setApellidos(ape);
+                        superu.setFechaNacimiento(fechaDb != null ? fechaDb.toLocalDate() : null);
+                        superu.setSobreMi(sobreMi);
+                        superu.setIcono(icono);
+                        superu.setRolId(rolId);
+                        return superu;
+                    default:
                         return null;
-                    }
-
-                    Persona p = new Persona();
-                    p.setIdPersona(rs.getInt("id_persona"));
-                    p.setCedula(rs.getString("cedula"));
-                    p.setUsuario(rs.getString("usuario"));
-                    p.setCorreo(rs.getString("correo"));
-                    p.setContrasena(hash);
-                    p.setNacionalidad(rs.getString("nacionalidad"));
-                    p.setGenero(rs.getString("genero"));
-                    p.setNombres(rs.getString("nombres"));
-                    p.setApellidos(rs.getString("apellidos"));
-
-                    Date fecha = rs.getDate("fecha_nacimiento");
-                    p.setFechaNacimiento(fecha != null ? fecha.toLocalDate() : null);
-
-                    p.setSobreMi(rs.getString("sobre_mi"));
-                    p.setIcono(rs.getBytes("icono"));
-                    p.setRolId(rs.getInt("rol_id"));
-
-                    return p;
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

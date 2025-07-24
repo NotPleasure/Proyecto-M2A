@@ -131,8 +131,8 @@ public class UsuarioDAO {
             }
 
             ps.setInt(i, u.getIdPersona());
-
             return ps.executeUpdate() > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -291,7 +291,8 @@ public class UsuarioDAO {
             return false;
         }
     }
-          public boolean existePorId(int idPersona) {
+
+    public boolean existePorId(int idPersona) {
         String sql = "SELECT 1 FROM usuario WHERE id_persona = ?";
         try ( Connection con = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idPersona);
@@ -301,5 +302,35 @@ public class UsuarioDAO {
             e.printStackTrace();
             return false;
         }
-          }
+
+    }
+
+    public Usuario obtenerUsuarioPorCredenciales(String usuario, String contraseña) {
+        PersonaDAO personaDAO = new PersonaDAO();
+        Persona persona = personaDAO.obtenerPersonaPorCredenciales(usuario, contraseña);
+
+        // Si es un usuario válido con rolId = 2 (Usuario Principal)
+        if (persona != null && persona.getRolId() == 2) {
+            // Crear objeto Usuario con todos los datos
+            Usuario usuarioCompleto = new Usuario();
+            usuarioCompleto.setIdPersona(persona.getIdPersona());
+            usuarioCompleto.setCedula(persona.getCedula());
+            usuarioCompleto.setUsuario(persona.getUsuario());
+            usuarioCompleto.setCorreo(persona.getCorreo());
+            usuarioCompleto.setContrasena(persona.getContrasena());
+            usuarioCompleto.setNacionalidad(persona.getNacionalidad());
+            usuarioCompleto.setGenero(persona.getGenero());
+            usuarioCompleto.setNombres(persona.getNombres());
+            usuarioCompleto.setApellidos(persona.getApellidos());
+            usuarioCompleto.setFechaNacimiento(persona.getFechaNacimiento());
+            usuarioCompleto.setSobreMi(persona.getSobreMi());
+            usuarioCompleto.setIcono(persona.getIcono());
+            usuarioCompleto.setRolId(persona.getRolId());
+
+            return usuarioCompleto;
+        }
+
+        return null;
+    }
+
 }
