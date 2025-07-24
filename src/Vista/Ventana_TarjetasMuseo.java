@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Animations.Animator1;
 import Vista.*;
 import Controlador.ControladorIglesia;
 import Controlador.ControladorMuseo;
@@ -38,6 +39,7 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
 
     private List<Museo> museosGuardados;
     private ControladorMuseo ctrl = new ControladorMuseo();
+    private Ventana_Lugares ventanaTarjetas;
 
     /**
      * Creates new form Ventana_TarjetasIglesia
@@ -96,6 +98,12 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
         jPanelContenedorMuseos.repaint();
     }
 
+     //Para regresar entre ventanas:
+     public void setVentanaTarjetas(Ventana_Lugares v) {
+        this.ventanaTarjetas = v;
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -135,6 +143,11 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
         jButton1.setContentAreaFilled(false);
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.setFocusPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 30, 140, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 90));
@@ -169,6 +182,20 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+ Animator1.fadeOut(this, () -> {
+            this.dispose(); 
+
+            if (ventanaTarjetas != null) {
+                ventanaTarjetas.setOpacity(0f);
+                ventanaTarjetas.setVisible(true);
+                Animator1.fadeIn(ventanaTarjetas);
+            }
+        });
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

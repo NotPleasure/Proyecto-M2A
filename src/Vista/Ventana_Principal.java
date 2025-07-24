@@ -39,6 +39,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import Vista.Ventana_Principal;
+import java.awt.Image;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -72,9 +76,22 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         this.persona = persona;
 
-        this.usuario = persona != null ? persona.getUsuario() : "Desconocido";
-
-        NombreUsuario.setText(this.usuario);
+        if (persona != null) {
+            NombreUsuario.setText(persona.getUsuario());
+            Provincia.setText(persona.getNombres());
+            Canton.setText(persona.getApellidos());
+            País.setText(persona.getNacionalidad());
+            VariableGenero.setText(persona.getGenero());
+            jlabelpais.setText("");
+            mostrarBanderaPorNacionalidad(persona.getNacionalidad());
+        } else {
+            NombreUsuario.setText("Desconocido");
+            Provincia.setText("Desconocido");
+            Canton.setText("Desconocido");
+            País.setText("Desconocido");
+            VariableGenero.setText("Desconocido");
+            mostrarBanderaPorNacionalidad("defecto");
+        }
 
         //Dimensiones del usuario:
         NombreUsuario.setBounds(60, 80, 240, 50);
@@ -152,6 +169,50 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
     }
 
+    //Cargar imágenes de países:
+    private void mostrarBanderaPorNacionalidad(String nacionalidad) {
+        String clave = normalizarTexto(nacionalidad);
+
+        // Mapear solo las banderas que tienes
+        Map<String, String> mapaBanderas = new HashMap<>();
+        mapaBanderas.put("ecuatoriana", "ecuador.png");
+        mapaBanderas.put("guatemalteca", "guatemala.png");
+        mapaBanderas.put("estadounidense", "estadosunidos.png");
+        mapaBanderas.put("espanola", "espana.png");
+        mapaBanderas.put("mexicana", "mexico.png");
+        mapaBanderas.put("colombiana", "colombia.png");
+        mapaBanderas.put("brazilena", "brazil.png");
+        mapaBanderas.put("alemana", "alemania.png");
+        mapaBanderas.put("argentina", "argentina.png");
+        mapaBanderas.put("senegalesa", "senegal.png");
+        mapaBanderas.put("holandesa", "paisesbajos.png");
+        mapaBanderas.put("paraguaya", "paraguay.png");
+
+        // Bandera por defecto
+        String archivo = mapaBanderas.getOrDefault(clave, "defecto.png");
+
+        // Cargar y redimensionar
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Imágenes/" + archivo));
+        Image img = icono.getImage();
+        int ancho = 40;
+        int alto = 40;
+        Image imgEscalada = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+
+        jlabelpais.setIcon(new ImageIcon(imgEscalada));
+    }
+
+    //Para normalizar el texto:
+    private String normalizarTexto(String texto) {
+        return texto.toLowerCase()
+                .replace("á", "a")
+                .replace("é", "e")
+                .replace("í", "i")
+                .replace("ó", "o")
+                .replace("ú", "u")
+                .replace("ñ", "n")
+                .replaceAll("[^a-z]", "");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -205,7 +266,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         NombreUsuario = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jPanel2 = new RoundedPannelGris();
-        jLabel8 = new javax.swing.JLabel();
+        jlabelpais = new javax.swing.JLabel();
         País = new javax.swing.JLabel();
         Provincia = new javax.swing.JLabel();
         Canton = new javax.swing.JLabel();
@@ -517,8 +578,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Ecuador (1).png"))); // NOI18N
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 80, 70));
+        jlabelpais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Ecuador (1).png"))); // NOI18N
+        jPanel2.add(jlabelpais, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 22, 40, 40));
 
         País.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         País.setText("Ecuador");
@@ -791,7 +852,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         Animator.fadeOut(this, () -> {
             Login miR = new Login();
-            Interfaz_Usuario controladorLogin = new Interfaz_Usuario(persona,ventanaUsuarios );
+            Interfaz_Usuario controladorLogin = new Interfaz_Usuario(persona, ventanaUsuarios);
             Animator.fadeIn(miR);
         });
 
@@ -1023,11 +1084,11 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jlabelpais;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -183,8 +183,8 @@ public class Ventana_VerDetalleMuseos extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
         NombreIglesia = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         PanelMapa = new RoundedPanelAdmin()
         ;
@@ -221,16 +221,16 @@ public class Ventana_VerDetalleMuseos extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(248, 248, 248));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(139, 0, 0));
+        jPanel2.setBackground(new java.awt.Color(217, 188, 138));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Igle 4.png"))); // NOI18N
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 70, 90));
 
         NombreIglesia.setFont(new java.awt.Font("Segoe UI", 0, 40)); // NOI18N
         NombreIglesia.setForeground(new java.awt.Color(255, 255, 255));
         NombreIglesia.setText("d");
         jPanel2.add(NombreIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 23, 470, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ImaMuseo.png"))); // NOI18N
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, 70, 60));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 100));
 
@@ -357,8 +357,8 @@ public class Ventana_VerDetalleMuseos extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 490, 420, 260));
         jPanel1.add(roundedImageLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 380, 200));
-        jPanel1.add(roundedImageLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 380, 170));
-        jPanel1.add(roundedImageLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 370, 240));
+        jPanel1.add(roundedImageLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 380, 200));
+        jPanel1.add(roundedImageLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 380, 200));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 860));
 
