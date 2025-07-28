@@ -4,69 +4,87 @@
  * and open the template in the editor.
  */
 package Vista;
+
+import Animations.Animator1;
+import Controlador.ControladorIglesia;
 import Design.RoundedButtonDetalles;
+import Design.RoundedButtonDetallesIglesia;
+import Design.RoundedButtonDetallesRegresar;
 import Design.RoundedButtonInicio;
 import Design.RoundedButtonLugares;
 import Design.RoundedButtonRegresar;
+import Design.RoundedPanel;
+import Design.RoundedPanel1;
 import Design.RoundedPannelGris;
+import Modelo.IglesiaDetalleVista;
+import Modelo.IglesiaVistaUser;
+import Modelo.LugarInteresDAO;
+import Modelo.Persona;
 import Vista.PanelIglesias.Ventana_IglesiaElSagrario;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-
+import raven.glasspanepopup.GlassPanePopup;
 
 /**
  *
  * @author USER
  */
 public class Ventana_Iglesias extends javax.swing.JFrame {
+
     private final String BusquedaText = "Buscar Iglesias";
+    private Persona persona;
+    private Ventana_Principal ventanaPrincipal;
+    private JFrame ventanaPadre;
 
     /**
      * Creates new form Interfaz_Lugares
      */
-    public Ventana_Iglesias() {
+    public Ventana_Iglesias(JFrame ventanaPadre, Persona persona) {
         initComponents();
-        
+        this.ventanaPadre = ventanaPadre;
+        this.persona = persona;
+
+        //Cargar las iglesias:
+        cargarIglesiasEnComponentes();
+
+        //Instanciar el popup: 
+        GlassPanePopup.install(this);
+
         //Fuentes:
-        Busqueda2.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
-        IglesiaSanBlas.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Blas.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        IglesiasLabel.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        Cuenca_Ecuador.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        estrellas1.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
-        Iglesia.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Sebastian.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        IglesiasLabelSebastian.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        estrellas2.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
-        Cuenca_Ecuador1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        CatedralVieja1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Vieja1.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        IglesiasLabel1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        Cuenca_Ecuador2.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        estrellas3.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
-        Iglesia1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Sebastian1.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        IglesiasLabelSebastian1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Cuenca_Ecuador3.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        estrellas4.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
-        IglesiaSanBlas1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Blas1.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        IglesiasLabel2.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        Cuenca_Ecuador4.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        estrellas5.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
-        Parques.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
-        Regresar2.setFont(new Font("CocogooseProTrial", Font.PLAIN, 14));
+        lblNombre3.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
+        lblTipo3.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
+        lblDireccion5.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
+        lblNombre5.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
+        lblTipo5.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
+        lblDireccion3.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
+        lblNombre1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
+        lblTipo1.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
+        lblDireccion1.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
+        lblNombre4.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
+        lblTipo4.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
+        lblDireccion4.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
+        lblNombre2.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
+        lblTipo2.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
+        lblDireccion2.setFont(new Font("Caviar Dreams", Font.PLAIN, 13));
+        Iglesis.setFont(new Font("Open Sans Bold", Font.PLAIN, 30));
+        Des.setFont(new Font("Segoe UI SemiBold", Font.PLAIN, 16));
+        Cu.setFont(new Font("Segoe UI Light", Font.PLAIN, 16));
 
-        //Hacer invisible el JTextField de Búsqueda:
-        Busqueda2.setOpaque(false);
-        Busqueda2.setBorder(null);
-        Busqueda2.setForeground(Color.BLACK);
+        //Extender la ventana al máximo: 
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        //Hacer el Holder para la búsqueda:
-        ponerPlaceholder(Busqueda2, BusquedaText);
+        // Para pantalla completa:
+        setExtendedState(MAXIMIZED_BOTH);
 
     }
 
@@ -93,6 +111,66 @@ public class Ventana_Iglesias extends javax.swing.JFrame {
         });
     }
 
+    //Cargar iglesias para User:
+    private void cargarIglesiasEnComponentes() {
+        LugarInteresDAO dao = new LugarInteresDAO();
+        List<IglesiaVistaUser> iglesias = dao.obtenerIglesias();
+
+        JLabel[] labelsNombre = {lblNombre1, lblNombre2, lblNombre3, lblNombre4, lblNombre5};
+        JLabel[] labelsTipo = {lblTipo1, lblTipo2, lblTipo3, lblTipo4, lblTipo5};
+        JLabel[] labelsDireccion = {lblDireccion1, lblDireccion2, lblDireccion3, lblDireccion4, lblDireccion5};
+        JButton[] botonesImagen = {btnImg1, btnImg2, btnImg3, btnImg4, btnImg5};
+        JButton[] botonesVer = {btnVer1, btnVer2, btnVer3, btnVer4, btnVer5};
+
+        for (JButton b : botonesVer) {
+            for (ActionListener al : b.getActionListeners()) {
+                b.removeActionListener(al);
+            }
+        }
+
+        for (int i = 0; i < iglesias.size(); i++) {
+            IglesiaVistaUser ig = iglesias.get(i);
+            String dir = ig.getDireccion();
+            if (dir != null && dir.length() > 15) {
+                dir = dir.substring(0, 15) + "...";
+            }
+            labelsDireccion[i].setText(dir != null ? dir : "");
+            labelsNombre[i].setText(ig.getNombre());
+            labelsTipo[i].setText("Iglesia");
+
+            byte[] imgBytes = ig.getImagenPrincipal();
+            if (imgBytes != null) {
+                ImageIcon icon = new ImageIcon(imgBytes);
+                Image imgEscalada = icon.getImage().getScaledInstance(310, 180, Image.SCALE_SMOOTH);
+                botonesImagen[i].setIcon(new ImageIcon(imgEscalada));
+            }
+
+            final int idIglesia = ig.getId();
+            botonesVer[i].addActionListener(e -> {
+                try {
+                    ControladorIglesia ctrl = new ControladorIglesia();
+                    IglesiaDetalleVista detalle = ctrl.obtenerDetalleIglesia(idIglesia);
+                    if (detalle != null) {
+                        Ventana_VerIglesias ventana = new Ventana_VerIglesias(detalle);
+                        ventana.setLocationRelativeTo(this);
+                        ventana.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "No se encontraron los datos completos.",
+                                "Sin datos",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this,
+                            "Error al mostrar la iglesia:\n" + ex.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            });
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -103,74 +181,240 @@ public class Ventana_Iglesias extends javax.swing.JFrame {
     private void initComponents() {
 
         content = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        btnVer1 = new RoundedButtonDetalles("");
+        jLabel19 = new javax.swing.JLabel();
+        lblTipo1 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        lblDireccion1 = new javax.swing.JLabel();
+        btnImg3 = new RoundedButtonLugares("");
+        btnImg2 = new RoundedButtonLugares("");
+        btnImg1 = new RoundedButtonLugares("");
+        lblNombre1 = new javax.swing.JLabel();
+        lblNombre2 = new javax.swing.JLabel();
+        lblNombre3 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        lblTipo3 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        lblDireccion3 = new javax.swing.JLabel();
+        lblTipo2 = new javax.swing.JLabel();
+        lblDireccion2 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        btnImg4 = new RoundedButtonLugares("");
+        btnImg5 = new RoundedButtonLugares("");
+        btnVer3 = new RoundedButtonDetalles("");
+        lblNombre4 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        lblTipo4 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        lblDireccion4 = new javax.swing.JLabel();
+        lblNombre5 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        lblTipo5 = new javax.swing.JLabel();
+        lblDireccion5 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        btnVer4 = new RoundedButtonDetalles("");
+        btnVer2 = new RoundedButtonDetalles("");
+        btnVer5 = new RoundedButtonDetalles("");
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel3 = new RoundedPannelGris();
-        Busqueda2 = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        Estrellas1 = new javax.swing.JButton();
-        jButton1 = new RoundedButtonLugares("");
-        IglesiaSanBlas = new javax.swing.JLabel();
-        Blas = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        IglesiasLabel = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        Cuenca_Ecuador = new javax.swing.JLabel();
-        jButton8 = new RoundedButtonDetalles("");
-        jButton2 = new RoundedButtonLugares("");
-        estrellas1 = new javax.swing.JLabel();
-        Iglesia = new javax.swing.JLabel();
-        Sebastian = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        IglesiasLabelSebastian = new javax.swing.JLabel();
-        estrellas2 = new javax.swing.JLabel();
-        Estrellas2 = new javax.swing.JButton();
-        jButton9 = new RoundedButtonDetalles("");
-        jLabel21 = new javax.swing.JLabel();
-        Cuenca_Ecuador1 = new javax.swing.JLabel();
-        jButton3 = new RoundedButtonLugares("");
-        CatedralVieja1 = new javax.swing.JLabel();
-        Vieja1 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        IglesiasLabel1 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        Cuenca_Ecuador2 = new javax.swing.JLabel();
-        estrellas3 = new javax.swing.JLabel();
-        Estrellas3 = new javax.swing.JButton();
-        jButton10 = new RoundedButtonDetalles("");
-        jButton5 = new RoundedButtonLugares("");
-        Iglesia1 = new javax.swing.JLabel();
-        Sebastian1 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        IglesiasLabelSebastian1 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        Cuenca_Ecuador3 = new javax.swing.JLabel();
-        estrellas4 = new javax.swing.JLabel();
-        Estrellas4 = new javax.swing.JButton();
-        jButton11 = new RoundedButtonDetalles("");
-        jButton4 = new javax.swing.JButton();
-        IglesiaSanBlas1 = new javax.swing.JLabel();
-        Blas1 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        IglesiasLabel2 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
-        Cuenca_Ecuador4 = new javax.swing.JLabel();
-        estrellas5 = new javax.swing.JLabel();
-        Estrellas5 = new javax.swing.JButton();
-        jButton12 = new RoundedButtonDetalles("");
-        jButton6 = new javax.swing.JButton();
-        Parques = new javax.swing.JLabel();
+        jPanel2 = new RoundedPanel1();
+        jPanel3 = new RoundedPanel1();
+        jPanel4 = new RoundedPanel1();
+        jPanel5 = new RoundedPanel1();
+        jPanel6 = new RoundedPanel1();
+        Iglesis = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jButton1 = new RoundedButtonDetalles("");
         jLabel1 = new javax.swing.JLabel();
-        Regresar2 = new javax.swing.JLabel();
-        Regresar = new RoundedButtonRegresar("");
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jButton2 = new RoundedButtonDetallesRegresar("");
+        Des = new javax.swing.JLabel();
+        Cu = new javax.swing.JLabel();
+        btnVerTodasIglesias = new RoundedButtonDetallesIglesia("");
+        jLabel4 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1140, 830));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         content.setBackground(new java.awt.Color(242, 242, 242));
         content.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(245, 245, 245));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnVer1.setBackground(new java.awt.Color(204, 204, 204));
+        btnVer1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnVer1.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer1.setText("Ver Detalles");
+        btnVer1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVer1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVer1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, -1, -1));
+
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
+        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, -1, -1));
+
+        lblTipo1.setText("Iglesias");
+        jPanel1.add(lblTipo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 322, -1, -1));
+
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
+        jPanel1.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 320, -1, -1));
+
+        lblDireccion1.setText("Cuenca, Ecuador.");
+        jPanel1.add(lblDireccion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 322, -1, -1));
+
+        btnImg3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IglesiaSanFrancisco (1).jpg"))); // NOI18N
+        btnImg3.setBorderPainted(false);
+        btnImg3.setContentAreaFilled(false);
+        btnImg3.setFocusPainted(false);
+        jPanel1.add(btnImg3, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 110, 310, 180));
+
+        btnImg2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IglesiaSanBlas (1).jpg"))); // NOI18N
+        btnImg2.setBorderPainted(false);
+        btnImg2.setContentAreaFilled(false);
+        btnImg2.setFocusPainted(false);
+        jPanel1.add(btnImg2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 110, 310, 180));
+
+        btnImg1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Catedral Vieja (1).jpg"))); // NOI18N
+        btnImg1.setBorderPainted(false);
+        btnImg1.setContentAreaFilled(false);
+        btnImg1.setFocusPainted(false);
+        btnImg1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImg1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnImg1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 340, 180));
+
+        lblNombre1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        lblNombre1.setForeground(new java.awt.Color(237, 79, 31));
+        lblNombre1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNombre1.setText("Iglesia el Sagrario");
+        jPanel1.add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, -1, -1));
+
+        lblNombre2.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        lblNombre2.setForeground(new java.awt.Color(237, 79, 31));
+        lblNombre2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNombre2.setText("Iglesia San");
+        jPanel1.add(lblNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 300, -1, -1));
+
+        lblNombre3.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        lblNombre3.setForeground(new java.awt.Color(237, 79, 31));
+        lblNombre3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNombre3.setText("Iglesia San");
+        jPanel1.add(lblNombre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 300, -1, -1));
+
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 320, -1, -1));
+
+        lblTipo3.setText("Iglesias");
+        jPanel1.add(lblTipo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 322, -1, -1));
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
+        jPanel1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 320, -1, -1));
+
+        lblDireccion3.setText("Cuenca, Ecuador.");
+        jPanel1.add(lblDireccion3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 322, -1, -1));
+
+        lblTipo2.setText("Iglesias");
+        jPanel1.add(lblTipo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 322, -1, -1));
+
+        lblDireccion2.setText("Cuenca, Ecuador.");
+        jPanel1.add(lblDireccion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 322, -1, -1));
+
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
+        jPanel1.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 320, -1, -1));
+
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
+        jPanel1.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 320, -1, -1));
+
+        btnImg4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Iglesia SanSebastián (1).jpg"))); // NOI18N
+        btnImg4.setBorderPainted(false);
+        btnImg4.setContentAreaFilled(false);
+        btnImg4.setFocusPainted(false);
+        jPanel1.add(btnImg4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 430, 340, 170));
+
+        btnImg5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IglesiaTodosSantos (1).jpg"))); // NOI18N
+        btnImg5.setBorderPainted(false);
+        btnImg5.setContentAreaFilled(false);
+        btnImg5.setFocusPainted(false);
+        jPanel1.add(btnImg5, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 430, 310, 172));
+
+        btnVer3.setBackground(new java.awt.Color(204, 204, 204));
+        btnVer3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnVer3.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer3.setText("Ver Detalles");
+        btnVer3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVer3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVer3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVer3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 350, -1, -1));
+
+        lblNombre4.setForeground(new java.awt.Color(237, 79, 31));
+        lblNombre4.setText("Iglesia San");
+        jPanel1.add(lblNombre4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 610, -1, -1));
+
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
+        jPanel1.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 630, -1, -1));
+
+        lblTipo4.setText("Iglesias");
+        jPanel1.add(lblTipo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 632, -1, -1));
+
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
+        jPanel1.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 630, -1, -1));
+
+        lblDireccion4.setText("Cuenca, Ecuador.");
+        jPanel1.add(lblDireccion4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 632, -1, -1));
+
+        lblNombre5.setForeground(new java.awt.Color(237, 79, 31));
+        lblNombre5.setText("Iglesia de Todos");
+        jPanel1.add(lblNombre5, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 610, -1, -1));
+
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 630, -1, -1));
+
+        lblTipo5.setText("Iglesias");
+        jPanel1.add(lblTipo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 632, -1, -1));
+
+        lblDireccion5.setText("Cuenca, Ecuador.");
+        jPanel1.add(lblDireccion5, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 632, -1, -1));
+
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
+        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 630, -1, -1));
+
+        btnVer4.setBackground(new java.awt.Color(204, 204, 204));
+        btnVer4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnVer4.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer4.setText("Ver Detalles");
+        btnVer4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel1.add(btnVer4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 660, -1, -1));
+
+        btnVer2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnVer2.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer2.setText("Ver Detalles");
+        btnVer2.setBorderPainted(false);
+        btnVer2.setContentAreaFilled(false);
+        btnVer2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVer2.setFocusPainted(false);
+        jPanel1.add(btnVer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 350, 130, -1));
+
+        btnVer5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnVer5.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer5.setText("Ver Detalles");
+        btnVer5.setBorderPainted(false);
+        btnVer5.setContentAreaFilled(false);
+        btnVer5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVer5.setFocusPainted(false);
+        jPanel1.add(btnVer5, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 660, 130, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/icons8_Expand_Arrow_32px.png"))); // NOI18N
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -179,7 +423,7 @@ public class Ventana_Iglesias extends javax.swing.JFrame {
                 jLabel6MouseClicked(evt);
             }
         });
-        content.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 20, 30, 30));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1290, 4, 30, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Salir (2) (2).png"))); // NOI18N
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -188,282 +432,87 @@ public class Ventana_Iglesias extends javax.swing.JFrame {
                 jLabel3MouseClicked(evt);
             }
         });
-        content.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 16, 30, 40));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 0, 30, 40));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 380, 290));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, 370, 290));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 100, 350, 290));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 420, 380, 290));
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 420, 330, 290));
 
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel3.add(Busqueda2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 0, 480, 50));
+        Iglesis.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
+        Iglesis.setForeground(new java.awt.Color(185, 116, 135));
+        Iglesis.setText("Iglesias ");
+        jPanel1.add(Iglesis, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 160, -1));
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Lupa__Ícono_-removebg-preview (1).png"))); // NOI18N
-        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, -14, 48, 80));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Sus.png"))); // NOI18N
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 70, 60));
 
-        content.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, 560, 50));
+        jSeparator1.setForeground(new java.awt.Color(11, 1, 26));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 270, 10));
 
-        Estrellas1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/5 estrellas.png"))); // NOI18N
-        Estrellas1.setBorderPainted(false);
-        Estrellas1.setContentAreaFilled(false);
-        Estrellas1.setFocusPainted(false);
-        content.add(Estrellas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 681, 180, 40));
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Catedral Vieja (1).jpg"))); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Regresar");
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.setFocusPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        content.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 340, 180));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 690, 170, 40));
 
-        IglesiaSanBlas.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        IglesiaSanBlas.setForeground(new java.awt.Color(237, 79, 31));
-        IglesiaSanBlas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        IglesiaSanBlas.setText("Iglesia San");
-        content.add(IglesiaSanBlas, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 290, -1, -1));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Agregar una Iglesia");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 708, -1, -1));
 
-        Blas.setText("Franciso.");
-        content.add(Blas, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 310, -1, -1));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/mas.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 710, 20, 20));
 
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
-        content.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 666, -1, -1));
-
-        IglesiasLabel.setText("Iglesias");
-        content.add(IglesiasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 334, -1, -1));
-
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
-        content.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(542, 668, -1, -1));
-
-        Cuenca_Ecuador.setText("Cuenca, Ecuador.");
-        content.add(Cuenca_Ecuador, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 670, -1, -1));
-
-        jButton8.setBackground(new java.awt.Color(204, 204, 204));
-        jButton8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("Ver Detalles");
-        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        content.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 730, -1, -1));
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Iglesia SanSebastián (1).jpg"))); // NOI18N
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jButton2.setFocusPainted(false);
-        content.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 444, 340, 170));
-
-        estrellas1.setText("RATING:");
-        content.add(estrellas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 693, -1, -1));
-
-        Iglesia.setForeground(new java.awt.Color(237, 79, 31));
-        Iglesia.setText("Iglesia de Todos");
-        content.add(Iglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 620, -1, -1));
-
-        Sebastian.setText("Santos");
-        content.add(Sebastian, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 640, -1, -1));
-
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
-        content.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 330, -1, -1));
-
-        IglesiasLabelSebastian.setText("Iglesias");
-        content.add(IglesiasLabelSebastian, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 670, -1, -1));
-
-        estrellas2.setText("RATING:");
-        content.add(estrellas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 360, -1, -1));
-
-        Estrellas2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/5 estrellas.png"))); // NOI18N
-        Estrellas2.setBorderPainted(false);
-        Estrellas2.setContentAreaFilled(false);
-        Estrellas2.setFocusPainted(false);
-        content.add(Estrellas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 350, 180, 40));
-
-        jButton9.setBackground(new java.awt.Color(204, 204, 204));
-        jButton9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Ver Detalles");
-        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-        content.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 396, -1, -1));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 700, 190, 40));
 
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
-        content.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 330, -1, -1));
+        Des.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        Des.setText("Descubre y gestiona las iglesias más");
+        jPanel1.add(Des, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 280, -1));
 
-        Cuenca_Ecuador1.setText("Cuenca, Ecuador.");
-        content.add(Cuenca_Ecuador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 334, -1, -1));
+        Cu.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        Cu.setText("emblemáticas de la ciudad de Cuenca.");
+        jPanel1.add(Cu, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 40, -1, -1));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IglesiaSanBlas (1).jpg"))); // NOI18N
-        jButton3.setBorderPainted(false);
-        jButton3.setContentAreaFilled(false);
-        jButton3.setFocusPainted(false);
-        content.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, 310, 180));
-
-        CatedralVieja1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        CatedralVieja1.setForeground(new java.awt.Color(237, 79, 31));
-        CatedralVieja1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        CatedralVieja1.setText("Iglesia el Sagrario");
-        content.add(CatedralVieja1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, -1));
-
-        Vieja1.setText("(Catedral Vieja).");
-        content.add(Vieja1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, -1, -1));
-
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
-        content.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, -1, -1));
-
-        IglesiasLabel1.setText("Iglesias");
-        content.add(IglesiasLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 334, -1, -1));
-
-        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
-        content.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, -1, -1));
-
-        Cuenca_Ecuador2.setText("Cuenca, Ecuador.");
-        content.add(Cuenca_Ecuador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 334, -1, -1));
-
-        estrellas3.setText("RATING:");
-        content.add(estrellas3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, -1, -1));
-
-        Estrellas3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/5 estrellas.png"))); // NOI18N
-        Estrellas3.setBorderPainted(false);
-        Estrellas3.setContentAreaFilled(false);
-        Estrellas3.setFocusPainted(false);
-        content.add(Estrellas3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 356, 180, 40));
-
-        jButton10.setBackground(new java.awt.Color(204, 204, 204));
-        jButton10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton10.setForeground(new java.awt.Color(255, 255, 255));
-        jButton10.setText("Ver Detalles");
-        jButton10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        btnVerTodasIglesias.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnVerTodasIglesias.setText("Ver más Iglesias");
+        btnVerTodasIglesias.setBorderPainted(false);
+        btnVerTodasIglesias.setContentAreaFilled(false);
+        btnVerTodasIglesias.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVerTodasIglesias.setFocusPainted(false);
+        btnVerTodasIglesias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                btnVerTodasIglesiasActionPerformed(evt);
             }
         });
-        content.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 400, -1, -1));
+        jPanel1.add(btnVerTodasIglesias, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 30, 180, 30));
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IglesiaTodosSantos (1).jpg"))); // NOI18N
-        jButton5.setBorderPainted(false);
-        jButton5.setContentAreaFilled(false);
-        jButton5.setFocusPainted(false);
-        content.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 441, 310, 172));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Fondo Iglesia.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1380, 850));
 
-        Iglesia1.setForeground(new java.awt.Color(237, 79, 31));
-        Iglesia1.setText("Iglesia San");
-        content.add(Iglesia1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 620, -1, -1));
+        content.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1380, 870));
 
-        Sebastian1.setText("Sebastián");
-        content.add(Sebastian1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 640, -1, -1));
-
-        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
-        content.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 660, -1, -1));
-
-        IglesiasLabelSebastian1.setText("Iglesias");
-        content.add(IglesiasLabelSebastian1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 664, -1, -1));
-
-        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
-        content.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 660, -1, -1));
-
-        Cuenca_Ecuador3.setText("Cuenca, Ecuador.");
-        content.add(Cuenca_Ecuador3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 664, -1, -1));
-
-        estrellas4.setText("RATING:");
-        content.add(estrellas4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 690, -1, -1));
-
-        Estrellas4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/5 estrellas.png"))); // NOI18N
-        Estrellas4.setBorderPainted(false);
-        Estrellas4.setContentAreaFilled(false);
-        Estrellas4.setFocusPainted(false);
-        content.add(Estrellas4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 678, 180, 40));
-
-        jButton11.setBackground(new java.awt.Color(204, 204, 204));
-        jButton11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton11.setForeground(new java.awt.Color(255, 255, 255));
-        jButton11.setText("Ver Detalles");
-        jButton11.setContentAreaFilled(false);
-        jButton11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        content.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 730, -1, -1));
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/IglesiaSanFrancisco (1).jpg"))); // NOI18N
-        jButton4.setBorderPainted(false);
-        jButton4.setContentAreaFilled(false);
-        jButton4.setFocusPainted(false);
-        content.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 100, 290, 180));
-
-        IglesiaSanBlas1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        IglesiaSanBlas1.setForeground(new java.awt.Color(237, 79, 31));
-        IglesiaSanBlas1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        IglesiaSanBlas1.setText("Iglesia San");
-        content.add(IglesiaSanBlas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 290, -1, -1));
-
-        Blas1.setText("Blas.");
-        content.add(Blas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, -1, -1));
-
-        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
-        content.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, -1));
-
-        IglesiasLabel2.setText("Iglesias");
-        content.add(IglesiasLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 334, -1, -1));
-
-        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
-        content.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 330, -1, -1));
-
-        Cuenca_Ecuador4.setText("Cuenca, Ecuador.");
-        content.add(Cuenca_Ecuador4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 334, -1, -1));
-
-        estrellas5.setText("RATING:");
-        content.add(estrellas5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 368, -1, -1));
-
-        Estrellas5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/5 estrellas.png"))); // NOI18N
-        Estrellas5.setBorderPainted(false);
-        Estrellas5.setContentAreaFilled(false);
-        Estrellas5.setFocusPainted(false);
-        content.add(Estrellas5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 348, 180, 40));
-
-        jButton12.setBackground(new java.awt.Color(204, 204, 204));
-        jButton12.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton12.setForeground(new java.awt.Color(255, 255, 255));
-        jButton12.setText("Ver Detalles");
-        jButton12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
-            }
-        });
-        content.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 394, -1, -1));
-
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/siguiente-boton__3_-removebg-preview.png"))); // NOI18N
-        jButton6.setBorderPainted(false);
-        jButton6.setContentAreaFilled(false);
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton6.setFocusPainted(false);
-        content.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 450, 170, 170));
-
-        Parques.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
-        Parques.setText("Mostrar más resultados");
-        content.add(Parques, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 620, -1, -1));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hogar (3).png"))); // NOI18N
-        content.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 700, 50, 50));
-
-        Regresar2.setForeground(new java.awt.Color(255, 255, 255));
-        Regresar2.setText("Regresar al Menú Principal");
-        content.add(Regresar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 720, -1, -1));
-
-        Regresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Regresar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegresarActionPerformed(evt);
-            }
-        });
-        content.add(Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 700, 300, 50));
-        content.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1070, 760));
-
-        jPanel1.setLayout(new java.awt.GridLayout(0, 3));
-        content.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1070, 760));
-
-        getContentPane().add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1180, 860));
+        getContentPane().add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1380, 850));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+
+        this.setState(Ventana_Principal.ICONIFIED);
+
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
@@ -475,86 +524,81 @@ public class Ventana_Iglesias extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void btnVer3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVer3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_btnVer3ActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+    private void btnImg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImg1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton12ActionPerformed
+    }//GEN-LAST:event_btnImg1ActionPerformed
 
-    private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
-   Ventana_Principal ventana = (Ventana_Principal) SwingUtilities.getWindowAncestor(this);
-    ventana.mostrarPanelInicio();
-           }//GEN-LAST:event_RegresarActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        Ventana_IglesiaElSagrario MiLugar = new Ventana_IglesiaElSagrario();
-        MiLugar.setSize(1140, 830);
-        content.removeAll();
-        content.add(MiLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1140, 830));
-        content.revalidate();
-        content.repaint();
-
-           }//GEN-LAST:event_jButton10ActionPerformed
+    private void btnVer1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVer1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVer1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
+        String nombre = (this.persona != null && this.persona.getUsuario() != null)
+                ? this.persona.getUsuario()
+                : "";
+
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
+            Ventana_Principal ventanaUsuario = new Ventana_Principal(this.persona);
+            ventanaUsuario.setOpacity(0f);
+            ventanaUsuario.setVisible(true);
+            Animator1.fadeIn(ventanaUsuario);
+        });
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnVerTodasIglesiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTodasIglesiasActionPerformed
+        Ventana_TarjetasIglesia ventanaTarjetas = new Ventana_TarjetasIglesia();
+
+        ventanaTarjetas.setVentanaTarjetas(this);
+
+        ventanaTarjetas.setLocationRelativeTo(this);
+        ventanaTarjetas.setVisible(true);
+
+        this.setVisible(false);
+
+
+    }//GEN-LAST:event_btnVerTodasIglesiasActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        Ventana_InsertarIglesia ayudaPanel = new Ventana_InsertarIglesia();
+
+        GlassPanePopup.showPopup(ayudaPanel);
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Blas;
-    private javax.swing.JLabel Blas1;
-    private javax.swing.JTextField Busqueda2;
-    private javax.swing.JLabel CatedralVieja1;
-    private javax.swing.JLabel Cuenca_Ecuador;
-    private javax.swing.JLabel Cuenca_Ecuador1;
-    private javax.swing.JLabel Cuenca_Ecuador2;
-    private javax.swing.JLabel Cuenca_Ecuador3;
-    private javax.swing.JLabel Cuenca_Ecuador4;
-    private javax.swing.JButton Estrellas1;
-    private javax.swing.JButton Estrellas2;
-    private javax.swing.JButton Estrellas3;
-    private javax.swing.JButton Estrellas4;
-    private javax.swing.JButton Estrellas5;
-    private javax.swing.JLabel Iglesia;
-    private javax.swing.JLabel Iglesia1;
-    private javax.swing.JLabel IglesiaSanBlas;
-    private javax.swing.JLabel IglesiaSanBlas1;
-    private javax.swing.JLabel IglesiasLabel;
-    private javax.swing.JLabel IglesiasLabel1;
-    private javax.swing.JLabel IglesiasLabel2;
-    private javax.swing.JLabel IglesiasLabelSebastian;
-    private javax.swing.JLabel IglesiasLabelSebastian1;
-    private javax.swing.JLabel Parques;
-    private javax.swing.JButton Regresar;
-    private javax.swing.JLabel Regresar2;
-    private javax.swing.JLabel Sebastian;
-    private javax.swing.JLabel Sebastian1;
-    private javax.swing.JLabel Vieja1;
+    private javax.swing.JLabel Cu;
+    private javax.swing.JLabel Des;
+    private javax.swing.JLabel Iglesis;
+    private javax.swing.JButton btnImg1;
+    private javax.swing.JButton btnImg2;
+    private javax.swing.JButton btnImg3;
+    private javax.swing.JButton btnImg4;
+    private javax.swing.JButton btnImg5;
+    private javax.swing.JButton btnVer1;
+    private javax.swing.JButton btnVer2;
+    private javax.swing.JButton btnVer3;
+    private javax.swing.JButton btnVer4;
+    private javax.swing.JButton btnVer5;
+    private javax.swing.JButton btnVerTodasIglesias;
     private javax.swing.JPanel content;
-    private javax.swing.JLabel estrellas1;
-    private javax.swing.JLabel estrellas2;
-    private javax.swing.JLabel estrellas3;
-    private javax.swing.JLabel estrellas4;
-    private javax.swing.JLabel estrellas5;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -563,9 +607,30 @@ public class Ventana_Iglesias extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblDireccion1;
+    private javax.swing.JLabel lblDireccion2;
+    private javax.swing.JLabel lblDireccion3;
+    private javax.swing.JLabel lblDireccion4;
+    private javax.swing.JLabel lblDireccion5;
+    private javax.swing.JLabel lblNombre1;
+    private javax.swing.JLabel lblNombre2;
+    private javax.swing.JLabel lblNombre3;
+    private javax.swing.JLabel lblNombre4;
+    private javax.swing.JLabel lblNombre5;
+    private javax.swing.JLabel lblTipo1;
+    private javax.swing.JLabel lblTipo2;
+    private javax.swing.JLabel lblTipo3;
+    private javax.swing.JLabel lblTipo4;
+    private javax.swing.JLabel lblTipo5;
     // End of variables declaration//GEN-END:variables
 }

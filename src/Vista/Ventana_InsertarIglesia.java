@@ -532,7 +532,6 @@ public class Ventana_InsertarIglesia extends javax.swing.JPanel {
 
         byte[] datos = null;
 
-        // Intentamos cargar en la primera ranura libre
         if (imagenBytes1 == null) {
             datos = ImagenUtils.seleccionarYConvertirImagen(roundedImageLabel1);
             imagenBytes1 = datos;

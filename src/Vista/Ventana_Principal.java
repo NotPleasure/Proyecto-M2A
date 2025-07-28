@@ -31,7 +31,15 @@ import Design.RoundedPanel;
 import Design.RoundedPannelGris;
 import Design.RounderButton2;
 import Animations.Animator1;
+import Controlador.ControladorIglesia;
+import Controlador.ControladorParque;
+import Modelo.IglesiaDetalleVista;
+import Modelo.IglesiaVistaUser;
+import Modelo.LugarInteresDAO;
+import Modelo.ParqueDetalleVista;
+import Modelo.ParqueVistaUser;
 import Modelo.Persona;
+import Reporte.ReporteLugares;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
@@ -40,9 +48,21 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import Vista.Ventana_Principal;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
+//Para el reporte:
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+import raven.glasspanepopup.GlassPanePopup;
 
 /**
  *
@@ -58,7 +78,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private Interfaz_Usuario panelUsuario;
     private Persona persona;
     private Ventana_UsuarioPrincipal ventanaUsuarios;
-
+    private JFrame ventanaPadre;
     private final String BusquedaText = "Buscar Lugares, Hoteles....";
 
     private int x;
@@ -73,7 +93,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         setOpacity(0f);
 
         initComponents();
-
+ GlassPanePopup.install(this);
         this.persona = persona;
 
         if (persona != null) {
@@ -120,19 +140,15 @@ public class Ventana_Principal extends javax.swing.JFrame {
         Parques.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
         Museos.setFont(new Font("Caviar Dreams", Font.PLAIN, 17));
         DestinosDestacados.setFont(new Font("CocogooseProTrial", Font.PLAIN, 30));
-        VerMas.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Catedral.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Concepción.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        IglesiasLabel.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        Cuenca_Ecuador.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        Parquedela.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Madre.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        ParquesLabel.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        Ubicacion_Cuenca.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        ParqueNacional.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
-        Cajas.setFont(new Font("Caviar Dreams", Font.PLAIN, 15));
-        ParquesLabelCajas.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
-        CuencaEcuadorLabel.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
+        lblNombre1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
+        lblTipo1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
+        lblDireccion1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
+        lblParqueNombre1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
+        lblParqueTipo1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
+        lblParqueDireccion1.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
+        lblParqueNombre2.setFont(new Font("CocogooseProTrial", Font.PLAIN, 15));
+        lblParqueTipo2.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
+        lblParqueDireccion2.setFont(new Font("CocogooseProTrial", Font.PLAIN, 13));
         jLabel9.setFont(new Font("Caviar Dreams", Font.PLAIN, 24));
 
         //Hacer invisible el TextField de Búsqueda:
@@ -142,6 +158,9 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         //Hacer el Holder para la búsqueda:
         ponerPlaceholder(Busqueda, BusquedaText);
+
+        cargarIglesiasEnComponentes();
+        cargarParquesEnComponentes();
 
     }
 
@@ -173,7 +192,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private void mostrarBanderaPorNacionalidad(String nacionalidad) {
         String clave = normalizarTexto(nacionalidad);
 
-        // Mapear solo las banderas que tienes
+        // Mapear solo las banderas:
         Map<String, String> mapaBanderas = new HashMap<>();
         mapaBanderas.put("ecuatoriana", "ecuador.png");
         mapaBanderas.put("guatemalteca", "guatemala.png");
@@ -211,6 +230,114 @@ public class Ventana_Principal extends javax.swing.JFrame {
                 .replace("ú", "u")
                 .replace("ñ", "n")
                 .replaceAll("[^a-z]", "");
+    }
+
+    //Cargar vista de iglesia 1:
+    private void cargarIglesiasEnComponentes() {
+        LugarInteresDAO dao = new LugarInteresDAO();
+        List<IglesiaVistaUser> iglesias = dao.obtenerIglesias();
+
+        if (iglesias.isEmpty()) {
+            return;
+        }
+
+        IglesiaVistaUser ig = iglesias.get(0);
+
+        lblNombre1.setText(ig.getNombre());
+        lblTipo1.setText("Iglesia");
+        lblDireccion1.setText(ig.getDireccion());
+
+        byte[] imgBytes = ig.getImagenPrincipal();
+        if (imgBytes != null) {
+            ImageIcon icon = new ImageIcon(imgBytes);
+            Image imgEscalada = icon.getImage().getScaledInstance(300, 170, Image.SCALE_SMOOTH);
+            btnImg1.setIcon(new ImageIcon(imgEscalada));
+        }
+
+        btnVer1.addActionListener(e -> {
+            try {
+                ControladorIglesia ctrl = new ControladorIglesia();
+                IglesiaDetalleVista detalle = ctrl.obtenerDetalleIglesia(ig.getId());
+                if (detalle != null) {
+                    Ventana_VerIglesias ventana = new Ventana_VerIglesias(detalle);
+                    ventana.setLocationRelativeTo(this);
+                    ventana.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "No se encontraron los datos completos.",
+                            "Sin datos",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this,
+                        "Error al mostrar la iglesia:\n" + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+    }
+
+    //Cargar Parque 1 y 2:
+    private void cargarParquesEnComponentes() {
+        LugarInteresDAO dao = new LugarInteresDAO();
+        List<ParqueVistaUser> parques = dao.obtenerParques();
+
+        JLabel[] labelsNombre = {lblParqueNombre1, lblParqueNombre2};
+        JLabel[] labelsTipo = {lblParqueTipo1, lblParqueTipo2};
+        JLabel[] labelsDireccion = {lblParqueDireccion1, lblParqueDireccion2};
+        JButton[] botonesImagen = {btnParqueImg1, btnParqueImg2};
+        JButton[] botonesVer = {btnVerParque1, btnVerParque2};
+
+        for (JButton b : botonesVer) {
+            for (ActionListener al : b.getActionListeners()) {
+                b.removeActionListener(al);
+            }
+        }
+
+        int max = Math.min(parques.size(), 2);
+        for (int i = 0; i < max; i++) {
+            ParqueVistaUser pq = parques.get(i);
+
+            String dir = pq.getDireccion();
+            if (dir != null && dir.length() > 15) {
+                dir = dir.substring(0, 15) + "...";
+            }
+            labelsDireccion[i].setText(dir != null ? dir : "");
+
+            labelsNombre[i].setText(pq.getNombre());
+            labelsTipo[i].setText("Parque");
+
+            byte[] imgBytes = pq.getImagenPrincipal();
+            if (imgBytes != null) {
+                ImageIcon icon = new ImageIcon(imgBytes);
+                Image imgEscalada = icon.getImage().getScaledInstance(300, 170, Image.SCALE_SMOOTH);
+                botonesImagen[i].setIcon(new ImageIcon(imgEscalada));
+            }
+            final int idParque = pq.getId();
+            botonesVer[i].addActionListener(e -> {
+                try {
+                    ControladorParque ctrl = new ControladorParque();
+                    ParqueDetalleVista detalle = ctrl.obtenerDetalleParque(idParque);
+                    if (detalle != null) {
+                        Ventana_VerDetalleParques ventana = new Ventana_VerDetalleParques(detalle);
+                        ventana.setLocationRelativeTo(this);
+                        ventana.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "No se encontraron los datos completos.",
+                                "Sin datos",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this,
+                            "Error al mostrar el parque:\n" + ex.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            });
+        }
     }
 
     /**
@@ -288,35 +415,27 @@ public class Ventana_Principal extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         Museos = new RoundedButtonMuseos("");
         DestinosDestacados = new javax.swing.JLabel();
-        estrellaClik1 = new Design.EstrellaClick.EstrellaClik();
-        jButton1 =  new RoundedButtonLugares("");
-        estrellaClik2 = new Design.EstrellaClick.EstrellaClik();
-        ParquedelaMadre = new RoundedButtonLugares("");
-        estrellaClik3 = new Design.EstrellaClick.EstrellaClik();
-        jButton22 = new RoundedButtonLugares("");
-        Catedral = new javax.swing.JLabel();
-        Concepción = new javax.swing.JLabel();
+        btnImg1 =  new RoundedButtonLugares("");
+        btnParqueImg1 = new RoundedButtonLugares("");
+        btnParqueImg2 = new RoundedButtonLugares("");
+        lblNombre1 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        IglesiasLabel = new javax.swing.JLabel();
+        lblTipo1 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        Cuenca_Ecuador = new javax.swing.JLabel();
+        lblDireccion1 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        Parquedela = new javax.swing.JLabel();
-        Madre = new javax.swing.JLabel();
-        ParquesLabel = new javax.swing.JLabel();
+        lblParqueNombre1 = new javax.swing.JLabel();
+        lblParqueTipo1 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        Ubicacion_Cuenca = new javax.swing.JLabel();
-        jButton7 = new RoundedButtonDetalles("");
-        jButton8 = new RoundedButtonDetalles("");
-        ParqueNacional = new javax.swing.JLabel();
-        Cajas = new javax.swing.JLabel();
+        lblParqueDireccion1 = new javax.swing.JLabel();
+        btnVerParque2 = new RoundedButtonDetalles("");
+        btnVer1 = new RoundedButtonDetalles("");
+        lblParqueNombre2 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        ParquesLabelCajas = new javax.swing.JLabel();
+        lblParqueTipo2 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        CuencaEcuadorLabel = new javax.swing.JLabel();
-        jButton12 = new RoundedButtonDetalles("");
-        jLabel23 = new javax.swing.JLabel();
-        VerMas = new javax.swing.JButton();
+        lblParqueDireccion2 = new javax.swing.JLabel();
+        btnVerParque1 = new RoundedButtonDetalles("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -607,7 +726,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         jPanel2.setBounds(50, 240, 480, 90);
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel3.add(Busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, -4, 290, 50));
+        jPanel3.add(Busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 0, 260, 40));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Lupa__Ícono_-removebg-preview (1).png"))); // NOI18N
         jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, -20, 48, 80));
@@ -662,6 +781,11 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         Parques.setText("Parques");
         Parques.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Parques.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ParquesActionPerformed(evt);
+            }
+        });
         content.add(Parques);
         Parques.setBounds(570, 250, 230, 60);
 
@@ -671,84 +795,74 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         Museos.setText("Museos");
         Museos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Museos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MuseosActionPerformed(evt);
+            }
+        });
         content.add(Museos);
         Museos.setBounds(850, 250, 240, 60);
 
         DestinosDestacados.setText("Destinos Destacados");
         content.add(DestinosDestacados);
         DestinosDestacados.setBounds(50, 352, 380, 40);
-        content.add(estrellaClik1);
-        estrellaClik1.setBounds(240, 350, 170, 160);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Catedral (1).jpg"))); // NOI18N
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setFocusPainted(false);
-        content.add(jButton1);
-        jButton1.setBounds(50, 410, 300, 170);
-        content.add(estrellaClik2);
-        estrellaClik2.setBounds(670, 410, 50, 50);
+        btnImg1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Catedral (1).jpg"))); // NOI18N
+        btnImg1.setBorderPainted(false);
+        btnImg1.setContentAreaFilled(false);
+        btnImg1.setFocusPainted(false);
+        content.add(btnImg1);
+        btnImg1.setBounds(50, 410, 300, 170);
 
-        ParquedelaMadre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Parque de la madre (1).jpg"))); // NOI18N
-        ParquedelaMadre.setBorderPainted(false);
-        ParquedelaMadre.setContentAreaFilled(false);
-        ParquedelaMadre.setFocusPainted(false);
-        content.add(ParquedelaMadre);
-        ParquedelaMadre.setBounds(420, 410, 300, 170);
-        content.add(estrellaClik3);
-        estrellaClik3.setBounds(1020, 410, 50, 50);
+        btnParqueImg1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Parque de la madre (1).jpg"))); // NOI18N
+        btnParqueImg1.setBorderPainted(false);
+        btnParqueImg1.setContentAreaFilled(false);
+        btnParqueImg1.setFocusPainted(false);
+        content.add(btnParqueImg1);
+        btnParqueImg1.setBounds(410, 410, 300, 170);
 
-        jButton22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ParqueNacionalElCajas (1).jpg"))); // NOI18N
-        jButton22.setBorderPainted(false);
-        jButton22.setContentAreaFilled(false);
-        jButton22.setFocusPainted(false);
-        content.add(jButton22);
-        jButton22.setBounds(770, 410, 300, 170);
+        btnParqueImg2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ParqueNacionalElCajas (1).jpg"))); // NOI18N
+        btnParqueImg2.setBorderPainted(false);
+        btnParqueImg2.setContentAreaFilled(false);
+        btnParqueImg2.setFocusPainted(false);
+        content.add(btnParqueImg2);
+        btnParqueImg2.setBounds(770, 410, 300, 170);
 
-        Catedral.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        Catedral.setForeground(new java.awt.Color(237, 79, 31));
-        Catedral.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Catedral.setText("Catedral de la Inmaculada");
-        content.add(Catedral);
-        Catedral.setBounds(50, 590, 240, 20);
-
-        Concepción.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        Concepción.setText("Concepción de Cuenca.");
-        content.add(Concepción);
-        Concepción.setBounds(50, 610, 180, 16);
+        lblNombre1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        lblNombre1.setForeground(new java.awt.Color(237, 79, 31));
+        lblNombre1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNombre1.setText("Catedral de la Inmaculada");
+        content.add(lblNombre1);
+        lblNombre1.setBounds(40, 590, 210, 20);
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/iglesia (2).png"))); // NOI18N
         content.add(jLabel17);
-        jLabel17.setBounds(50, 630, 30, 40);
+        jLabel17.setBounds(50, 610, 30, 40);
 
-        IglesiasLabel.setText("Iglesias");
-        content.add(IglesiasLabel);
-        IglesiasLabel.setBounds(80, 640, 70, 20);
+        lblTipo1.setText("Iglesias");
+        content.add(lblTipo1);
+        lblTipo1.setBounds(80, 620, 70, 20);
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
         content.add(jLabel18);
-        jLabel18.setBounds(900, 630, 20, 40);
+        jLabel18.setBounds(870, 608, 20, 40);
 
-        Cuenca_Ecuador.setText("Cuenca, Ecuador.");
-        content.add(Cuenca_Ecuador);
-        Cuenca_Ecuador.setBounds(220, 640, 170, 16);
+        lblDireccion1.setText("Cuenca, Ecuador.");
+        content.add(lblDireccion1);
+        lblDireccion1.setBounds(220, 622, 170, 16);
 
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hombre-caminando (2).png"))); // NOI18N
         content.add(jLabel19);
-        jLabel19.setBounds(770, 630, 40, 40);
+        jLabel19.setBounds(770, 610, 40, 40);
 
-        Parquedela.setForeground(new java.awt.Color(237, 79, 31));
-        Parquedela.setText("Parque de la");
-        content.add(Parquedela);
-        Parquedela.setBounds(420, 590, 130, 16);
+        lblParqueNombre1.setForeground(new java.awt.Color(237, 79, 31));
+        lblParqueNombre1.setText("Parque de la");
+        content.add(lblParqueNombre1);
+        lblParqueNombre1.setBounds(410, 590, 280, 16);
 
-        Madre.setText("Madre");
-        content.add(Madre);
-        Madre.setBounds(420, 610, 110, 16);
-
-        ParquesLabel.setText("Parques");
-        content.add(ParquesLabel);
-        ParquesLabel.setBounds(450, 640, 90, 16);
+        lblParqueTipo1.setText("Parques");
+        content.add(lblParqueTipo1);
+        lblParqueTipo1.setBounds(450, 620, 90, 16);
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
         jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -757,76 +871,53 @@ public class Ventana_Principal extends javax.swing.JFrame {
             }
         });
         content.add(jLabel20);
-        jLabel20.setBounds(180, 630, 20, 40);
+        jLabel20.setBounds(180, 610, 20, 40);
 
-        Ubicacion_Cuenca.setText("Cuenca, Ecuador.");
-        content.add(Ubicacion_Cuenca);
-        Ubicacion_Cuenca.setBounds(600, 640, 150, 16);
+        lblParqueDireccion1.setText("Cuenca, Ecuador.");
+        content.add(lblParqueDireccion1);
+        lblParqueDireccion1.setBounds(550, 620, 150, 16);
 
-        jButton7.setBackground(new java.awt.Color(204, 204, 204));
-        jButton7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Ver Detalles");
-        content.add(jButton7);
-        jButton7.setBounds(840, 676, 140, 30);
+        btnVerParque2.setBackground(new java.awt.Color(204, 204, 204));
+        btnVerParque2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnVerParque2.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerParque2.setText("Ver Detalles");
+        content.add(btnVerParque2);
+        btnVerParque2.setBounds(840, 660, 140, 30);
 
-        jButton8.setBackground(new java.awt.Color(204, 204, 204));
-        jButton8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("Ver Detalles");
-        content.add(jButton8);
-        jButton8.setBounds(110, 675, 140, 30);
+        btnVer1.setBackground(new java.awt.Color(204, 204, 204));
+        btnVer1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnVer1.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer1.setText("Ver Detalles");
+        content.add(btnVer1);
+        btnVer1.setBounds(110, 660, 140, 30);
 
-        ParqueNacional.setForeground(new java.awt.Color(237, 79, 31));
-        ParqueNacional.setText("Parque Nacional el ");
-        content.add(ParqueNacional);
-        ParqueNacional.setBounds(770, 590, 200, 16);
-
-        Cajas.setText("Cajas.");
-        content.add(Cajas);
-        Cajas.setBounds(770, 610, 90, 16);
+        lblParqueNombre2.setForeground(new java.awt.Color(237, 79, 31));
+        lblParqueNombre2.setText("Parque Nacional el ");
+        content.add(lblParqueNombre2);
+        lblParqueNombre2.setBounds(770, 590, 200, 16);
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/hombre-caminando (2).png"))); // NOI18N
         content.add(jLabel21);
-        jLabel21.setBounds(420, 630, 40, 40);
+        jLabel21.setBounds(420, 610, 40, 40);
 
-        ParquesLabelCajas.setText("Parques");
-        content.add(ParquesLabelCajas);
-        ParquesLabelCajas.setBounds(800, 640, 80, 16);
+        lblParqueTipo2.setText("Parques");
+        content.add(lblParqueTipo2);
+        lblParqueTipo2.setBounds(800, 620, 80, 16);
 
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ubicacion (1).png"))); // NOI18N
         content.add(jLabel22);
-        jLabel22.setBounds(570, 628, 20, 40);
+        jLabel22.setBounds(520, 608, 20, 40);
 
-        CuencaEcuadorLabel.setText("Cuenca, Ecuador.");
-        content.add(CuencaEcuadorLabel);
-        CuencaEcuadorLabel.setBounds(940, 644, 160, 16);
+        lblParqueDireccion2.setText("Cuenca, Ecuador.");
+        content.add(lblParqueDireccion2);
+        lblParqueDireccion2.setBounds(910, 620, 160, 16);
 
-        jButton12.setBackground(new java.awt.Color(204, 204, 204));
-        jButton12.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton12.setForeground(new java.awt.Color(255, 255, 255));
-        jButton12.setText("Ver Detalles");
-        content.add(jButton12);
-        jButton12.setBounds(500, 675, 140, 30);
-
-        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/agregar-boton (1).png"))); // NOI18N
-        content.add(jLabel23);
-        jLabel23.setBounds(785, 724, 40, 40);
-
-        VerMas.setBackground(new java.awt.Color(242, 242, 242));
-        VerMas.setForeground(new java.awt.Color(48, 35, 81));
-        VerMas.setText("Mostrar más resultados");
-        VerMas.setBorderPainted(false);
-        VerMas.setContentAreaFilled(false);
-        VerMas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        VerMas.setFocusPainted(false);
-        VerMas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerMasActionPerformed(evt);
-            }
-        });
-        content.add(VerMas);
-        VerMas.setBounds(780, 722, 330, 50);
+        btnVerParque1.setBackground(new java.awt.Color(204, 204, 204));
+        btnVerParque1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnVerParque1.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerParque1.setText("Ver Detalles");
+        content.add(btnVerParque1);
+        btnVerParque1.setBounds(500, 660, 140, 30);
 
         getContentPane().add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 1140, 800));
 
@@ -838,15 +929,6 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_InicioActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Ventana_Hoteles MiLugar = new Ventana_Hoteles();
-        MiLugar.setSize(1140, 830);
-
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MouseClicked
 
@@ -886,11 +968,20 @@ public class Ventana_Principal extends javax.swing.JFrame {
      }//GEN-LAST:event_btnUsuarioActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        int dialog = JOptionPane.YES_NO_OPTION;
-        int result = JOptionPane.showConfirmDialog(null, "¿Desea cerrar sesión", "Exit", dialog);
-        if (result == 0) {
-            System.exit(0);
-        }
+        int result = JOptionPane.showConfirmDialog(
+        this, 
+        "¿Desea cerrar sesión?", 
+        "Cerrar sesión", 
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (result == JOptionPane.YES_OPTION) {
+        Animator.fadeOut(this, () -> {
+            Login miR = new Login();
+            ControladorLogin controladorLogin = new ControladorLogin(miR);
+            Animator.fadeIn(miR);
+        });
+    }
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -941,24 +1032,22 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jLabel30MouseClicked
 
-    private void VerMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerMasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VerMasActionPerformed
-
     private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
         System.out.println("Hola");
     }//GEN-LAST:event_jLabel20MouseClicked
 
     private void IglesiasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IglesiasBotonActionPerformed
-        if (panelIglesias == null) {
-            panelIglesias = new Ventana_Iglesias();
-        }
-        Ventana_Iglesias MiLugar = new Ventana_Iglesias();
-        MiLugar.setSize(1140, 830);
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
 
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
+            Ventana_Iglesias ventana = new Ventana_Iglesias(ventanaPadre, persona);
+            ventana.setUndecorated(true);
+            ventana.setOpacity(0f);
+            ventana.setLocationRelativeTo(null);
+
+            ventana.setVisible(true);
+            Animator1.fadeIn(ventana);
+        });
     }//GEN-LAST:event_IglesiasBotonActionPerformed
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
@@ -981,6 +1070,44 @@ public class Ventana_Principal extends javax.swing.JFrame {
         this.setState(Ventana_Principal.ICONIFIED);
     }//GEN-LAST:event_jLabel7MouseClicked
 
+    private void ParquesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParquesActionPerformed
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
+
+            Ventana_Parques ventana = new Ventana_Parques(ventanaPadre, persona);
+            ventana.setUndecorated(true);
+            ventana.setOpacity(0f);
+            ventana.setLocationRelativeTo(null);
+
+            ventana.setVisible(true);
+            Animator1.fadeIn(ventana);
+        });
+
+
+    }//GEN-LAST:event_ParquesActionPerformed
+
+    private void MuseosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MuseosActionPerformed
+
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
+
+            Ventana_Museos ventana = new Ventana_Museos(ventanaPadre, persona);
+            ventana.setUndecorated(true);
+            ventana.setOpacity(0f);
+            ventana.setLocationRelativeTo(null);
+
+            ventana.setVisible(true);
+            Animator1.fadeIn(ventana);
+        });
+
+
+    }//GEN-LAST:event_MuseosActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     //Mostrar el panel principal
     public void mostrarPanelInicio() {
         if (panelInicio == null) {
@@ -998,13 +1125,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private javax.swing.JLabel Bienvenido;
     private javax.swing.JTextField Busqueda;
     private javax.swing.JButton CafeteríaIcon1;
-    private javax.swing.JLabel Cajas;
     private javax.swing.JLabel Canton;
-    private javax.swing.JLabel Catedral;
     private javax.swing.JLabel Categoría;
-    private javax.swing.JLabel Concepción;
-    private javax.swing.JLabel CuencaEcuadorLabel;
-    private javax.swing.JLabel Cuenca_Ecuador;
     private javax.swing.JLabel Cuencanas;
     private javax.swing.JLabel DestinosDestacados;
     private javax.swing.JLabel Genero;
@@ -1012,46 +1134,35 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private javax.swing.JButton Hoteles;
     private javax.swing.JLabel Huellas;
     private javax.swing.JButton IglesiasBoton;
-    private javax.swing.JLabel IglesiasLabel;
     private javax.swing.JButton Inicio;
-    private javax.swing.JLabel Madre;
     private javax.swing.JPanel Menú;
     private javax.swing.JButton Miradores;
     private javax.swing.JButton Museos;
     private javax.swing.JLabel NombreUsuario;
-    private javax.swing.JLabel ParqueNacional;
-    private javax.swing.JLabel Parquedela;
-    private javax.swing.JButton ParquedelaMadre;
     private javax.swing.JButton Parques;
-    private javax.swing.JLabel ParquesLabel;
-    private javax.swing.JLabel ParquesLabelCajas;
     private javax.swing.JLabel País;
     private javax.swing.JButton Principal;
     private javax.swing.JLabel Principal_Lugar;
     private javax.swing.JLabel Provincia;
     private javax.swing.JButton RestauranteIcon;
-    private javax.swing.JLabel Ubicacion_Cuenca;
     private javax.swing.JLabel VariableGenero;
-    private javax.swing.JButton VerMas;
+    private javax.swing.JButton btnImg1;
+    private javax.swing.JButton btnParqueImg1;
+    private javax.swing.JButton btnParqueImg2;
     private javax.swing.JLabel btnPerfil;
     private javax.swing.JButton btnUsuario;
+    private javax.swing.JButton btnVer1;
+    private javax.swing.JButton btnVerParque1;
+    private javax.swing.JButton btnVerParque2;
     private javax.swing.JPanel content;
-    private Design.EstrellaClick.EstrellaClik estrellaClik1;
-    private Design.EstrellaClick.EstrellaClik estrellaClik2;
-    private Design.EstrellaClick.EstrellaClik estrellaClik3;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1068,7 +1179,6 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -1089,6 +1199,15 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel jlabelpais;
+    private javax.swing.JLabel lblDireccion1;
+    private javax.swing.JLabel lblNombre1;
+    private javax.swing.JLabel lblParqueDireccion1;
+    private javax.swing.JLabel lblParqueDireccion2;
+    private javax.swing.JLabel lblParqueNombre1;
+    private javax.swing.JLabel lblParqueNombre2;
+    private javax.swing.JLabel lblParqueTipo1;
+    private javax.swing.JLabel lblParqueTipo2;
+    private javax.swing.JLabel lblTipo1;
     // End of variables declaration//GEN-END:variables
 
 }

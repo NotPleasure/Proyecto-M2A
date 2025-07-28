@@ -40,8 +40,10 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import Design.Reloj.RelojMinimalista;
 import Animations.Animator1;
+import Controlador.ControladorLogin;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import utils.Session;
 
 /**
  *
@@ -165,11 +167,6 @@ public class Admin_Panel extends javax.swing.JFrame {
         PanelUsuarios.repaint();
     }
 
-    
-    
-    
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -614,12 +611,20 @@ public class Admin_Panel extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int dialog = JOptionPane.YES_NO_OPTION;
-        int result = JOptionPane.showConfirmDialog(null, "¿Desea salir?", "Exit", dialog);
-        if (result == 0) {
-            System.exit(0);
+        int result = JOptionPane.showConfirmDialog(
+        this, 
+        "¿Desea cerrar sesión?", 
+        "Cerrar sesión", 
+        JOptionPane.YES_NO_OPTION
+    );
 
-        }
+    if (result == JOptionPane.YES_OPTION) {
+        Animator.fadeOut(this, () -> {
+            Login miR = new Login();
+            ControladorLogin controladorLogin = new ControladorLogin(miR);
+            Animator.fadeIn(miR);
+        });
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -680,10 +685,10 @@ public class Admin_Panel extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
- Animator1.fadeOut(this, () -> {
+        Animator1.fadeOut(this, () -> {
             this.dispose();
 
-            Ventana_Lugares ventana = new Ventana_Lugares(true);
+            Ventana_Lugares ventana = new Ventana_Lugares(true, personaLogueada);
 
             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
             if (gd.isWindowTranslucencySupported(GraphicsDevice.WindowTranslucency.TRANSLUCENT)) {
@@ -693,7 +698,6 @@ public class Admin_Panel extends javax.swing.JFrame {
             ventana.setVisible(true);
             Animator1.fadeIn(ventana);
         });
-       
 
 
     }//GEN-LAST:event_jButton10ActionPerformed
@@ -701,30 +705,25 @@ public class Admin_Panel extends javax.swing.JFrame {
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
 
 
-
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
 
- Animator1.fadeOut(this, () -> {
-            this.dispose();
+          Animator1.fadeOut(this, () -> {
+        this.dispose();
 
-            Admin_Lugares ventana = new Admin_Lugares(true);
+Ventana_Favoritos vf = new Ventana_Favoritos(this, Session.getCurrentUserId(), true);
+        vf.setOpacity(0f);
+        vf.setVisible(true);
 
-            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-            if (gd.isWindowTranslucencySupported(GraphicsDevice.WindowTranslucency.TRANSLUCENT)) {
-                ventana.setOpacity(0f);
-            }
-
-            ventana.setVisible(true);
-            Animator1.fadeIn(ventana);
-        });
+        Animator1.fadeIn(vf);
+    });
 
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
 
- Animator1.fadeOut(this, () -> {
+        Animator1.fadeOut(this, () -> {
             this.dispose();
 
             Ventana_SuperUsuario ventana = new Ventana_SuperUsuario(true, personaLogueada);

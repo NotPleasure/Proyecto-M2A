@@ -366,7 +366,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JLabel" name="ConteoUser5">
+            <Component class="javax.swing.JLabel" name="lblCountIglesias">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Black" size="35" style="0"/>
@@ -537,7 +537,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JLabel" name="ConteoUser8">
+            <Component class="javax.swing.JLabel" name="lblCountMuseos">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Black" size="35" style="0"/>

@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import raven.glasspanepopup.GlassPanePopup;
 
 /**
  *
@@ -34,13 +35,16 @@ public class Ventana_TarjetasIglesia extends javax.swing.JFrame {
 
     private List<Iglesia> iglesiasGuardadas;
     private ControladorIglesia ctrl = new ControladorIglesia();
-    private Ventana_Lugares ventanaTarjetas;
+    private JFrame ventanaTarjetas;
 
     /**
      * Creates new form Ventana_TarjetasIglesia
      */
     public Ventana_TarjetasIglesia() {
         initComponents();
+        
+         GlassPanePopup.install(this);
+
 
         //Cargar el Scroll Panel para las tarjetas de las iglesias.
         jPanelContenedorIglesias.setLayout(new WrapLayout(FlowLayout.CENTER, 15, 15));
@@ -69,23 +73,17 @@ public class Ventana_TarjetasIglesia extends javax.swing.JFrame {
     public void cargarIglesias() {
         try {
             List<IglesiaVista> lista = ctrl.obtenerIglesiasVista();
-
             for (IglesiaVista iv : lista) {
-                agregarTarjeta(iv.getId(), iv.getNombre(), iv.getHoraApertura().toString(), iv.getHoraCierre().toString(), iv.getImagenPrincipal());
-                System.out.println(iv.getId());
+                agregarTarjeta(iv);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Error al cargar iglesias: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            // …
         }
     }
 
     //Agregar las tarjetas:
-    public void agregarTarjeta(int id, String nombre, String horaApertura, String horaCierre, byte[] imagen) {
-        PanelCardIglesia tarjeta = new PanelCardIglesia(id, nombre, horaApertura, horaCierre, imagen);
+    private void agregarTarjeta(IglesiaVista iv) {
+        PanelCardIglesia tarjeta = new PanelCardIglesia(iv);
         tarjeta.setAlignmentX(Component.LEFT_ALIGNMENT);
         jPanelContenedorIglesias.add(tarjeta);
         jPanelContenedorIglesias.revalidate();
@@ -93,7 +91,7 @@ public class Ventana_TarjetasIglesia extends javax.swing.JFrame {
     }
 
     //Para regresar entre ventanas:
-    public void setVentanaTarjetas(Ventana_Lugares v) {
+    public void setVentanaTarjetas(JFrame v) {
         this.ventanaTarjetas = v;
     }
 
@@ -115,7 +113,6 @@ public class Ventana_TarjetasIglesia extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1390, 800));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

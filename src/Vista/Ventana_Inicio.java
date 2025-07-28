@@ -494,16 +494,7 @@ private Ventana_Principal principal;
     }//GEN-LAST:event_jLabel12MouseClicked
 
     private void IglesiasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IglesiasBotonActionPerformed
-          if (panelIglesias == null) {
-        panelIglesias = new Ventana_Iglesias(); 
-    }
-Ventana_Iglesias MiLugar = new Ventana_Iglesias();
-        MiLugar.setSize(1140, 830);
-
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();
+       
     }//GEN-LAST:event_IglesiasBotonActionPerformed
 
     private void VerMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerMasActionPerformed

@@ -163,44 +163,24 @@ jPanel2 = new RoundedPanel();
 jLabel2 = new javax.swing.JLabel();
 Jorge = new javax.swing.JLabel();
 Hace = new javax.swing.JLabel();
-estrellaClik1 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik2 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik3 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik4 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik5 = new Design.EstrellaClick.EstrellaClik();
 jScrollPane6 = new javax.swing.JScrollPane();
 jTextArea6 = new RoundedTextArea(5, 30);
 jPanel4 = new RoundedPanel();
 jLabel3 = new javax.swing.JLabel();
 Jorge1 = new javax.swing.JLabel();
 Hace1 = new javax.swing.JLabel();
-estrellaClik6 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik7 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik8 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik9 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik10 = new Design.EstrellaClick.EstrellaClik();
 jScrollPane7 = new javax.swing.JScrollPane();
 jTextArea7 = new RoundedTextArea(5, 30);
 jPanel5 = new RoundedPanel();
 jLabel4 = new javax.swing.JLabel();
 Jorge2 = new javax.swing.JLabel();
 Hace2 = new javax.swing.JLabel();
-estrellaClik11 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik12 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik13 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik14 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik15 = new Design.EstrellaClick.EstrellaClik();
 jScrollPane5 = new javax.swing.JScrollPane();
 jTextArea5 = new RoundedTextArea(5, 30);
 jPanel6 = new RoundedPanel();
 jLabel5 = new javax.swing.JLabel();
 Jorge3 = new javax.swing.JLabel();
 Hace3 = new javax.swing.JLabel();
-estrellaClik16 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik17 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik18 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik19 = new Design.EstrellaClick.EstrellaClik();
-estrellaClik20 = new Design.EstrellaClick.EstrellaClik();
 jScrollPane8 = new javax.swing.JScrollPane();
 jTextArea8 = new RoundedTextArea(5, 30);
 jComboBox1 = new Combobox<>(new String[]{
@@ -271,71 +251,6 @@ jComboBox1 = new Combobox<>(new String[]{
     Hace.setText("Hace 2 horas.");
     jPanel2.add(Hace, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
 
-    javax.swing.GroupLayout estrellaClik1Layout = new javax.swing.GroupLayout(estrellaClik1);
-    estrellaClik1.setLayout(estrellaClik1Layout);
-    estrellaClik1Layout.setHorizontalGroup(
-        estrellaClik1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik1Layout.setVerticalGroup(
-        estrellaClik1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel2.add(estrellaClik1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik2Layout = new javax.swing.GroupLayout(estrellaClik2);
-    estrellaClik2.setLayout(estrellaClik2Layout);
-    estrellaClik2Layout.setHorizontalGroup(
-        estrellaClik2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik2Layout.setVerticalGroup(
-        estrellaClik2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel2.add(estrellaClik2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik3Layout = new javax.swing.GroupLayout(estrellaClik3);
-    estrellaClik3.setLayout(estrellaClik3Layout);
-    estrellaClik3Layout.setHorizontalGroup(
-        estrellaClik3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik3Layout.setVerticalGroup(
-        estrellaClik3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel2.add(estrellaClik3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik4Layout = new javax.swing.GroupLayout(estrellaClik4);
-    estrellaClik4.setLayout(estrellaClik4Layout);
-    estrellaClik4Layout.setHorizontalGroup(
-        estrellaClik4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik4Layout.setVerticalGroup(
-        estrellaClik4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel2.add(estrellaClik4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik5Layout = new javax.swing.GroupLayout(estrellaClik5);
-    estrellaClik5.setLayout(estrellaClik5Layout);
-    estrellaClik5Layout.setHorizontalGroup(
-        estrellaClik5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik5Layout.setVerticalGroup(
-        estrellaClik5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel2.add(estrellaClik5, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 30, 40));
-
     jTextArea6.setColumns(20);
     jTextArea6.setRows(5);
     jScrollPane6.setViewportView(jTextArea6);
@@ -354,71 +269,6 @@ jComboBox1 = new Combobox<>(new String[]{
 
     Hace1.setText("Hace 2 horas.");
     jPanel4.add(Hace1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
-
-    javax.swing.GroupLayout estrellaClik6Layout = new javax.swing.GroupLayout(estrellaClik6);
-    estrellaClik6.setLayout(estrellaClik6Layout);
-    estrellaClik6Layout.setHorizontalGroup(
-        estrellaClik6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik6Layout.setVerticalGroup(
-        estrellaClik6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel4.add(estrellaClik6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik7Layout = new javax.swing.GroupLayout(estrellaClik7);
-    estrellaClik7.setLayout(estrellaClik7Layout);
-    estrellaClik7Layout.setHorizontalGroup(
-        estrellaClik7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik7Layout.setVerticalGroup(
-        estrellaClik7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel4.add(estrellaClik7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik8Layout = new javax.swing.GroupLayout(estrellaClik8);
-    estrellaClik8.setLayout(estrellaClik8Layout);
-    estrellaClik8Layout.setHorizontalGroup(
-        estrellaClik8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik8Layout.setVerticalGroup(
-        estrellaClik8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel4.add(estrellaClik8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik9Layout = new javax.swing.GroupLayout(estrellaClik9);
-    estrellaClik9.setLayout(estrellaClik9Layout);
-    estrellaClik9Layout.setHorizontalGroup(
-        estrellaClik9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik9Layout.setVerticalGroup(
-        estrellaClik9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel4.add(estrellaClik9, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik10Layout = new javax.swing.GroupLayout(estrellaClik10);
-    estrellaClik10.setLayout(estrellaClik10Layout);
-    estrellaClik10Layout.setHorizontalGroup(
-        estrellaClik10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik10Layout.setVerticalGroup(
-        estrellaClik10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel4.add(estrellaClik10, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 30, 40));
 
     jTextArea7.setColumns(20);
     jTextArea7.setRows(5);
@@ -439,71 +289,6 @@ jComboBox1 = new Combobox<>(new String[]{
     Hace2.setText("Hace 2 horas.");
     jPanel5.add(Hace2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
 
-    javax.swing.GroupLayout estrellaClik11Layout = new javax.swing.GroupLayout(estrellaClik11);
-    estrellaClik11.setLayout(estrellaClik11Layout);
-    estrellaClik11Layout.setHorizontalGroup(
-        estrellaClik11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik11Layout.setVerticalGroup(
-        estrellaClik11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel5.add(estrellaClik11, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik12Layout = new javax.swing.GroupLayout(estrellaClik12);
-    estrellaClik12.setLayout(estrellaClik12Layout);
-    estrellaClik12Layout.setHorizontalGroup(
-        estrellaClik12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik12Layout.setVerticalGroup(
-        estrellaClik12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel5.add(estrellaClik12, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik13Layout = new javax.swing.GroupLayout(estrellaClik13);
-    estrellaClik13.setLayout(estrellaClik13Layout);
-    estrellaClik13Layout.setHorizontalGroup(
-        estrellaClik13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik13Layout.setVerticalGroup(
-        estrellaClik13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel5.add(estrellaClik13, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik14Layout = new javax.swing.GroupLayout(estrellaClik14);
-    estrellaClik14.setLayout(estrellaClik14Layout);
-    estrellaClik14Layout.setHorizontalGroup(
-        estrellaClik14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik14Layout.setVerticalGroup(
-        estrellaClik14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel5.add(estrellaClik14, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik15Layout = new javax.swing.GroupLayout(estrellaClik15);
-    estrellaClik15.setLayout(estrellaClik15Layout);
-    estrellaClik15Layout.setHorizontalGroup(
-        estrellaClik15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik15Layout.setVerticalGroup(
-        estrellaClik15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel5.add(estrellaClik15, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 30, 40));
-
     jTextArea5.setColumns(20);
     jTextArea5.setRows(5);
     jScrollPane5.setViewportView(jTextArea5);
@@ -522,71 +307,6 @@ jComboBox1 = new Combobox<>(new String[]{
 
     Hace3.setText("Hace 2 horas.");
     jPanel6.add(Hace3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
-
-    javax.swing.GroupLayout estrellaClik16Layout = new javax.swing.GroupLayout(estrellaClik16);
-    estrellaClik16.setLayout(estrellaClik16Layout);
-    estrellaClik16Layout.setHorizontalGroup(
-        estrellaClik16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik16Layout.setVerticalGroup(
-        estrellaClik16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel6.add(estrellaClik16, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik17Layout = new javax.swing.GroupLayout(estrellaClik17);
-    estrellaClik17.setLayout(estrellaClik17Layout);
-    estrellaClik17Layout.setHorizontalGroup(
-        estrellaClik17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik17Layout.setVerticalGroup(
-        estrellaClik17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel6.add(estrellaClik17, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik18Layout = new javax.swing.GroupLayout(estrellaClik18);
-    estrellaClik18.setLayout(estrellaClik18Layout);
-    estrellaClik18Layout.setHorizontalGroup(
-        estrellaClik18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik18Layout.setVerticalGroup(
-        estrellaClik18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel6.add(estrellaClik18, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik19Layout = new javax.swing.GroupLayout(estrellaClik19);
-    estrellaClik19.setLayout(estrellaClik19Layout);
-    estrellaClik19Layout.setHorizontalGroup(
-        estrellaClik19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik19Layout.setVerticalGroup(
-        estrellaClik19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel6.add(estrellaClik19, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 30, 40));
-
-    javax.swing.GroupLayout estrellaClik20Layout = new javax.swing.GroupLayout(estrellaClik20);
-    estrellaClik20.setLayout(estrellaClik20Layout);
-    estrellaClik20Layout.setHorizontalGroup(
-        estrellaClik20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 30, Short.MAX_VALUE)
-    );
-    estrellaClik20Layout.setVerticalGroup(
-        estrellaClik20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 40, Short.MAX_VALUE)
-    );
-
-    jPanel6.add(estrellaClik20, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 30, 40));
 
     jTextArea8.setColumns(20);
     jTextArea8.setRows(5);
@@ -658,26 +378,6 @@ jComboBox1 = new Combobox<>(new String[]{
     private javax.swing.JLabel Opiniones;
     private javax.swing.JLabel Todavia;
     private javax.swing.JLabel Usuario_Comentarios;
-    private Design.EstrellaClick.EstrellaClik estrellaClik1;
-    private Design.EstrellaClick.EstrellaClik estrellaClik10;
-    private Design.EstrellaClick.EstrellaClik estrellaClik11;
-    private Design.EstrellaClick.EstrellaClik estrellaClik12;
-    private Design.EstrellaClick.EstrellaClik estrellaClik13;
-    private Design.EstrellaClick.EstrellaClik estrellaClik14;
-    private Design.EstrellaClick.EstrellaClik estrellaClik15;
-    private Design.EstrellaClick.EstrellaClik estrellaClik16;
-    private Design.EstrellaClick.EstrellaClik estrellaClik17;
-    private Design.EstrellaClick.EstrellaClik estrellaClik18;
-    private Design.EstrellaClick.EstrellaClik estrellaClik19;
-    private Design.EstrellaClick.EstrellaClik estrellaClik2;
-    private Design.EstrellaClick.EstrellaClik estrellaClik20;
-    private Design.EstrellaClick.EstrellaClik estrellaClik3;
-    private Design.EstrellaClick.EstrellaClik estrellaClik4;
-    private Design.EstrellaClick.EstrellaClik estrellaClik5;
-    private Design.EstrellaClick.EstrellaClik estrellaClik6;
-    private Design.EstrellaClick.EstrellaClik estrellaClik7;
-    private Design.EstrellaClick.EstrellaClik estrellaClik8;
-    private Design.EstrellaClick.EstrellaClik estrellaClik9;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;

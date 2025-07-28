@@ -40,6 +40,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import Vista.Ventana_VistaSuperUsuario;
+import java.awt.Image;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -58,6 +62,7 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
     private Ventana_UsuarioPrincipal ventanaUsuarios;
 
     private final String BusquedaText = "Buscar Lugares, Hoteles....";
+    private JFrame ventanaPadre;
 
     private int x;
     private int y;
@@ -72,14 +77,22 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
 
         initComponents();
 
-    if (persona instanceof Usuario) {
-        System.out.println("Ventana_Principal persona = " + persona);
-
-        this.persona = (Usuario) persona;
-    }
-        this.usuario = persona != null ? persona.getUsuario() : "Desconocido";
-
-        NombreUsuario.setText(this.usuario);
+   if (persona != null) {
+            NombreUsuario.setText(persona.getUsuario());
+            Provincia.setText(persona.getNombres());
+            Canton.setText(persona.getApellidos());
+            País.setText(persona.getNacionalidad());
+            VariableGenero.setText(persona.getGenero());
+            jlabelpais.setText("");
+            mostrarBanderaPorNacionalidad(persona.getNacionalidad());
+        } else {
+            NombreUsuario.setText("Desconocido");
+            Provincia.setText("Desconocido");
+            Canton.setText("Desconocido");
+            País.setText("Desconocido");
+            VariableGenero.setText("Desconocido");
+            mostrarBanderaPorNacionalidad("defecto");
+        }
 
         //Dimensiones del usuario:
         NombreUsuario.setBounds(60, 80, 240, 50);
@@ -157,6 +170,53 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
 
     }
 
+    //Cargar imágenes de países:
+    private void mostrarBanderaPorNacionalidad(String nacionalidad) {
+        String clave = normalizarTexto(nacionalidad);
+
+        // Mapear solo las banderas:
+        Map<String, String> mapaBanderas = new HashMap<>();
+        mapaBanderas.put("ecuatoriana", "ecuador.png");
+        mapaBanderas.put("guatemalteca", "guatemala.png");
+        mapaBanderas.put("estadounidense", "estadosunidos.png");
+        mapaBanderas.put("espanola", "espana.png");
+        mapaBanderas.put("mexicana", "mexico.png");
+        mapaBanderas.put("colombiana", "colombia.png");
+        mapaBanderas.put("brazilena", "brazil.png");
+        mapaBanderas.put("alemana", "alemania.png");
+        mapaBanderas.put("argentina", "argentina.png");
+        mapaBanderas.put("senegalesa", "senegal.png");
+        mapaBanderas.put("holandesa", "paisesbajos.png");
+        mapaBanderas.put("paraguaya", "paraguay.png");
+
+        // Bandera por defecto
+        String archivo = mapaBanderas.getOrDefault(clave, "defecto.png");
+
+        // Cargar y redimensionar
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Imágenes/" + archivo));
+        Image img = icono.getImage();
+        int ancho = 40;
+        int alto = 40;
+        Image imgEscalada = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+
+        jlabelpais.setIcon(new ImageIcon(imgEscalada));
+    }
+
+    //Para normalizar el texto:
+    private String normalizarTexto(String texto) {
+        return texto.toLowerCase()
+                .replace("á", "a")
+                .replace("é", "e")
+                .replace("í", "i")
+                .replace("ó", "o")
+                .replace("ú", "u")
+                .replace("ñ", "n")
+                .replaceAll("[^a-z]", "");
+    }
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -204,13 +264,14 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
         content = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new RoundedPannelGris();
+        jLabel8 = new javax.swing.JLabel();
         Bienvenido = new javax.swing.JLabel();
         NombreUsuario = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel2 = new RoundedPannelGris();
-        jLabel8 = new javax.swing.JLabel();
+        jlabelpais = new javax.swing.JLabel();
         País = new javax.swing.JLabel();
         Provincia = new javax.swing.JLabel();
         Canton = new javax.swing.JLabel();
@@ -232,11 +293,8 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         Museos = new RoundedButtonMuseos("");
         DestinosDestacados = new javax.swing.JLabel();
-        estrellaClik1 = new Design.EstrellaClick.EstrellaClik();
         jButton1 =  new RoundedButtonLugares("");
-        estrellaClik2 = new Design.EstrellaClick.EstrellaClik();
         ParquedelaMadre = new RoundedButtonLugares("");
-        estrellaClik3 = new Design.EstrellaClick.EstrellaClik();
         jButton22 = new RoundedButtonLugares("");
         Catedral = new javax.swing.JLabel();
         Concepción = new javax.swing.JLabel();
@@ -500,11 +558,10 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
         content.add(jLabel5);
         jLabel5.setBounds(1070, 11, 32, 32);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/file_00000000c53861f790997cc9bcde40b7__5_-removebg-preview.png"))); // NOI18N
-        content.add(jLabel3);
-        jLabel3.setBounds(280, 20, 250, 200);
-
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/corona (1).png"))); // NOI18N
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 8, 60, 40));
 
         Bienvenido.setFont(new java.awt.Font("Dialog", 1, 39)); // NOI18N
         Bienvenido.setText("¡Bienvenid@!");
@@ -517,13 +574,16 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
         jLabel24.setText("¡Es un gusto tenerte de vuelta!");
         jPanel1.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/file_00000000c53861f790997cc9bcde40b7__5_-removebg-preview.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, 200));
+
         content.add(jPanel1);
         jPanel1.setBounds(50, 20, 480, 200);
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Ecuador (1).png"))); // NOI18N
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 80, 70));
+        jlabelpais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Ecuador (1).png"))); // NOI18N
+        jPanel2.add(jlabelpais, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 80, 70));
 
         País.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         País.setText("Ecuador");
@@ -615,14 +675,17 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
 
         Museos.setText("Museos");
         Museos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Museos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MuseosActionPerformed(evt);
+            }
+        });
         content.add(Museos);
         Museos.setBounds(850, 250, 240, 60);
 
         DestinosDestacados.setText("Destinos Destacados");
         content.add(DestinosDestacados);
         DestinosDestacados.setBounds(50, 352, 380, 40);
-        content.add(estrellaClik1);
-        estrellaClik1.setBounds(240, 350, 170, 160);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Catedral (1).jpg"))); // NOI18N
         jButton1.setBorderPainted(false);
@@ -630,8 +693,6 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
         jButton1.setFocusPainted(false);
         content.add(jButton1);
         jButton1.setBounds(50, 410, 300, 170);
-        content.add(estrellaClik2);
-        estrellaClik2.setBounds(670, 410, 50, 50);
 
         ParquedelaMadre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Parque de la madre (1).jpg"))); // NOI18N
         ParquedelaMadre.setBorderPainted(false);
@@ -639,8 +700,6 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
         ParquedelaMadre.setFocusPainted(false);
         content.add(ParquedelaMadre);
         ParquedelaMadre.setBounds(420, 410, 300, 170);
-        content.add(estrellaClik3);
-        estrellaClik3.setBounds(1020, 410, 50, 50);
 
         jButton22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ParqueNacionalElCajas (1).jpg"))); // NOI18N
         jButton22.setBorderPainted(false);
@@ -784,12 +843,8 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_InicioActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Ventana_Hoteles MiLugar = new Ventana_Hoteles();
-        MiLugar.setSize(1140, 830);
-
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
+       
+        
         content.repaint();    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MouseClicked
@@ -894,15 +949,17 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel20MouseClicked
 
     private void IglesiasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IglesiasBotonActionPerformed
-        if (panelIglesias == null) {
-            panelIglesias = new Ventana_Iglesias();
-        }
-        Ventana_Iglesias MiLugar = new Ventana_Iglesias();
-        MiLugar.setSize(1140, 830);
+       Animator1.fadeOut(this, () -> {
+            this.dispose();
 
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
+            Ventana_Iglesias ventana = new Ventana_Iglesias(this,persona);
+            ventana.setUndecorated(true);
+            ventana.setOpacity(0f);
+            ventana.setLocationRelativeTo(null);
+
+            ventana.setVisible(true);
+            Animator1.fadeIn(ventana);
+        });
     }//GEN-LAST:event_IglesiasBotonActionPerformed
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
@@ -924,6 +981,22 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         this.setState(Ventana_VistaSuperUsuario.ICONIFIED);
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void MuseosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MuseosActionPerformed
+ Animator1.fadeOut(this, () -> {
+            this.dispose();
+
+            Ventana_Museos ventana = new Ventana_Museos(ventanaPadre, persona);
+            ventana.setUndecorated(true);
+            ventana.setOpacity(0f);
+            ventana.setLocationRelativeTo(null);
+
+            ventana.setVisible(true);
+            Animator1.fadeIn(ventana);
+        });
+
+
+    }//GEN-LAST:event_MuseosActionPerformed
 
     //Mostrar el panel principal
     public void mostrarPanelInicio() {
@@ -980,9 +1053,6 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel btnPerfil;
     private javax.swing.JButton btnUsuario;
     private javax.swing.JPanel content;
-    private Design.EstrellaClick.EstrellaClik estrellaClik1;
-    private Design.EstrellaClick.EstrellaClik estrellaClik2;
-    private Design.EstrellaClick.EstrellaClik estrellaClik3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -1033,6 +1103,7 @@ public class Ventana_VistaSuperUsuario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jlabelpais;
     // End of variables declaration//GEN-END:variables
 
 }

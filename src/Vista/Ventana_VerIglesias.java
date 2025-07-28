@@ -357,8 +357,8 @@ public class Ventana_VerIglesias extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 490, 420, 260));
         jPanel1.add(roundedImageLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 380, 200));
-        jPanel1.add(roundedImageLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 380, 170));
-        jPanel1.add(roundedImageLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 370, 240));
+        jPanel1.add(roundedImageLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 380, 200));
+        jPanel1.add(roundedImageLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, 380, 200));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 860));
 

@@ -688,12 +688,7 @@ public class Ventana_UserFinal extends javax.swing.JPanel {
     }//GEN-LAST:event_InicioActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Ventana_Hoteles MiLugar = new Ventana_Hoteles();
-        MiLugar.setSize(1140, 830);
-
-        content.removeAll();
-        content.add(MiLugar, java.awt.BorderLayout.CENTER);
-        content.revalidate();
+     
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MouseClicked

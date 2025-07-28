@@ -20,6 +20,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import javax.swing.SwingUtilities;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
@@ -47,9 +48,12 @@ public class Ventana_EstadísticasLugares extends javax.swing.JPanel {
         PanelImagenes.setLayout(new BorderLayout());
         PanelHorarios.setLayout(new BorderLayout());
 
+        SwingUtilities.invokeLater(() -> {
         mostrarGraficoLugares();
         mostrarGraficoRecursos();
         mostrarGraficoHorarios();
+    });
+
 
         //Fuentes:
         Dash.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 30));

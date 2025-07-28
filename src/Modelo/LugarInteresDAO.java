@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import ConexionHuellasCuencanas.ConexionHuellasCuencanas;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LugarInteresDAO {
 
@@ -143,10 +145,12 @@ public class LugarInteresDAO {
         return total;
     }
 
+    //Contar los horarios de los parques (Siempre será 0 porque no hay horarios para parques):
     public int contarHorariosParques() {
         return 0;
     }
 
+    //Contar los registros históricos existentes:
     public int contarRegistrosHistoricos() {
         int total = 0;
         String sql = "SELECT COUNT(*) FROM informacion_historica";
@@ -161,4 +165,128 @@ public class LugarInteresDAO {
         return total;
     }
 
+    //Cargar las iglesias para el User:
+    public List<IglesiaVistaUser> obtenerIglesias() {
+        List<IglesiaVistaUser> lista = new ArrayList<>();
+
+        String sql = "SELECT li.lugar_interes_id, li.nombre, ul.direccion "
+                + "FROM iglesia i "
+                + "JOIN lugares_interes li ON i.lugar_interes_id = li.lugar_interes_id "
+                + "LEFT JOIN ubicacion_lugar ul ON li.lugar_interes_id = ul.lugar_interes_id "
+                + "ORDER BY li.lugar_interes_id DESC LIMIT 5";
+
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("lugar_interes_id");
+                String nombre = rs.getString("nombre");
+                String direccion = rs.getString("direccion");
+
+                byte[] imagenPrincipal = null;
+                String sqlImg = "SELECT imagen FROM imagenes_lugar WHERE lugar_interes_id = ? LIMIT 1";
+                try ( PreparedStatement psImg = conn.prepareStatement(sqlImg)) {
+                    psImg.setInt(1, id);
+                    ResultSet rsImg = psImg.executeQuery();
+                    if (rsImg.next()) {
+                        imagenPrincipal = rsImg.getBytes("imagen");
+                    }
+                }
+
+                lista.add(new IglesiaVistaUser(id, nombre, direccion, imagenPrincipal));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    //Mostrar los parques al User: 
+    public List<ParqueVistaUser> obtenerParques() {
+        List<ParqueVistaUser> lista = new ArrayList<>();
+
+        String sql = "SELECT li.lugar_interes_id, li.nombre, ul.direccion "
+                + "FROM parque p "
+                + "JOIN lugares_interes li ON p.lugar_interes_id = li.lugar_interes_id "
+                + "LEFT JOIN ubicacion_lugar ul ON li.lugar_interes_id = ul.lugar_interes_id "
+                + "ORDER BY li.lugar_interes_id DESC LIMIT 5";
+
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("lugar_interes_id");
+                String nombre = rs.getString("nombre");
+                String direccion = rs.getString("direccion");
+
+                byte[] imagenPrincipal = null;
+                String sqlImg = "SELECT imagen FROM imagenes_lugar WHERE lugar_interes_id = ? LIMIT 1";
+                try ( PreparedStatement psImg = conn.prepareStatement(sqlImg)) {
+                    psImg.setInt(1, id);
+                    ResultSet rsImg = psImg.executeQuery();
+                    if (rsImg.next()) {
+                        imagenPrincipal = rsImg.getBytes("imagen");
+                    }
+                }
+
+                lista.add(new ParqueVistaUser(id, nombre, direccion, imagenPrincipal));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    //Mostrar los museos para el user:
+    public List<MuseoVistaUser> obtenerMuseos() {
+        List<MuseoVistaUser> lista = new ArrayList<>();
+
+        String sql = "SELECT li.lugar_interes_id, li.nombre, ul.direccion "
+                + "FROM museo m "
+                + "JOIN lugares_interes li ON m.lugar_interes_id = li.lugar_interes_id "
+                + "LEFT JOIN ubicacion_lugar ul ON li.lugar_interes_id = ul.lugar_interes_id "
+                + "ORDER BY li.lugar_interes_id DESC LIMIT 5";
+
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("lugar_interes_id");
+                String nombre = rs.getString("nombre");
+                String direccion = rs.getString("direccion");
+
+                byte[] imagenPrincipal = null;
+                String sqlImg = "SELECT imagen FROM imagenes_lugar WHERE lugar_interes_id = ? LIMIT 1";
+                try ( PreparedStatement psImg = conn.prepareStatement(sqlImg)) {
+                    psImg.setInt(1, id);
+                    ResultSet rsImg = psImg.executeQuery();
+                    if (rsImg.next()) {
+                        imagenPrincipal = rsImg.getBytes("imagen");
+                    }
+                }
+
+                lista.add(new MuseoVistaUser(id, nombre, direccion, imagenPrincipal));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    //Cargar los lugares existentes:
+    public List<LugarInteresVista> obtenerLugares() throws SQLException {
+        String sql = "SELECT lugar_interes_id, nombre FROM lugares_interes";
+        try ( Connection c = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = c.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+            List<LugarInteresVista> lista = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt("lugar_interes_id");
+                String nm = rs.getString("nombre");
+                lista.add(new LugarInteresVista(id, nm));
+            }
+            return lista;
+        }
+    }
 }

@@ -112,6 +112,7 @@ public class ControladorIglesia {
                 ImagenLugarDAO.insertar(con, new ImagenLugar(lugarId, imagen1));
                 ImagenLugarDAO.insertar(con, new ImagenLugar(lugarId, imagen2));
                 ImagenLugarDAO.insertar(con, new ImagenLugar(lugarId, imagen3));
+                
 
                 con.commit();
 

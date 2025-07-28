@@ -30,6 +30,7 @@ import javax.swing.JScrollPane;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import raven.glasspanepopup.GlassPanePopup;
 
 /**
  *
@@ -39,15 +40,17 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
 
     private List<Museo> museosGuardados;
     private ControladorMuseo ctrl = new ControladorMuseo();
-    private Ventana_Lugares ventanaTarjetas;
+    private JFrame ventanaTarjetas;
 
     /**
      * Creates new form Ventana_TarjetasIglesia
      */
     public Ventana_TarjetasMuseo() {
         initComponents();
-
         
+         GlassPanePopup.install(this);
+
+
         //Cargar el Scroll Panel para las tarjetas de las iglesias.
         jPanelContenedorMuseos.setLayout(new WrapLayout(FlowLayout.CENTER, 15, 15));
         jPanelContenedorMuseos.setBackground(Color.WHITE);
@@ -71,39 +74,36 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
         cargarMuseos();
     }
 
-    
     //Cargar todas las iglesias existentes:
-    public void cargarMuseos() {
+      private void cargarMuseos() {
+        jPanelContenedorMuseos.removeAll();
         try {
             List<MuseoVista> lista = ctrl.obtenerMuseosVista();
-
-            for (MuseoVista iv : lista) {
-                agregarTarjeta(iv.getId(),iv.getNombre(), iv.getHoraApertura().toString(), iv.getHoraCierre().toString(), iv.getImagenPrincipal());
+            for (MuseoVista mv : lista) {
+                agregarTarjeta(mv);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
-                    "Error al cargar museos: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+                "Error al cargar museos: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    }
-
-    //Agregar las tarjetas:
-    public void agregarTarjeta(int id,String nombre, String horaApertura, String horaCierre, byte[] imagen) {
-        PanelCardMuseo tarjeta = new PanelCardMuseo(id,nombre, horaApertura, horaCierre, imagen);
-        tarjeta.setAlignmentX(Component.LEFT_ALIGNMENT);
-        jPanelContenedorMuseos.add(tarjeta);
         jPanelContenedorMuseos.revalidate();
         jPanelContenedorMuseos.repaint();
     }
 
-     //Para regresar entre ventanas:
-     public void setVentanaTarjetas(Ventana_Lugares v) {
+    //Agregar las tarjetas:
+       private void agregarTarjeta(MuseoVista mv) {
+        PanelCardMuseo tarjeta = new PanelCardMuseo(mv);
+        tarjeta.setAlignmentX(Component.LEFT_ALIGNMENT);
+        jPanelContenedorMuseos.add(tarjeta);
+    }
+
+    //Para regresar entre ventanas:
+    public void setVentanaTarjetas(JFrame v) {
         this.ventanaTarjetas = v;
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -185,8 +185,8 @@ public class Ventana_TarjetasMuseo extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
- Animator1.fadeOut(this, () -> {
-            this.dispose(); 
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
 
             if (ventanaTarjetas != null) {
                 ventanaTarjetas.setOpacity(0f);

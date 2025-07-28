@@ -15,12 +15,15 @@ import Design.RoundedPanelLugares2;
 import Design.RoundedPanelLugares3;
 import Design.RoundedPanelLugares4;
 import Design.RounderButton2;
+import Modelo.FavoritoDAO;
 import Modelo.LugarInteresDAO;
 import Modelo.Persona;
 import Modelo.PersonaDAO;
 import java.awt.Font;
 import javax.swing.JFrame;
 import raven.glasspanepopup.GlassPanePopup;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,12 +38,22 @@ public class Ventana_Lugares extends javax.swing.JFrame {
     /**
      * Creates new form Ventana_Lugares
      */
-    public Ventana_Lugares(boolean sinBordes) {
+    public Ventana_Lugares(boolean sinBordes, Persona persona) {
 
         if (sinBordes) {
             setUndecorated(true);
         }
         initComponents();
+
+        // refrescar al recuperar el foco
+        this.addWindowFocusListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowGainedFocus(java.awt.event.WindowEvent e) {
+                cargarEstadisticasGenerales();
+            }
+        });
+
+        this.personaLogueada = persona;
 
         GlassPanePopup.install(this);
 
@@ -66,14 +79,14 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Actividad.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         Iglesias.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         Gestion.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
-        ConteoUser5.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
+        lblCountIglesias.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         LabelIglesias.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         Registradas.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Registradas1.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Gestion1.setFont(new Font("Segoe UI Light", Font.PLAIN, 15));
         Museos.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         LabelMuseos.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
-        ConteoUser8.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
+        lblCountMuseos.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 35));
         Registradas2.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Registradas3.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
         Parques.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
@@ -123,7 +136,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         Iglesias = new javax.swing.JLabel();
         Gestion = new javax.swing.JLabel();
-        ConteoUser5 = new javax.swing.JLabel();
+        lblCountIglesias = new javax.swing.JLabel();
         LabelIglesias = new javax.swing.JLabel();
         Registradas = new javax.swing.JLabel();
         Registradas1 = new javax.swing.JLabel();
@@ -134,7 +147,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Gestion1 = new javax.swing.JLabel();
         Museos = new javax.swing.JLabel();
         LabelMuseos = new javax.swing.JLabel();
-        ConteoUser8 = new javax.swing.JLabel();
+        lblCountMuseos = new javax.swing.JLabel();
         Registradas2 = new javax.swing.JLabel();
         Registradas3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -282,11 +295,11 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         Gestion.setText("Gestión de lugares religiosos.");
         jPanel4.add(Gestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
-        ConteoUser5.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
-        ConteoUser5.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser5.setText("0");
-        ConteoUser5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel4.add(ConteoUser5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 156, 90, 40));
+        lblCountIglesias.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
+        lblCountIglesias.setForeground(new java.awt.Color(142, 68, 173));
+        lblCountIglesias.setText("0");
+        lblCountIglesias.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel4.add(lblCountIglesias, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 156, 90, 40));
 
         LabelIglesias.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
         LabelIglesias.setForeground(new java.awt.Color(142, 68, 173));
@@ -340,11 +353,11 @@ public class Ventana_Lugares extends javax.swing.JFrame {
         LabelMuseos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel5.add(LabelMuseos, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 156, 90, 40));
 
-        ConteoUser8.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
-        ConteoUser8.setForeground(new java.awt.Color(142, 68, 173));
-        ConteoUser8.setText("0");
-        ConteoUser8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel5.add(ConteoUser8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 156, 90, 40));
+        lblCountMuseos.setFont(new java.awt.Font("Arial Black", 0, 35)); // NOI18N
+        lblCountMuseos.setForeground(new java.awt.Color(142, 68, 173));
+        lblCountMuseos.setText("0");
+        lblCountMuseos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel5.add(lblCountMuseos, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 156, 90, 40));
 
         Registradas2.setForeground(new java.awt.Color(127, 140, 141));
         Registradas2.setText("Registradas");
@@ -569,11 +582,15 @@ public class Ventana_Lugares extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void GestionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionarActionPerformed
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
 
-        Ventana_InsertarIglesia ayudaPanel = new Ventana_InsertarIglesia();
+            Ventana_AdministrarIglesias ventana = new Ventana_AdministrarIglesias(this, true);
+            ventana.setOpacity(0f);
+            ventana.setVisible(true);
 
-        GlassPanePopup.showPopup(ayudaPanel);
-
+            Animator1.fadeIn(ventana);
+        });
     }//GEN-LAST:event_GestionarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -586,19 +603,31 @@ public class Ventana_Lugares extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void Gestionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Gestionar1ActionPerformed
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
 
-        Ventana_InsertarMuseo ayudaPanel = new Ventana_InsertarMuseo();
+            Ventana_AdministrarMuseos ventana = new Ventana_AdministrarMuseos(this, true);
+            ventana.setOpacity(0f);
+            ventana.setVisible(true);
 
-        GlassPanePopup.showPopup(ayudaPanel);
-
+            Animator1.fadeIn(ventana);
+        });
 
     }//GEN-LAST:event_Gestionar1ActionPerformed
 
     private void Gestionar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Gestionar2ActionPerformed
 
-        Ventana_InsertarParque ayudaPanel = new Ventana_InsertarParque();
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
 
-        GlassPanePopup.showPopup(ayudaPanel);
+            Ventana_AdministrarParques ventana = new Ventana_AdministrarParques(this, true);
+            ventana.setOpacity(0f);
+            ventana.setVisible(true);
+
+            Animator1.fadeIn(ventana);
+        });
+
+
     }//GEN-LAST:event_Gestionar2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -619,7 +648,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
 
     private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
 
- Animator1.fadeOut(this, () -> {
+        Animator1.fadeOut(this, () -> {
             this.dispose();
 
             Admin_Panel ventana = new Admin_Panel(true, personaLogueada);
@@ -629,73 +658,59 @@ public class Ventana_Lugares extends javax.swing.JFrame {
             Animator1.fadeIn(ventana);
         });
 
+
     }//GEN-LAST:event_RegresarActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
- Ventana_EstadísticasLugares ayudaPanel = new Ventana_EstadísticasLugares();
+        Ventana_EstadísticasLugares ayudaPanel = new Ventana_EstadísticasLugares();
 
         GlassPanePopup.showPopup(ayudaPanel);
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     public void cargarEstadisticasGenerales() {
-        LugarInteresDAO lugarDAO = new LugarInteresDAO();
-        PersonaDAO personaDAO = new PersonaDAO();
-        int totalIglesias = lugarDAO.contarIglesias();
-        int totalMuseos = lugarDAO.contarMuseos();
-        int totalParques = lugarDAO.contarParques();
-        int totalLugares = lugarDAO.contarLugares();
-        int totalImagenes = lugarDAO.contarImagenes();
-        int totalDescripciones = lugarDAO.contarDescripciones();
-        int totalUsuarios = personaDAO.contarUsuarios(null);
-
-        // Labels generales
-        LabelTotalUsuarios.setText(String.valueOf(totalUsuarios));
-        ConteoLugares.setText(String.valueOf(totalLugares));
-        ConteoImagenes.setText(String.valueOf(totalImagenes));
-        ConteoDescripciones.setText(String.valueOf(totalDescripciones));
-
-        LabelIglesias.setText(String.valueOf(totalIglesias));
-        LabelMuseos.setText(String.valueOf(totalMuseos));
-        LabelParques.setText(String.valueOf(totalParques));
-        LabelHistorias.setText(String.valueOf(totalDescripciones));
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ventana_Lugares.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ventana_Lugares.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ventana_Lugares.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ventana_Lugares.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+            LugarInteresDAO lugarDAO = new LugarInteresDAO();
+            PersonaDAO personaDAO = new PersonaDAO();
+            FavoritoDAO favDao = new FavoritoDAO();
+            int idUser = personaLogueada.getIdPersona();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Ventana_Lugares(true).setVisible(true);
-            }
-        });
+            int countIgs = favDao.contarFavoritosIglesias(idUser);
+            int countMus = favDao.contarFavoritosMuseos(idUser);
+            int countPar = favDao.contarFavoritosParques(idUser);
+            int totalIglesias = lugarDAO.contarIglesias();
+            int totalMuseos = lugarDAO.contarMuseos();
+            int totalParques = lugarDAO.contarParques();
+            int totalLugares = lugarDAO.contarLugares();
+            int totalImagenes = lugarDAO.contarImagenes();
+            int totalDescripciones = lugarDAO.contarDescripciones();
+            int totalUsuarios = personaDAO.contarUsuarios(null);
+
+            lblCountIglesias.setText(String.valueOf(countIgs));
+            lblCountMuseos.setText(String.valueOf(countMus));
+            ConteoUser10.setText(String.valueOf(countPar));
+
+            // Labels generales
+            LabelTotalUsuarios.setText(String.valueOf(totalUsuarios));
+            ConteoLugares.setText(String.valueOf(totalLugares));
+            ConteoImagenes.setText(String.valueOf(totalImagenes));
+            ConteoDescripciones.setText(String.valueOf(totalDescripciones));
+
+            LabelIglesias.setText(String.valueOf(totalIglesias));
+            LabelMuseos.setText(String.valueOf(totalMuseos));
+            LabelParques.setText(String.valueOf(totalParques));
+            LabelHistorias.setText(String.valueOf(totalDescripciones));
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Error cargando estadísticas:\n" + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Actividad;
@@ -705,8 +720,6 @@ public class Ventana_Lugares extends javax.swing.JFrame {
     private javax.swing.JLabel ConteoLugares;
     private javax.swing.JLabel ConteoUser10;
     private javax.swing.JLabel ConteoUser12;
-    private javax.swing.JLabel ConteoUser5;
-    private javax.swing.JLabel ConteoUser8;
     private javax.swing.JLabel Cuencanas;
     private javax.swing.JLabel Gestion;
     private javax.swing.JLabel Gestion1;
@@ -768,5 +781,7 @@ public class Ventana_Lugares extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JLabel lblCountIglesias;
+    private javax.swing.JLabel lblCountMuseos;
     // End of variables declaration//GEN-END:variables
 }

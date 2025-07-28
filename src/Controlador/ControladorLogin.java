@@ -10,15 +10,17 @@ import Modelo.PersonaDAO;
 import Vista.Admin_Panel;
 import Vista.Login;
 import Vista.Ventana_Principal;
-import Vista.SuperUsuario_Panel; // crea esta vista para superusuario si es necesario
+import Vista.SuperUsuario_Panel;
 import Vista.Ventana_VistaSuperUsuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import utils.Session;
 
 /**
- * Controlador para el login que abre la ventana adecuada según la subclase de Persona.
+ * Controlador para el login que abre la ventana adecuada según la subclase de
+ * Persona.
  */
 public class ControladorLogin implements ActionListener {
 
@@ -36,7 +38,7 @@ public class ControladorLogin implements ActionListener {
         String contraseña = new String(vista.getTxtContraseña().getPassword());
 
         if (usuario.isEmpty() || usuario.equals("Nombre de usuario")
-         || contraseña.isEmpty() || contraseña.equals("Contraseña")) {
+                || contraseña.isEmpty() || contraseña.equals("Contraseña")) {
             JOptionPane.showMessageDialog(vista, "Por favor, rellena todos los campos.");
             return;
         }
@@ -47,6 +49,8 @@ public class ControladorLogin implements ActionListener {
             JOptionPane.showMessageDialog(vista, "Usuario o contraseña incorrectos.");
             return;
         }
+        int idUsuario = personaLogueada.getIdPersona(); 
+        Session.setCurrentUserId(idUsuario);
 
         Animator.fadeOut(vista, () -> {
             JFrame ventana;
