@@ -4,24 +4,27 @@
  */
 package Modelo;
 
+import ConexionHuellasCuencanas.ConexionHuellasCuencanas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  *
  * @author MeiRens
  */
 public class NegociosDAO {
-      public static int insertar(Connection con, Negocios negocio) throws SQLException {
+
+    public static int insertar(Connection con, Negocios negocio) throws SQLException {
         String sql = "INSERT INTO negocio(nombre,descripcion,hora_apertura,hora_cierre,capacidad) VALUES (?,?,?,?,?) RETURNING id";
-        try ( PreparedStatement ps = con.prepareStatement(sql)) {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, negocio.getNombre());
             ps.setString(2, negocio.getDescripcion());
             ps.setString(3, String.valueOf(negocio.getHora_apertura()));
             ps.setString(4, String.valueOf(negocio.getHora_cierre()));
             ps.setInt(5, negocio.getCapacidad());
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt("id");
                 } else {
@@ -33,11 +36,52 @@ public class NegociosDAO {
 
     public static boolean existeNombre(Connection con, String nombre) throws SQLException {
         String sql = "SELECT 1 FROM negocio WHERE LOWER(nombre) = LOWER(?) LIMIT 1";
-        try ( PreparedStatement ps = con.prepareStatement(sql)) {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, nombre.trim());
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
         }
     }
+        
+    
+
+    public int contarRestaurantes() {
+       String sql = "SELECT COUNT(*) FROM restaurante";
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    //Contar todos los museos:
+    public int contarCafeterias() {
+        String sql = "SELECT COUNT(*) FROM cafeteria";
+        try (Connection conn = ConexionHuellasCuencanas.conectar(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+      public int contarNegocios() {
+        String sql = "SELECT COUNT(*) FROM negocio";
+        try ( Connection conn = ConexionHuellasCuencanas.conectar();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
 }
+

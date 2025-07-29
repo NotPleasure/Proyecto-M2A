@@ -127,16 +127,16 @@ public class Ventana_TarjetasCafeteria extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(217, 188, 138));
+        jPanel1.setBackground(new java.awt.Color(255, 153, 153));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Registro.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
         Registro.setForeground(new java.awt.Color(255, 255, 255));
-        Registro.setText("Mis Museos");
-        jPanel1.add(Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 22, 180, -1));
+        Registro.setText("Mis Cafeterias");
+        jPanel1.add(Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 22, 200, -1));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ImaMuseo.png"))); // NOI18N
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 14, 70, 60));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/CafeteriaA.png"))); // NOI18N
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 80, 70));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));

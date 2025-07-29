@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.ControladorCafeteria;
 import Controlador.ControladorMuseo;
 import Controlador.ControladorParque;
 import Design.RoundedButtonInsertar;
@@ -72,11 +73,11 @@ public Dimension getPreferredSize() {
         System.out.println("ID que se envía al detalle: " + vista.getId_negocio()); 
         
         int id = vista.getId_negocio();
-        ControladorParque ctrl = new ControladorParque();
-        ParqueDetalleVista detalle = ctrl.obtenerDetalleParque(id);
+        ControladorCafeteria ctrl = new ControladorCafeteria();
+        Cafeterias detalle = ctrl.obtenerDetalleCafeteria(id);
 
             if (detalle != null) {
-                Ventana_VerDetalleParques ventana = new Ventana_VerDetalleParques(detalle);
+                Ventana_VerDetalleCafeteria ventana = new Ventana_VerDetalleCafeteria(detalle);
                 ventana.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "No se encontraron los datos completos.");
@@ -112,8 +113,8 @@ public Dimension getPreferredSize() {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblImagenIglesia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Parques A.png"))); // NOI18N
-        jPanel1.add(lblImagenIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 160, 70, 90));
+        lblImagenIglesia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/CafeteriaD.png"))); // NOI18N
+        jPanel1.add(lblImagenIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 70, 90));
 
         lblNombre.setForeground(new java.awt.Color(49, 49, 49));
         jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 260, 30));

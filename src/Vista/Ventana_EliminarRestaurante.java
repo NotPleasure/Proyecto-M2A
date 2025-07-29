@@ -101,8 +101,8 @@ public class Ventana_EliminarRestaurante extends javax.swing.JPanel {
         Eliminar.setText("Eliminar Restaurante");
         jPanel1.add(Eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/Eliminar Museo.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 50, 70));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/RestauranteB.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 10, -1, 70));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 90));
 

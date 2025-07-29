@@ -218,6 +218,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JButton" name="jButton4">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButtonInicio(&quot;&quot;)"/>
           </AuxValues>
@@ -350,6 +353,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JButton" name="jButton6">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButtonInicio(&quot;&quot;)"/>
           </AuxValues>

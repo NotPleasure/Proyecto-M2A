@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Animations.Animator1;
 import Design.RoundedButtonCeleste;
 import Design.RoundedButtonNegocios;
 import Design.RoundedButtonNegociosPanel;
@@ -11,6 +12,8 @@ import Design.RoundedPanelCafeterias;
 import Design.RoundedPanelHabitaciones;
 import Design.RoundedPanelHoteles;
 import Design.RoundedPanelRestaurantes;
+import Modelo.NegociosDAO;
+import Modelo.PersonaDAO;
 import java.awt.Font;
 
 /**
@@ -31,7 +34,7 @@ public class Ventana_Negocios extends javax.swing.JFrame {
             setUndecorated(true);
         }
         initComponents();
-
+       CargarEstadisticasGenerales();
         //Fuentes:
         Huellas.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         Cuencanas.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
@@ -373,6 +376,11 @@ public class Ventana_Negocios extends javax.swing.JFrame {
         Gestionar1.setContentAreaFilled(false);
         Gestionar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Gestionar1.setFocusPainted(false);
+        Gestionar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Gestionar1ActionPerformed(evt);
+            }
+        });
         jPanel4.add(Gestionar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 170, 30));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 190, 270, 270));
@@ -420,6 +428,11 @@ public class Ventana_Negocios extends javax.swing.JFrame {
         Gestionar2.setContentAreaFilled(false);
         Gestionar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Gestionar2.setFocusPainted(false);
+        Gestionar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Gestionar2ActionPerformed(evt);
+            }
+        });
         jPanel5.add(Gestionar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 170, 30));
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 190, 270, 270));
@@ -543,6 +556,42 @@ public class Ventana_Negocios extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Button3ActionPerformed
 
+    private void Gestionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Gestionar1ActionPerformed
+        // TODO add your handling code here:
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
+
+            Ventana_AdministrarRestaurantes ventana = new Ventana_AdministrarRestaurantes(this, true);
+            ventana.setOpacity(0f);
+            ventana.setVisible(true);
+
+            Animator1.fadeIn(ventana);
+        });
+    }//GEN-LAST:event_Gestionar1ActionPerformed
+
+    private void Gestionar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Gestionar2ActionPerformed
+        // TODO add your handling code here:
+        Animator1.fadeOut(this, () -> {
+            this.dispose();
+
+            Ventana_AdministrarCafeterias ventana = new Ventana_AdministrarCafeterias(this, true);
+            ventana.setOpacity(0f);
+            ventana.setVisible(true);
+
+            Animator1.fadeIn(ventana);
+        });
+    }//GEN-LAST:event_Gestionar2ActionPerformed
+    public void CargarEstadisticasGenerales(){
+      PersonaDAO persona =new PersonaDAO();
+      NegociosDAO negocio =new NegociosDAO();
+      int totalRestaurante = negocio.contarRestaurantes();
+      int totalCafeteria = negocio.contarCafeterias();
+      int totalNegocios = negocio.contarNegocios();
+      ConteoUser6.setText(String.valueOf(totalNegocios));
+      ConteoUser7.setText(String.valueOf(totalRestaurante));
+      ConteoUser9.setText(String.valueOf(totalCafeteria));
+      
+    }
     /**
      * @param args the command line arguments
      */

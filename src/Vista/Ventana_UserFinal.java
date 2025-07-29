@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Vista;
+import Animations.Animator1;
 import AppPackage.AnimationClass;
 import Design.RoundedButtonDetalles;
 import Design.RoundedButtonIglesias;
@@ -298,6 +299,12 @@ public class Ventana_UserFinal extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Restaurantes");
         Menú.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 256, -1, -1));
+
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         Menú.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 250, 70));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
@@ -341,6 +348,12 @@ public class Ventana_UserFinal extends javax.swing.JPanel {
         jButton13.setContentAreaFilled(false);
         jButton13.setFocusPainted(false);
         Menú.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 304, 60, 50));
+
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         Menú.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 250, 60));
 
         CafeteríaIcon1.setForeground(new java.awt.Color(255, 255, 255));
@@ -742,6 +755,18 @@ public class Ventana_UserFinal extends javax.swing.JPanel {
         content.add(MiLugar, java.awt.BorderLayout.CENTER);
         content.revalidate();
     }//GEN-LAST:event_VerMasActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+         Ventana_VerRestaurantes vista =new Ventana_VerRestaurantes();
+         vista.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        Ventana_VerCafeterias vista =new Ventana_VerCafeterias();
+         vista.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -253,7 +253,7 @@ public class Ventana_ActualizarRestaurantes extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1350, 750));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(97, 188, 118));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Registro.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
@@ -261,8 +261,8 @@ public class Ventana_ActualizarRestaurantes extends javax.swing.JPanel {
         Registro.setText("Registro Restaurante");
         jPanel1.add(Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 28, -1, -1));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/ImaMuseo.png"))); // NOI18N
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, 70, 60));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/RestauranteD.png"))); // NOI18N
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 80, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1350, 100));
 
