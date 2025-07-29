@@ -35,7 +35,7 @@ public class CafeteriasDAO {
     public List<Cafeterias> obtenerCafeteriaVista() throws SQLException {
         List<Cafeterias> lista = new ArrayList<>();
 
-        String sql = "SELECT n.id, n.nombre, n .hora_apertura, n.hora_cierre, img.imagen "
+        String sql = "SELECT n.id, n.nombre, n.hora_apertura, n.hora_cierre, img.imagen "
                 + "FROM negocio n "
                 + "JOIN cafeteria c ON c.id_negocio = n.id "
                 + "JOIN imagen_negocio img ON img.id_negocio = n.id  "
@@ -140,7 +140,7 @@ public class CafeteriasDAO {
     //Buscar museos por nombre:
     public List<Cafeterias> buscarSoloTexto(String texto) throws SQLException {
         String sql
-                = "SELECT n.id AS id, n.nombre, n.hora_apertura, .hora_cierre "
+                = "SELECT n.id AS id, n.nombre, n.hora_apertura, n.hora_cierre "
                 + "FROM negoicio n"
                 + "JOIN cafeteria c ON c.id_negocio = n.id "
                 + "WHERE LOWER(n.nombre) LIKE ?";
