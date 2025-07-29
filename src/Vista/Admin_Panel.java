@@ -676,8 +676,15 @@ public class Admin_Panel extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+              Animator1.fadeOut(this, () -> {
+            this.dispose();
+            Ventana_Negocios ventana =new Ventana_Negocios(sinBordes);
+            ventana.setOpacity(0f);
+            ventana.setVisible(true);
 
-
+            Animator1.fadeIn(ventana);
+        });
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
